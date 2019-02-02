@@ -17,8 +17,6 @@ public class ExperienceService {
     public int getExperience(int levelOfWinner, int levelOfLoser){
         int differenceInLevel = levelOfWinner - levelOfLoser;
         int awardedExperience;
-        System.out.println(differenceInLevel);
-        System.out.println(experienceAccumulator);
         if(differenceInLevel >= 5 || differenceInLevel <=-5){
             awardedExperience = 0;
         } else {
