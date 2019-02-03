@@ -3,11 +3,12 @@ package com.purgersmight.purgersmightapp.services;
 import com.purgersmight.purgersmightapp.models.User;
 import com.purgersmight.purgersmightapp.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
+@Scope(value = "singleton")
 public class UserService {
 
     @Autowired

@@ -1,12 +1,14 @@
 package com.purgersmight.purgersmightapp.services;
 
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 @Service
+@Scope(value = "singleton")
 public class ExperienceService {
 
     private Logger logger = Logger.getLogger(ExperienceService.class.getName());
