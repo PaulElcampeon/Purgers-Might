@@ -1,4 +1,4 @@
-package com.purgersmight.purgersmightapp;
+package com.purgersmight.purgersmightapp.utils;
 
 import static org.junit.jupiter.api.Assertions.*;
 
