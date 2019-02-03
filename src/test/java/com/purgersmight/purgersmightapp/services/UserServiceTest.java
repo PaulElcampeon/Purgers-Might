@@ -3,6 +3,8 @@ package com.purgersmight.purgersmightapp.services;
 import static org.mockito.Mockito.*;
 import static org.junit.jupiter.api.Assertions.*;
 
+import com.purgersmight.purgersmightapp.PurgersMightAppApplication;
+import com.purgersmight.purgersmightapp.config.WebSecurityConfig;
 import com.purgersmight.purgersmightapp.models.User;
 import com.purgersmight.purgersmightapp.repositories.UserRepository;
 import org.junit.Test;
@@ -13,7 +15,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit4.SpringRunner;
 
 @RunWith(SpringRunner.class)
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.NONE)
+@SpringBootTest(classes = {PurgersMightAppApplication.class, WebSecurityConfig.class}, webEnvironment= SpringBootTest.WebEnvironment.NONE)
 public class UserServiceTest {
 
     @Autowired

@@ -2,6 +2,8 @@ package com.purgersmight.purgersmightapp.services;
 
 import static org.junit.Assert.*;
 
+import com.purgersmight.purgersmightapp.PurgersMightAppApplication;
+import com.purgersmight.purgersmightapp.config.WebSecurityConfig;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -14,7 +16,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit4.SpringRunner;
 
 @RunWith(SpringRunner.class)
-@SpringBootTest(webEnvironment= SpringBootTest.WebEnvironment.RANDOM_PORT)
+@SpringBootTest(classes = {PurgersMightAppApplication.class, WebSecurityConfig.class}, webEnvironment= SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class ExperienceServiceIT {
 
     @Autowired

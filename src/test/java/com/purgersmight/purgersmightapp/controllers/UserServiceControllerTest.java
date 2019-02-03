@@ -1,13 +1,14 @@
-package com.purgersmight.purgersmightapp.services;
+package com.purgersmight.purgersmightapp.controllers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.purgersmight.purgersmightapp.config.CustomUserDetailsService;
+import com.purgersmight.purgersmightapp.config.WebSecurityConfig;
 import com.purgersmight.purgersmightapp.dto.CreateNewUserReqDto;
 import com.purgersmight.purgersmightapp.PurgersMightAppApplication;
-import com.purgersmight.purgersmightapp.WebSecurityTestConfig;
-import com.purgersmight.purgersmightapp.controllers.UserServiceController;
 import com.purgersmight.purgersmightapp.dto.CreateNewUserResDto;
 import com.purgersmight.purgersmightapp.models.PlayerAvatar;
 import com.purgersmight.purgersmightapp.models.User;
+import com.purgersmight.purgersmightapp.services.UserService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,7 +30,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @RunWith(SpringRunner.class)
 @WebMvcTest(controllers = UserServiceController.class, secure = false)
-@ContextConfiguration(classes={PurgersMightAppApplication.class, WebSecurityTestConfig.class})
+@ContextConfiguration(classes={PurgersMightAppApplication.class, WebSecurityConfig.class})
 public class UserServiceControllerTest {
 
     @Autowired
@@ -41,6 +42,9 @@ public class UserServiceControllerTest {
     @MockBean
     private UserService userService;
 
+    @MockBean
+    private CustomUserDetailsService customUserDetailsService;
+
     @Test
     public void createUser_Test1() throws Exception {
         CreateNewUserReqDto createNewUserReqDto = new CreateNewUserReqDto("Angie123","123456","123456");
@@ -50,7 +54,7 @@ public class UserServiceControllerTest {
         String createNewUserResDtoAsString = objectMapper.writeValueAsString(createNewUserResDto);
 
         this.mockMvc.perform(post("/user-service/create-account")
-                .with(user("admin").password("admin123").roles("USER","ADMIN"))
+//                .with(user("admin").password("admin123").roles("USER","ADMIN"))
                 .contentType(MediaType.APPLICATION_JSON)
                 .characterEncoding("UTF-8")
                 .content(createNewUserReqDtoAsString)

@@ -1,6 +1,8 @@
 package com.purgersmight.purgersmightapp.controllers;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.purgersmight.purgersmightapp.services.ExperienceService;
+import com.purgersmight.purgersmightapp.utils.ObjectMapperUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,9 +18,10 @@ public class ExperienceServiceController {
     private ExperienceService experienceService;
 
     @RequestMapping(value = "/experience-service/get-experience/{levelOfWinner}/{levelOfLoser}", method = RequestMethod.GET)
-    public ResponseEntity<String> getExperiencePoint(@PathVariable final int levelOfWinner, @PathVariable final int levelOfLoser){
+    public ResponseEntity<String> getExperiencePoint(@PathVariable final int levelOfWinner, @PathVariable final int levelOfLoser) throws JsonProcessingException {
+        String experienceAsString = ObjectMapperUtils.getObjectMapper().writeValueAsString(experienceService.getExperience(levelOfWinner, levelOfLoser));
         return new ResponseEntity<>(
-                String.valueOf(experienceService.getExperience(levelOfWinner, levelOfLoser)),
+                experienceAsString,
                 HttpStatus.OK);
     }
 }
