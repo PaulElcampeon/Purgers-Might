@@ -24,6 +24,7 @@ public class ExperienceServiceIT {
     private int port;
 
     private String baseUrl = "http://localhost:";
+
     @Before
     public void initBaseUrl(){
         baseUrl+= port;
