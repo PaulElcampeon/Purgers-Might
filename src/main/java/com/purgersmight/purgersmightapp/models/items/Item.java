@@ -1,4 +1,4 @@
-package com.purgersmight.purgersmightapp;
+package com.purgersmight.purgersmightapp.models.items;
 
 public interface Item {
 }
