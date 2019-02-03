@@ -77,5 +77,18 @@ public class UserRepositoryTest {
         assertEquals(user, resultUser);
     }
 
+    @Test
+    public void deleteUser_Test5(){
+        User user = new User();
+        user.setUsername("Angie");
+        user.setPassword("43");
+
+        userRepository.insert(user);
+
+        userRepository.delete(user);
+
+        assertFalse(userRepository.existsById("Angie"));
+    }
+
 
 }
