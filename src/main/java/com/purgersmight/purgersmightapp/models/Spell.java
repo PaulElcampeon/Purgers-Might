@@ -1,5 +1,6 @@
-package com.purgersmight.purgersmightapp;
+package com.purgersmight.purgersmightapp.models;
 
+import com.purgersmight.purgersmightapp.enums.SpellType;
 import lombok.Data;
 
 @Data

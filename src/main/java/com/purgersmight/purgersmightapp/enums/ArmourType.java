@@ -1,4 +1,4 @@
-package com.purgersmight.purgersmightapp;
+package com.purgersmight.purgersmightapp.enums;
 
 public enum ArmourType {
     HEAD, CHEST, LEG;
