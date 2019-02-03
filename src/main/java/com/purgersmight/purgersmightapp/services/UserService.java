@@ -7,6 +7,9 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 @Service
 @Scope(value = "singleton")
 public class UserService {
@@ -17,9 +20,12 @@ public class UserService {
     @Autowired
     private BCryptPasswordEncoder bCryptPasswordEncoder;
 
+    private Logger logger = Logger.getLogger(UserService.class.getName());
+
     public void addUser(User newUser){
         newUser.setPassword(bCryptPasswordEncoder.encode(newUser.getPassword()));
         userRepository.insert(newUser);
+        logger.log(Level.INFO, String.format("%s has just created an account",newUser.getUsername()));
     }
 
     public User getUserByUsername(final String username){
