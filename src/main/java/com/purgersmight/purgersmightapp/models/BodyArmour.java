@@ -11,8 +11,7 @@ public class BodyArmour {
     private Armour chestArmour;
     private Armour legArmour;
 
-    public BodyArmour(){
-    }
+    public BodyArmour(){}
 
     private BodyArmour(Armour headArmour, Armour chestArmour, Armour legArmour){
         this.headArmour = headArmour;

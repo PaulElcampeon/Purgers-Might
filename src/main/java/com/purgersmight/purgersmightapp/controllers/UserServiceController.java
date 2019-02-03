@@ -31,7 +31,6 @@ public class UserServiceController {
     @RequestMapping(value = "/user-service/create-account", method = RequestMethod.POST)
     public ResponseEntity<String> createUser(@RequestBody @Valid CreateNewUserReqDto createNewUserReqDto, BindingResult result) throws JsonProcessingException {
 
-
         if(result.hasErrors()){
             logger.log(Level.INFO, String.format("%s has tried to create an account but was unsuccessful",createNewUserReqDto.getUsername()));
             CreateNewUserResDto createNewUserResDtoError = new CreateNewUserResDto(false,result.getAllErrors(),null);
