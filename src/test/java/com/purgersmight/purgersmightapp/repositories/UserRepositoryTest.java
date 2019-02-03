@@ -2,8 +2,7 @@ package com.purgersmight.purgersmightapp.repositories;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-import com.purgersmight.purgersmightapp.User;
-import com.purgersmight.purgersmightapp.UserRepository;
+import com.purgersmight.purgersmightapp.models.User;
 import org.junit.After;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -29,6 +28,7 @@ public class UserRepositoryTest {
         User user = new User();
         user.setUsername("Angie");
         user.setPassword("43");
+
         userRepository.insert(user);
 
         long numberOfUsers = userRepository.count();
@@ -61,7 +61,7 @@ public class UserRepositoryTest {
 
         userRepository.save(user);
 
-        User resultUser = userRepository.findUserByUsername("Angie");
+        User resultUser = userRepository.findByUsername("Angie");
         assertEquals("0000", resultUser.getPassword());
     }
 
@@ -73,7 +73,7 @@ public class UserRepositoryTest {
 
         userRepository.insert(user);
 
-        User resultUser = userRepository.findUserByUsername("Angie");
+        User resultUser = userRepository.findByUsername("Angie");
         assertEquals(user, resultUser);
     }
 
