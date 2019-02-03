@@ -1,6 +1,6 @@
 package com.purgersmight.purgersmightapp.config;
 
-import com.purgersmight.purgersmightapp.User;
+import com.purgersmight.purgersmightapp.models.User;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
