@@ -11,10 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.logging.Level;
@@ -52,4 +49,11 @@ public class UserServiceController {
                 HttpStatus.CREATED
         );
     }
+
+    @RequestMapping(value = "/user-service/{username}", method = RequestMethod.GET)
+    public ResponseEntity<String> getUser(@PathVariable String username) throws JsonProcessingException {
+        String retrievedUserAsString = ObjectMapperUtils.getObjectMapper().writeValueAsString(userService.getUserByUsername(username));
+        return new ResponseEntity<>(retrievedUserAsString,HttpStatus.OK);
+    }
+
 }
