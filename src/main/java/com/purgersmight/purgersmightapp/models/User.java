@@ -28,4 +28,7 @@ public class User {
         this.password = password;
     }
 
+    public static User getTesterUser(){
+        return new User("angie", "127dh34");
+    }
 }
