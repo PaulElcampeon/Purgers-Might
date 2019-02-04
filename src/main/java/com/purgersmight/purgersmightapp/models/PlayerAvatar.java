@@ -2,8 +2,10 @@ package com.purgersmight.purgersmightapp.models;
 
 import com.purgersmight.purgersmightapp.models.items.Weapon;
 import lombok.Data;
+import org.springframework.data.mongodb.core.mapping.Document;
 
 @Data
+@Document(collection = "AVATARS")
 public class PlayerAvatar extends Avatar {
 
     private AvatarAttribute<Integer> experience;
@@ -19,7 +21,7 @@ public class PlayerAvatar extends Avatar {
     public PlayerAvatar(){}
 
     public PlayerAvatar(PlayerAvatarBuilder playerAvatarBuilder){
-        setUserName(playerAvatarBuilder.userName);
+        setUsername(playerAvatarBuilder.userName);
         setImageUrl(playerAvatarBuilder.imageUrl);
         setHealth(playerAvatarBuilder.health);
         setManna(playerAvatarBuilder.manna);
