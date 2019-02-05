@@ -1,7 +1,7 @@
 package com.purgersmight.purgersmightapp.controllers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.purgersmight.purgersmightapp.config.CustomUserDetailsService;
+import com.purgersmight.purgersmightapp.services.CustomUserDetailsService;
 import com.purgersmight.purgersmightapp.config.WebSecurityConfig;
 import com.purgersmight.purgersmightapp.dto.CreateNewUserReqDto;
 import com.purgersmight.purgersmightapp.PurgersMightAppApplication;
@@ -24,7 +24,6 @@ import org.springframework.test.web.servlet.MvcResult;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
-import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.user;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -61,7 +60,6 @@ public class UserServiceControllerTest {
                 .contentType(MediaType.APPLICATION_JSON)
                 .characterEncoding("UTF-8")
                 .content(createNewUserReqDtoAsString)
-                .with(csrf())
                 .accept(MediaType.ALL))
                 .andExpect(status().isCreated())
                 .andExpect(content().json(createNewUserResDtoAsString))

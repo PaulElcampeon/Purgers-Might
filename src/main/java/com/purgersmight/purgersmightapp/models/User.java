@@ -6,6 +6,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.util.*;
 
 @Data
 @Document(collection = "USERS")
@@ -19,7 +20,7 @@ public class User {
     @Size(min = 5, max = 10, message = "password must be at least 5 characters long")
     private String password;
 
-    private String role = "USER";
+    private List<String> roles = Arrays.asList("USER");
 
     public User(){}
 

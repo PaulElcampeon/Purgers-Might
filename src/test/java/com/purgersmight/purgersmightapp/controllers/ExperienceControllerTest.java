@@ -2,7 +2,7 @@ package com.purgersmight.purgersmightapp.controllers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.purgersmight.purgersmightapp.PurgersMightAppApplication;
-import com.purgersmight.purgersmightapp.config.CustomUserDetailsService;
+import com.purgersmight.purgersmightapp.services.CustomUserDetailsService;
 import com.purgersmight.purgersmightapp.config.WebSecurityConfig;
 import com.purgersmight.purgersmightapp.services.ExperienceService;
 import org.junit.Test;

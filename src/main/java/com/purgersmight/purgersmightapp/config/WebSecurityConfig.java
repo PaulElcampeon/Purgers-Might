@@ -32,27 +32,27 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
+                .csrf().disable()
                 .authorizeRequests()
                 .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll()
 //                .antMatchers("/resources/**", "/webjars/**","/assets/**", "/js/**", "/css/**").permitAll()
-                .antMatchers("/").permitAll()
-                .antMatchers("/login","/user-service/create-account","/experience-service/**" ).permitAll()
+                .antMatchers("/", "/login","/user-service/create-account","/experience-service/**" ).permitAll()
                 .antMatchers("/home", "/user-service/**").hasRole("USER")
                 .anyRequest().authenticated()
                 .and()
                 .formLogin()
-                .loginPage("/login")
-                .defaultSuccessUrl("/home")
-                .failureUrl("/login?error")
-                .permitAll()
+                    .loginPage("/login")
+                    .defaultSuccessUrl("/home")
+                    .failureUrl("/login?error")
+                    .permitAll()
                 .and()
                 .logout()
-                .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
-                .logoutSuccessUrl("/login?logout")
-                .permitAll()
+                    .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
+                    .logoutSuccessUrl("/login?logout")
+                    .permitAll()
                 .and()
                 .exceptionHandling()
-                .accessDeniedPage("/accessDenied");
+                    .accessDeniedPage("/accessDenied");
 
     }
 }
