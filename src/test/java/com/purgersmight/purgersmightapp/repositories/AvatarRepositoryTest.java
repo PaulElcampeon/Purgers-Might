@@ -54,7 +54,7 @@ public class AvatarRepositoryTest {
 
         avatarRepository.insert(playerAvatar);
 
-        Avatar retrievedAvatar = avatarRepository.findByUsername("Helpon");
+        Avatar retrievedAvatar = avatarRepository.findByUsername("Helpon").get();
 
         assertEquals(playerAvatar, retrievedAvatar);
     }

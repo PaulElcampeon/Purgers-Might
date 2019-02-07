@@ -1,6 +1,7 @@
 package com.purgersmight.purgersmightapp.controllers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.purgersmight.purgersmightapp.services.AvatarService;
 import com.purgersmight.purgersmightapp.services.CustomUserDetailsService;
 import com.purgersmight.purgersmightapp.config.WebSecurityConfig;
 import com.purgersmight.purgersmightapp.dto.CreateNewUserReqDto;
@@ -44,6 +45,9 @@ public class UserServiceControllerTest {
 
     @MockBean
     private UserService userService;
+
+    @MockBean
+    private AvatarService avatarService;
 
     @MockBean
     private CustomUserDetailsService customUserDetailsService;

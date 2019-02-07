@@ -43,4 +43,8 @@ public class UserService {
     public void updateUser(final User user){
         userRepository.save(user);
     }
+
+    public void removeAllUsers(){
+        userRepository.deleteAll();
+    }
 }

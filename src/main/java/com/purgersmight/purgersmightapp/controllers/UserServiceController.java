@@ -3,8 +3,10 @@ package com.purgersmight.purgersmightapp.controllers;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.purgersmight.purgersmightapp.dto.CreateNewUserReqDto;
 import com.purgersmight.purgersmightapp.dto.CreateNewUserResDto;
+import com.purgersmight.purgersmightapp.models.Avatar;
 import com.purgersmight.purgersmightapp.models.PlayerAvatar;
 import com.purgersmight.purgersmightapp.models.User;
+import com.purgersmight.purgersmightapp.services.AvatarService;
 import com.purgersmight.purgersmightapp.services.UserService;
 import com.purgersmight.purgersmightapp.utils.ObjectMapperUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +25,9 @@ public class UserServiceController {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private AvatarService avatarService;
+
     private Logger logger = Logger.getLogger(UserServiceController.class.getName());
 
     @RequestMapping(value = "/user-service/create-account", method = RequestMethod.POST)
@@ -39,10 +44,12 @@ public class UserServiceController {
         }
 
         User newUser = new User(createNewUserReqDto.getUsername(), createNewUserReqDto.getPassword());
-        CreateNewUserResDto createNewUserResDto = new CreateNewUserResDto(true,null,PlayerAvatar.getStarterAvatar(createNewUserReqDto.getUsername(),null));
+        Avatar newAvatar = PlayerAvatar.getStarterAvatar(newUser.getUsername(),null);
+        CreateNewUserResDto createNewUserResDto = new CreateNewUserResDto(true,null,newAvatar);
         String createNewUserResDtoAsString = ObjectMapperUtils.getObjectMapper().writeValueAsString(createNewUserResDto);
 
         userService.addUser(newUser);
+        avatarService.addAvatar(newAvatar);
 
         return new ResponseEntity<>(
                 createNewUserResDtoAsString,

@@ -24,6 +24,9 @@ public class UserServiceTest {
     @MockBean
     private UserRepository userRepository;
 
+    @MockBean
+    private AvatarService avatarService;
+
     @Test
     public void addUser_Test1(){
         User user = new User();

@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>User Registration</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="/css/crusaders-wrath.css">
+</head>
+<body>
+
+<div>
+    <h3>User Registration Form</h3>
+
+    <form th:action="@{/user-service/create-account}" th:object="${CreateNewUserReqDto}" method="post">
+
+        <div>
+            <label>Username</label>
+            <input type="text" th:field="*{username}"/>
+        </div>
+
+        <div>
+            <label>Password</label>
+            <input type="password" th:field="*{password}"/>
+        </div>
+
+        <div>
+            <label>Confirm Password</label>
+            <input type="password" th:field="*{confirmPassword}"/>
+        </div>
+
+        <div>
+            <button type="submit">Submit</button>
+        </div>
+    </form>
+</div>
+<script src="/js/create-account.js"></script>
+
+</body>
+</html>
