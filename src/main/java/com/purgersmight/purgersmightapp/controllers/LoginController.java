@@ -1,5 +1,8 @@
 package com.purgersmight.purgersmightapp.controllers;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 import com.purgersmight.purgersmightapp.dto.LoginReqDto;
 import com.purgersmight.purgersmightapp.dto.LoginResDto;
 import com.purgersmight.purgersmightapp.models.Avatar;
@@ -21,10 +24,24 @@ public class LoginController {
     @Autowired
     private AvatarService avatarService;
 
+    private Logger logger = Logger.getLogger(LoginController.class.getName());
+
     @RequestMapping(value = "/login", method = RequestMethod.POST)
-    public ResponseEntity<LoginResDto> login(@RequestBody LoginReqDto loginReqDto){
+    public ResponseEntity<LoginResDto> login(@RequestBody @Valid LoginReqDto loginReqDto, BindingResult result){
+
+        if(result.hasErrors()){
+
+            logger.log(Level.WARNING, String.format("%s login credentials were incorrect", loginReqDto.getUsername()));
+
+            return new ResponseEntity<>(LoginResDto.getUnsuccessfulLoginResDto(result.getAllErrors()), HttpStatus.ACCEPTED);
+        }
+
         Avatar retrievedAvatar = avatarService.getAvatarByUsername(loginReqDto.getUsername()).get();
+
         LoginResDto loginResDto = new LoginResDto(true, null, retrievedAvatar);
+
+        logger.log(Level.WARNING, String.format("%s has logged in successfully", loginReqDto.getUsername()));
+
         return new ResponseEntity<>(loginResDto, HttpStatus.ACCEPTED);
     }
 }

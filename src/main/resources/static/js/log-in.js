@@ -24,7 +24,7 @@ submitBtn.addEventListener("click", ()=>{
 //
 //    submitLogin(loginReqDto);
 
-})
+});
 
 function submitLogin(data){
 

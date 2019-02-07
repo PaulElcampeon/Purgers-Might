@@ -1,8 +1,10 @@
 package com.purgersmight.purgersmightapp.services;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 import com.purgersmight.purgersmightapp.config.CustomUserDetails;
 import com.purgersmight.purgersmightapp.models.User;
-import com.purgersmight.purgersmightapp.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -15,11 +17,15 @@ public class CustomUserDetailsService implements UserDetailsService {
     @Autowired
     private UserService userService;
 
+    private Logger logger = Logger.getLogger(CustomUserDetailsService.class.getName());
+
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        System.out.println(username);
-        System.out.println("The username above");
+
+        logger.log(Level.WARNING, String.format("User with username %s tried to log in", username));
+
         User user = userService.getUserByUsername(username);
+
         return new CustomUserDetails(user);
     }
 }

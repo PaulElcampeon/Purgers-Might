@@ -19,7 +19,9 @@ public class ExperienceServiceController {
 
     @RequestMapping(value = "/experience-service/get-experience/{levelOfWinner}/{levelOfLoser}", method = RequestMethod.GET)
     public ResponseEntity<String> getExperiencePoint(@PathVariable final int levelOfWinner, @PathVariable final int levelOfLoser) throws JsonProcessingException {
+
         String experienceAsString = ObjectMapperUtils.getObjectMapper().writeValueAsString(experienceService.getExperience(levelOfWinner, levelOfLoser));
+
         return new ResponseEntity<>(
                 experienceAsString,
                 HttpStatus.OK);

@@ -1,6 +1,5 @@
 package com.purgersmight.purgersmightapp;
 
-import com.purgersmight.purgersmightapp.dto.LoginReqDto;
 import com.purgersmight.purgersmightapp.models.User;
 import com.purgersmight.purgersmightapp.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,15 +18,15 @@ public class PurgersMightAppApplication {
 		return new BCryptPasswordEncoder();
 	}
 
-	@Autowired
-	private UserService userService;
-
-	@PostConstruct
-	public void init(){
-		userService.removeAllUsers();
-		User newUser = new User("Angie1", "123456");
-		userService.addUser(newUser);
-	}
+//	@Autowired
+//	private UserService userService;
+//
+//	@PostConstruct
+//	public void init(){
+//		userService.removeAllUsers();
+//		User newUser = new User("Angie1", "123456");
+//		userService.addUser(newUser);
+//	}
 
 
 	public static void main(String[] args) {

@@ -34,9 +34,13 @@ public class UserServiceController {
     public ResponseEntity<String> createUser(@RequestBody @Valid CreateNewUserReqDto createNewUserReqDto, BindingResult result) throws JsonProcessingException {
 
         if(result.hasErrors()){
+
             logger.log(Level.INFO, String.format("%s has tried to create an account but was unsuccessful",createNewUserReqDto.getUsername()));
+
             CreateNewUserResDto createNewUserResDtoError = new CreateNewUserResDto(false,result.getAllErrors(),null);
+
             String createNewUserResDtoErrorAsString = ObjectMapperUtils.getObjectMapper().writeValueAsString(createNewUserResDtoError);
+
             return new ResponseEntity<>(
                     createNewUserResDtoErrorAsString,
                     HttpStatus.BAD_REQUEST
@@ -44,11 +48,15 @@ public class UserServiceController {
         }
 
         User newUser = new User(createNewUserReqDto.getUsername(), createNewUserReqDto.getPassword());
+
         Avatar newAvatar = PlayerAvatar.getStarterAvatar(newUser.getUsername(),null);
+
         CreateNewUserResDto createNewUserResDto = new CreateNewUserResDto(true,null,newAvatar);
+
         String createNewUserResDtoAsString = ObjectMapperUtils.getObjectMapper().writeValueAsString(createNewUserResDto);
 
         userService.addUser(newUser);
+
         avatarService.addAvatar(newAvatar);
 
         return new ResponseEntity<>(

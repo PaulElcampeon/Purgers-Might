@@ -34,6 +34,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http
                 .authorizeRequests()
                 .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll()
+                .antMatchers("/webjars/**").permitAll()
                 .antMatchers("/", "/login", "/create-account", "/user-service/create-account", "/experience-service/**").permitAll()
                 .antMatchers("/home", "/user-service/**").hasRole("USER")
                 .anyRequest().authenticated()

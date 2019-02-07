@@ -12,7 +12,6 @@ import java.util.*;
 @Document(collection = "USERS")
 public class User {
 
-    @Id
     @NotNull(message = "username cannot be empty")
     private String username;
 

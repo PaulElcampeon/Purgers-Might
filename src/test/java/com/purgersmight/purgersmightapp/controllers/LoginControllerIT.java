@@ -22,6 +22,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.test.web.servlet.MvcResult;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = {PurgersMightAppApplication.class, WebSecurityConfig.class}, webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
@@ -64,20 +65,21 @@ public class LoginControllerIT {
 
     @Test
     public void loginController_Test1() throws JsonProcessingException {
-        System.out.println(baseUrl+"/login");
-        LoginReqDto loginReqDto = new LoginReqDto("Angie1","123456");
-        //application/x-www-form-urlencoded
-        String postBodyJson = ObjectMapperUtils.getObjectMapper().writeValueAsString(loginReqDto);
+//        System.out.println(baseUrl+"/login");
+//        LoginReqDto loginReqDto = new LoginReqDto("Angie1","123456");
+//        //application/x-www-form-urlencoded
+//        String postBodyJson = ObjectMapperUtils.getObjectMapper().writeValueAsString(loginReqDto);
+//
+//        HttpHeaders headers = new HttpHeaders();
+//        headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
+//        HttpEntity<String> entity = new HttpEntity<String>(postBodyJson ,headers);
+//
+//
+//        System.out.println(loginReqDto);
+//        ResponseEntity<String> result = testRestTemplate.postForEntity(baseUrl+"/login",entity,String.class);
+//        System.out.println("kano");
+//        System.out.println(result);
 
-        HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
-        HttpEntity<String> entity = new HttpEntity<String>(postBodyJson ,headers);
-
-
-        System.out.println(loginReqDto);
-        ResponseEntity<String> result = testRestTemplate.postForEntity(baseUrl+"/login",entity,String.class);
-        System.out.println("kano");
-        System.out.println(result);
     }
 
     @After

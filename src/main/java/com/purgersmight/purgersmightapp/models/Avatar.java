@@ -6,7 +6,6 @@ import org.springframework.data.annotation.Id;
 @Data
 public abstract class Avatar {
 
-    @Id
     private String username;
     private String imageUrl;
     private int level = 1;

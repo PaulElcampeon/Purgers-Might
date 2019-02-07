@@ -1,3 +1,356 @@
 body {
-    background-color: #000000;
+
+    margin: 0%;
+    padding: 0%;
+    /*background-color: rgba(0,0,0,0.938);*/
+    background-color: black;
+
+}
+
+#introDiv {
+
+    margin: auto;
+
+}
+
+.navbar {
+
+    background-color: rgba(0,0,0,0.3);
+    position: relative;
+    z-index: 4;
+}
+
+.navbar-brand {
+
+    /*font-weight: bold;*/
+    font-size: 2.5rem;
+    padding: 0%;
+    margin: 0%;
+
+}
+
+
+.nav-link {
+
+    font-size: 1.5rem;
+
+}
+
+.nav-link:hover {
+
+    color: #ffffff;
+    font-weight: bold;
+
+}
+
+.nav-item:hover {
+
+    color: #ffffff;
+
+}
+
+/*main {
+
+    position: absolute;
+    top: 0%;
+    z-index: -1;
+
+}*/
+
+#loginFormDiv {
+
+    width: 40%;
+    margin: auto;
+    margin-top: 15%;
+    background-color: rgba(0,0,0,0.3);
+    border: 1px solid #ffffff;
+    padding: 3%;
+    padding-top: 1%;
+    padding-bottom: 1%;
+    z-index: 1;
+    color: #ffffff;
+    font-size: 1.5rem;
+    text-align: center;
+
+}
+
+#createFormDiv {
+
+    width: 60%;
+    margin: auto;
+    margin-top: 15%;
+    background-color: rgba(0,0,0,0.3);
+    border: 1px solid #ffffff;
+    padding: 3%;
+    padding-top: 1%;
+    padding-bottom: 1%;
+    z-index: 1;
+    color: #ffffff;
+    font-size: 1.5rem;
+    text-align: center;
+
+}
+
+
+.col-sm-4 {
+
+    background-color: rgba(0,0,0,0);
+
+}
+
+.card {
+
+    border: 3px solid black;
+    text-align: center;
+
+}
+
+.card-body {
+
+    background-color: rgba(0,0,0,0.1);
+
+}
+
+.submitBtn {
+
+    font-size: 1.5rem;
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*HUB PAGE*/
+
+
+#profileWrapper {
+
+    display:flex;
+    flex-direction: column;
+    margin: auto;
+    margin-top: 10%;
+    background-color: rgba(0,0,0,0.5);
+    width: 80%;
+    border-radius: 5%;
+
+}
+
+.paddingDiv {
+
+    /*background-color: rgba(0,0,0,0);*/
+    padding: 2%;
+
+}
+
+#userCard {
+
+    color: white;
+}
+
+#userInfo > h1 {
+
+    font-size:3vw;
+}
+
+/*#profilePic {
+
+    border-radius: 50%;
+    width: 80%;
+
+}*/
+
+#healthEtcDiv {
+
+    margin-bottom: 5%;
+
+}
+
+.progress {
+
+    height: 25px;
+
+}
+
+.progress-bar {
+
+    color: black;
+    font-weight: bold;
+
+}
+
+
+#healthDivOuter {
+
+    background-color: #99ff99;
+
+}
+
+#healthDiv {
+
+    background-color: #00cc00;
+
+}
+
+#manaDivOuter {
+
+    background-color: #99ccff;
+
+}
+
+#manaDiv {
+
+    background-color: #1a8cff;
+
+}
+
+#energyDivOuter {
+
+    background-color: #ffffb3;
+
+}
+
+#energyDiv {
+
+    background-color: #ffff00;
+
+}
+
+#experienceDivOuter {
+
+    background-color: #eeccff;
+
+}
+
+#experienceDiv {
+
+    background-color: #bb33ff;
+
+}
+
+
+#messageDiv {
+
+    margin: auto;
+    display: none;
+    text-align: center;
+
+}
+
+
+.widgetRow {
+
+    color: white;
+
+
+}
+
+.widgetItem {
+
+    text-align: center;
+    margin-bottom: 5%;
+    /*padding: 0%;*/
+    /*background-color: rgba(0,0,0,0.4);*/
+
+}
+
+#progressBarDivOuter{
+
+    width: 100px;
+    background-color: #42f471;
+    margin: auto;
+
+}
+
+#progressBarDiv{
+
+    background-color: #4f8266;
+
+}
+
+
+
+
+/*OPERATION EVENT LIST PAGE*/
+
+.buttonX {
+
+    background: #000000;
+    color: #fff;
+
+}
+
+.buttonX:hover {
+
+    background: #fff;
+    color: #333333;
+
+}
+
+
+
+
+
+
+/*PVP ROOM*/
+
+#pvpWrapper {
+
+    border-radius: 10%;
+    background-color: rgba(0,0,0,0.5);
+    width: 85%;
+    margin: auto;
+
+}
+
+
+#pvpTitle {
+
+    text-align: center;
+    color: white;
+    margin: auto;
+    margin-top: 10%;
+    margin-bottom: 5%;
+    padding-top: 5%;
+
+}
+
+
+
+
+
+
+/*BATTLEEVENT FIGHTING ROOM*/
+
+#fightRoomWrapper {
+
+    border-radius: 5%;
+    background-color: rgba(0,0,0,0.3);
+    width: 90%;
+    margin: auto;
+    margin-top: 10%;
+
+
+}
+
+
+
+
+
+
+
+@media(max-width: 575px){
+
+    #userCard > div {
+        text-align: center;
+    }
 }
