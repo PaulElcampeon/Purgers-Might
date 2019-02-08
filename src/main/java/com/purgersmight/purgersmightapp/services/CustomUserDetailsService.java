@@ -21,11 +21,8 @@ public class CustomUserDetailsService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-
         logger.log(Level.WARNING, String.format("User with username %s tried to log in", username));
-
         User user = userService.getUserByUsername(username);
-
         return new CustomUserDetails(user);
     }
 }
