@@ -15,7 +15,7 @@ public class AvatarService {
     @Autowired
     private AvatarRepository avatarRepository;
 
-    private Logger logger = Logger.getLogger(UserService.class.getName());
+    private Logger logger = Logger.getLogger(AvatarService.class.getName());
 
     public void addAvatar(Avatar newAvatar){
         avatarRepository.insert(newAvatar);

@@ -14,159 +14,159 @@
     <script src="/webjars/stomp-websocket/stomp.min.js"></script>
 </head>
 <body>
-
-<div class="site-wrapper">
-    <header class="fixed-top">
-        <nav class="navbar navbar-expand-lg navbar-dark">
-            <a class="navbar-brand" href="index.html" style="font-family:'Skrangji', cursive">~EvelioZ~</a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <div class="navbar-nav mr-auto"></div>
-                <ul class="navbar-nav">
-                    <li class="nav-item">
-                        <a class="nav-link" href="http://localhost:8080/hub">Hub</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="http://localhost:8080/login">Log Out</a>
-                    </li>
-                </ul>
-            </div>
-        </nav>
-    </header>
-
-
-    <div id="profileWrapper">
-        <div id="userCard" class="row">
-            <div class="paddingDiv col-sm">
-                <div id="imgDiv" class="w-50">
-                    <img id="profilePic" class="rounded-circle" src="https://media.giphy.com/media/1LnQIODGufGec/giphy.gif"/>
-                </div>
-            </div>
-
-            <div class="paddingDiv col-sm">
-                <div id="userInfo">
-                    <h1 id="userName"></h1>
-                    <h1 id="userTrait"></h1>
-                    <h1 id="userLevel"></h1>
-                    <h1 id="userMoney"></h1>
-                    <h1 id="attributePoints"></h1>
-                </div>
-            </div>
-        </div>
-
-        <div id="healthEtcDiv" class="row p-3">
-            <div id="healthDivOuter" class="progress m-1 p-0 col-sm">
-                <div id="healthDiv" class="progress-bar"><p id="healthTag" class="p-0 m-0"></p></div>
-            </div>
-            <div id="manaDivOuter" class="progress m-1 p-0 col-sm">
-                <div id="manaDiv" class="progress-bar"><p id="manaTag" class="p-0 m-0"></div>
-            </div>
-            <div id="energyDivOuter" class="progress m-1 p-0 col-sm">
-                <div id="energyDiv" class="progress-bar"><p id="energyTag" class="p-0 m-0"></div>
-            </div>
-            <div id="experienceDivOuter" class="progress m-1 p-0 col-sm">
-                <div id="experienceDiv" class="progress-bar"><p id="experienceTag" class="p-0 m-0"></div>
-            </div>
-        </div>
-
-        <div id="operationEventDiv" class="text-center text-white mb-4">
-            <h2 id="activeOperationTitle">Active Operation</h2>
-            <div id="progressBarDivOuter">
-                <div id="progressBarDiv"></div>
-            </div>
-            <div id="activeOperationsDiv"></div>
-            <h2 id="activeOperationResults" class="mb-2">None</h2>
-            <h2 id="previousOperationResults"></h2>
-        </div>
-
-        <div id="messageDiv" class="m-auto text-white border-white">
-            <h3 id="messageHTag"></h3>
-            <div class="btn-group" role="group">
-                <button id="acceptInvite" class="buttonX p-2 m-2">YES</button>
-                <button id="refuseInvite" class="buttonX p-2 m-2">NO</button>
-            </div>
-        </div>
-
-        <div id="itemDisplay">
-        </div>
-
-        <div class="widgetRow row">
-            <div id="restoreHealthDiv" class="widgetItem col-sm-3">
-                <h6>RESTORE HEALTH</h6>
-                <input type="image" src="https://cdn4.iconfinder.com/data/icons/miscellaneous-icons-1/200/misc_first_aid_kit-512.png" name="medicalimage" width="60" height="60" id="healPlayerBtn">
-            </div>
-            <div id="restoreManaDiv" class="widgetItem col-sm-3">
-                <h6>RESTORE MANA</h6>
-                <input type="image" src="http://pluspng.com/img-png/chinese-temple-png-hd-palace-png-hd-2400.png" name="templeImg" width="60" height="60" id="restoreManaBtn">
-            </div>
-            <div id="pvpDiv" class="widgetItem col-sm-3">
-                <h6>PVP</h6>
-                <input type="image" src="https://www.shareicon.net/download/2016/08/05/807305_gaming_512x512.png" name="pvpImg" width="60" height="60" id="pvpBtn">
-            </div>
-            <div id="bossEventDiv" class="widgetItem col-sm-3">
-                <h6>BOSS EVENT</h6>
-                <input type="image" src="https://d1u5p3l4wpay3k.cloudfront.net/cod_esports_gamepedia_en/thumb/1/15/Final_Bosslogo_square.png/300px-Final_Bosslogo_square.png?version=6ac681460d47752651343d50c4aa50fa" name="bossEventImg" width="60" height="60" id="bossEventBtn">
-            </div>
-        </div>
-
-        <div class="widgetRow row">
-            <div id="operationDiv" class="widgetItem col-sm-3">
-                <h6>OPERATION EVENT</h6>
-                <input type="image" src="http://icons.iconarchive.com/icons/tooschee/water-gaming/256/titan-quest-icon.png" name="operationImg" width="60" height="60" id="operationBtn">
-            </div>
-            <div id="updateAttributesDiv" class="widgetItem col-sm-3">
-                <h6>UPDATE ATTRIBUTES</h6>
-                <input type="image" src="https://melbournechapter.net/images/power-clipart-strenth-5.png" name="attributesImg" width="60" height="60" id="attributesBtn">
-            </div>
-            <div id="bagDiv" class="widgetItem col-sm-3">
-                <h6>BAG</h6>
-                <input type="image" src="https://cdn2.iconfinder.com/data/icons/game-1-1/512/bag-512.png" name="bagImg" width="60" height="60" id="bagBtn">
-            </div>
-            <div id="armourDiv" class="widgetItem col-sm-3">
-                <h6>ARMOUR</h6>
-                <input type="image" src="https://tos.neet.tv/images/equip/icon_item_shirts_titanas.png" name="armourImg" width="60" height="60" id="armourBtn">
-            </div>
-        </div>
+Hey
+<!--<div class="site-wrapper">-->
+    <!--<header class="fixed-top">-->
+        <!--<nav class="navbar navbar-expand-lg navbar-dark">-->
+            <!--<a class="navbar-brand" href="index.html" style="font-family:'Skrangji', cursive">~EvelioZ~</a>-->
+            <!--<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">-->
+                <!--<span class="navbar-toggler-icon"></span>-->
+            <!--</button>-->
+            <!--<div class="collapse navbar-collapse" id="navbarNav">-->
+                <!--<div class="navbar-nav mr-auto"></div>-->
+                <!--<ul class="navbar-nav">-->
+                    <!--<li class="nav-item">-->
+                        <!--<a class="nav-link" href="http://localhost:8080/hub">Hub</a>-->
+                    <!--</li>-->
+                    <!--<li class="nav-item">-->
+                        <!--<a class="nav-link" href="http://localhost:8080/login">Log Out</a>-->
+                    <!--</li>-->
+                <!--</ul>-->
+            <!--</div>-->
+        <!--</nav>-->
+    <!--</header>-->
 
 
-        <div class="widgetRow row">
-            <div id="abilitiesDiv" class="widgetItem col-sm-3">
-                <h6>ABILITIES</h6>
-                <input type="image" src="https://vignette.wikia.nocookie.net/ninjago/images/3/39/Spell_Book.png/revision/latest?cb=20160907164549" name="medicalimage" width="60" height="60" id="abilitiesBtn">
-            </div>
-            <div id="shopDiv" class="widgetItem col-sm-3">
-                <h6>SHOP</h6>
-                <input type="image" src="http://shabbyshikemporium.com/wp-content/uploads/2017/11/ShopIcon.png" name="shopImg" width="60" height="60" id="shopBtn">
-            </div>
-            <div id="battleReceipts" class="widgetItem col-sm-3">
-                <h6>BATTLE RECEIPTS</h6>
-                <input type="image" src="http://iconbug.com/data/5c/256/a80a8358ca203cd2838e21ac3e24234d.png" name="battleReceiptsImg" width="60" height="60" id="battleReceiptsBtn">
-            </div>
-            <div id="leaderBoardDiv" class="widgetItem col-sm-3">
-                <h6>LEADER BOARD</h6>
-                <input type="image" src="https://cdn4.iconfinder.com/data/icons/ios-edge-glyph-12/25/Winners-Podium-512.png" name="leaderBoardImg" width="60" height="60" id="leaderBpardBtn">
-            </div>
-        </div>
+    <!--<div id="profileWrapper">-->
+        <!--<div id="userCard" class="row">-->
+            <!--<div class="paddingDiv col-sm">-->
+                <!--<div id="imgDiv" class="w-50">-->
+                    <!--<img id="profilePic" class="rounded-circle" src="https://media.giphy.com/media/1LnQIODGufGec/giphy.gif"/>-->
+                <!--</div>-->
+            <!--</div>-->
 
-        <div class="widgetRow row">
-            <div id="battleStatsDiv" class="widgetItem col-sm-3">
-                <h6>BATTLE STATS</h6>
-                <input type="image" src="https://pokemonaustralia.com/wp-content/uploads/2014/07/stats.png" name="battleStatsImg" width="60" height="60" id="battleStatsBtn">
-            </div>
-            <div id="weaponDiv" class="widgetItem col-sm-3">
-                <h6>WEAPON</h6>
-                <input type="image" src="https://mbtskoudsalg.com/images/m16-sword-png-5.png" name="weaponImg" width="60" height="60" id="weaponBtn">
-            </div>
-            <div id="warChatDiv" class="widgetItem col-sm-3">
-                <h6>WAR CHAT</h6>
-                <input type="image" src="http://www.hypebot.com/.a/6a00d83451b36c69e201b7c8cd59ee970b-320wi" name="warchatImage" width="70" height="60" id="warchatBtn">
-            </div>
-        </div>
-    </div>
-</div>
-<script type="text/javascript" th:src="@{/js/home.js}"></script>
+            <!--<div class="paddingDiv col-sm">-->
+                <!--<div id="userInfo">-->
+                    <!--<h1 id="userName"></h1>-->
+                    <!--<h1 id="userTrait"></h1>-->
+                    <!--<h1 id="userLevel"></h1>-->
+                    <!--<h1 id="userMoney"></h1>-->
+                    <!--<h1 id="attributePoints"></h1>-->
+                <!--</div>-->
+            <!--</div>-->
+        <!--</div>-->
+
+        <!--<div id="healthEtcDiv" class="row p-3">-->
+            <!--<div id="healthDivOuter" class="progress m-1 p-0 col-sm">-->
+                <!--<div id="healthDiv" class="progress-bar"><p id="healthTag" class="p-0 m-0"></p></div>-->
+            <!--</div>-->
+            <!--<div id="manaDivOuter" class="progress m-1 p-0 col-sm">-->
+                <!--<div id="manaDiv" class="progress-bar"><p id="manaTag" class="p-0 m-0"></div>-->
+            <!--</div>-->
+            <!--<div id="energyDivOuter" class="progress m-1 p-0 col-sm">-->
+                <!--<div id="energyDiv" class="progress-bar"><p id="energyTag" class="p-0 m-0"></div>-->
+            <!--</div>-->
+            <!--<div id="experienceDivOuter" class="progress m-1 p-0 col-sm">-->
+                <!--<div id="experienceDiv" class="progress-bar"><p id="experienceTag" class="p-0 m-0"></div>-->
+            <!--</div>-->
+        <!--</div>-->
+
+        <!--<div id="operationEventDiv" class="text-center text-white mb-4">-->
+            <!--<h2 id="activeOperationTitle">Active Operation</h2>-->
+            <!--<div id="progressBarDivOuter">-->
+                <!--<div id="progressBarDiv"></div>-->
+            <!--</div>-->
+            <!--<div id="activeOperationsDiv"></div>-->
+            <!--<h2 id="activeOperationResults" class="mb-2">None</h2>-->
+            <!--<h2 id="previousOperationResults"></h2>-->
+        <!--</div>-->
+
+        <!--<div id="messageDiv" class="m-auto text-white border-white">-->
+            <!--<h3 id="messageHTag"></h3>-->
+            <!--<div class="btn-group" role="group">-->
+                <!--<button id="acceptInvite" class="buttonX p-2 m-2">YES</button>-->
+                <!--<button id="refuseInvite" class="buttonX p-2 m-2">NO</button>-->
+            <!--</div>-->
+        <!--</div>-->
+
+        <!--<div id="itemDisplay">-->
+        <!--</div>-->
+
+        <!--<div class="widgetRow row">-->
+            <!--<div id="restoreHealthDiv" class="widgetItem col-sm-3">-->
+                <!--<h6>RESTORE HEALTH</h6>-->
+                <!--<input type="image" src="https://cdn4.iconfinder.com/data/icons/miscellaneous-icons-1/200/misc_first_aid_kit-512.png" name="medicalimage" width="60" height="60" id="healPlayerBtn">-->
+            <!--</div>-->
+            <!--<div id="restoreManaDiv" class="widgetItem col-sm-3">-->
+                <!--<h6>RESTORE MANA</h6>-->
+                <!--<input type="image" src="http://pluspng.com/img-png/chinese-temple-png-hd-palace-png-hd-2400.png" name="templeImg" width="60" height="60" id="restoreManaBtn">-->
+            <!--</div>-->
+            <!--<div id="pvpDiv" class="widgetItem col-sm-3">-->
+                <!--<h6>PVP</h6>-->
+                <!--<input type="image" src="https://www.shareicon.net/download/2016/08/05/807305_gaming_512x512.png" name="pvpImg" width="60" height="60" id="pvpBtn">-->
+            <!--</div>-->
+            <!--<div id="bossEventDiv" class="widgetItem col-sm-3">-->
+                <!--<h6>BOSS EVENT</h6>-->
+                <!--<input type="image" src="https://d1u5p3l4wpay3k.cloudfront.net/cod_esports_gamepedia_en/thumb/1/15/Final_Bosslogo_square.png/300px-Final_Bosslogo_square.png?version=6ac681460d47752651343d50c4aa50fa" name="bossEventImg" width="60" height="60" id="bossEventBtn">-->
+            <!--</div>-->
+        <!--</div>-->
+
+        <!--<div class="widgetRow row">-->
+            <!--<div id="operationDiv" class="widgetItem col-sm-3">-->
+                <!--<h6>OPERATION EVENT</h6>-->
+                <!--<input type="image" src="http://icons.iconarchive.com/icons/tooschee/water-gaming/256/titan-quest-icon.png" name="operationImg" width="60" height="60" id="operationBtn">-->
+            <!--</div>-->
+            <!--<div id="updateAttributesDiv" class="widgetItem col-sm-3">-->
+                <!--<h6>UPDATE ATTRIBUTES</h6>-->
+                <!--<input type="image" src="https://melbournechapter.net/images/power-clipart-strenth-5.png" name="attributesImg" width="60" height="60" id="attributesBtn">-->
+            <!--</div>-->
+            <!--<div id="bagDiv" class="widgetItem col-sm-3">-->
+                <!--<h6>BAG</h6>-->
+                <!--<input type="image" src="https://cdn2.iconfinder.com/data/icons/game-1-1/512/bag-512.png" name="bagImg" width="60" height="60" id="bagBtn">-->
+            <!--</div>-->
+            <!--<div id="armourDiv" class="widgetItem col-sm-3">-->
+                <!--<h6>ARMOUR</h6>-->
+                <!--<input type="image" src="https://tos.neet.tv/images/equip/icon_item_shirts_titanas.png" name="armourImg" width="60" height="60" id="armourBtn">-->
+            <!--</div>-->
+        <!--</div>-->
+
+
+        <!--<div class="widgetRow row">-->
+            <!--<div id="abilitiesDiv" class="widgetItem col-sm-3">-->
+                <!--<h6>ABILITIES</h6>-->
+                <!--<input type="image" src="https://vignette.wikia.nocookie.net/ninjago/images/3/39/Spell_Book.png/revision/latest?cb=20160907164549" name="medicalimage" width="60" height="60" id="abilitiesBtn">-->
+            <!--</div>-->
+            <!--<div id="shopDiv" class="widgetItem col-sm-3">-->
+                <!--<h6>SHOP</h6>-->
+                <!--<input type="image" src="http://shabbyshikemporium.com/wp-content/uploads/2017/11/ShopIcon.png" name="shopImg" width="60" height="60" id="shopBtn">-->
+            <!--</div>-->
+            <!--<div id="battleReceipts" class="widgetItem col-sm-3">-->
+                <!--<h6>BATTLE RECEIPTS</h6>-->
+                <!--<input type="image" src="http://iconbug.com/data/5c/256/a80a8358ca203cd2838e21ac3e24234d.png" name="battleReceiptsImg" width="60" height="60" id="battleReceiptsBtn">-->
+            <!--</div>-->
+            <!--<div id="leaderBoardDiv" class="widgetItem col-sm-3">-->
+                <!--<h6>LEADER BOARD</h6>-->
+                <!--<input type="image" src="https://cdn4.iconfinder.com/data/icons/ios-edge-glyph-12/25/Winners-Podium-512.png" name="leaderBoardImg" width="60" height="60" id="leaderBpardBtn">-->
+            <!--</div>-->
+        <!--</div>-->
+
+        <!--<div class="widgetRow row">-->
+            <!--<div id="battleStatsDiv" class="widgetItem col-sm-3">-->
+                <!--<h6>BATTLE STATS</h6>-->
+                <!--<input type="image" src="https://pokemonaustralia.com/wp-content/uploads/2014/07/stats.png" name="battleStatsImg" width="60" height="60" id="battleStatsBtn">-->
+            <!--</div>-->
+            <!--<div id="weaponDiv" class="widgetItem col-sm-3">-->
+                <!--<h6>WEAPON</h6>-->
+                <!--<input type="image" src="https://mbtskoudsalg.com/images/m16-sword-png-5.png" name="weaponImg" width="60" height="60" id="weaponBtn">-->
+            <!--</div>-->
+            <!--<div id="warChatDiv" class="widgetItem col-sm-3">-->
+                <!--<h6>WAR CHAT</h6>-->
+                <!--<input type="image" src="http://www.hypebot.com/.a/6a00d83451b36c69e201b7c8cd59ee970b-320wi" name="warchatImage" width="70" height="60" id="warchatBtn">-->
+            <!--</div>-->
+        <!--</div>-->
+    <!--</div>-->
+<!--</div>-->
+<!--<script type="text/javascript" th:src="@{/js/home.js}"></script>-->
 
 </body>
 </html>

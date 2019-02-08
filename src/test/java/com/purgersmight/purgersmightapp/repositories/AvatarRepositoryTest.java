@@ -3,12 +3,14 @@ package com.purgersmight.purgersmightapp.repositories;
 import static org.junit.jupiter.api.Assertions.*;
 
 import com.purgersmight.purgersmightapp.models.Avatar;
-import com.purgersmight.purgersmightapp.models.PlayerAvatar;
+import com.purgersmight.purgersmightapp.services.UserService;
 import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.data.mongo.DataMongoTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.test.context.junit4.SpringRunner;
 
@@ -21,16 +23,23 @@ public class AvatarRepositoryTest {
     @Autowired
     private AvatarRepository avatarRepository;
 
+    @MockBean
+    private UserService userService;
+
+    @Before
+    public void clearDBBefore(){
+        avatarRepository.deleteAll();
+    }
     @After
-    public void clearDB(){
+    public void clearDBAfter(){
         avatarRepository.deleteAll();
     }
 
     @Test
     public void insertAvatar_Test1(){
-        Avatar playerAvatar = PlayerAvatar.getStarterAvatar("Helpon", "");
+        Avatar avatar = Avatar.getStarterAvatar("Helpon", "");
 
-        avatarRepository.insert(playerAvatar);
+        avatarRepository.insert(avatar);
 
         long resultCount = avatarRepository.count();
 
@@ -39,45 +48,45 @@ public class AvatarRepositoryTest {
 
     @Test
     public void insertAvatar_Test2(){
-        Avatar playerAvatar = PlayerAvatar.getStarterAvatar("Helpon", "");
+        Avatar avatar = Avatar.getStarterAvatar("Helpon", "");
 
-        avatarRepository.insert(playerAvatar);
+        avatarRepository.insert(avatar);
 
         assertThrows(DuplicateKeyException.class, ()->{
-            avatarRepository.insert(playerAvatar);
+            avatarRepository.insert(avatar);
         });
     }
 
     @Test
     public void findAvatarByUsername_Test3(){
-        Avatar playerAvatar = PlayerAvatar.getStarterAvatar("Helpon", "");
+        Avatar avatar = Avatar.getStarterAvatar("Helpon", "");
 
-        avatarRepository.insert(playerAvatar);
+        avatarRepository.insert(avatar);
 
         Avatar retrievedAvatar = avatarRepository.findByUsername("Helpon").get();
 
-        assertEquals(playerAvatar, retrievedAvatar);
+        assertEquals(avatar, retrievedAvatar);
     }
 
     @Test
-    public void findAvatarById_Test4(){
-        Avatar playerAvatar = PlayerAvatar.getStarterAvatar("Helpon", "");
+    public void findAvatarByUsername_Test4(){
+        Avatar avatar = Avatar.getStarterAvatar("Helpon", "");
 
-        avatarRepository.insert(playerAvatar);
+        avatarRepository.insert(avatar);
 
-        Avatar retrievedAvatar = avatarRepository.findById("Helpon").get();
+        Avatar retrievedAvatar = avatarRepository.findByUsername("Helpon").get();
 
-        assertEquals(playerAvatar, retrievedAvatar);
+        assertEquals(avatar, retrievedAvatar);
     }
 
     @Test
     public void findAvatarById_Test5(){
-        Avatar playerAvatar = PlayerAvatar.getStarterAvatar("Helpon", "");
+        Avatar avatar = Avatar.getStarterAvatar("Helpon", "");
 
-        avatarRepository.insert(playerAvatar);
+        avatarRepository.insert(avatar);
 
         assertThrows(NoSuchElementException.class, ()->{
-            avatarRepository.findById("Helpon1").get();
+            avatarRepository.findByUsername("Helpon1").get();
         });
     }
 

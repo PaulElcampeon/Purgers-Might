@@ -6,36 +6,37 @@
     <meta name="viewport" content="width=device-width" />
     <title>User Registration</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
-    <link rel="stylesheet" type="text/css" href="/css/crusaders-wrath.css">
+    <link rel="stylesheet" th:href="@{/css/crusaders-wrath.css}"
+          href="../../css/crusaders-wrath.css" />
+    <link href="https://fonts.googleapis.com/css?family=Skranji" rel="stylesheet">
 </head>
-<body>
 
-<div>
-    <h3>User Registration Form</h3>
+<body class="text-center">
+<div class="d-flex flex-column m-auto">
+    <div>
+        <h1 style="font-family:'Skrangji', cursive" class="display-4 font-weight-bold">PURGERS MIGHT</h1>
+    </div>
 
-    <form th:action="@{/user-service/create-account}" th:object="${CreateNewUserReqDto}" method="post">
+    <form th:action="@{/user-service/create-account}" th:object="${createNewUserReqDto}" method="post" class="form-signin mt-5">
+        <!--<img class="mb-4" src="/docs/4.2/assets/brand/bootstrap-solid.svg" alt="" width="72" height="72">-->
+        <h1 class="h3 mb-4 font-weight-normal">User Registration Form</h1>
 
-        <div>
-            <label>Username</label>
-            <input type="text" th:field="*{username}"/>
-        </div>
+        <label for="inputUsername" class="sr-only">Username</label>
+        <input type="text" id="inputUsername" class="form-control mb-3" th:field="*{username}" name="username" placeholder="Username" required autofocus>
 
-        <div>
-            <label>Password</label>
-            <input type="password" th:field="*{password}"/>
-        </div>
+        <label for="inputPassword" class="sr-only">Password</label>
+        <input type="password" id="inputPassword" class="form-control mb-3" name="password" th:field="*{password}" placeholder="Password" required>
 
-        <div>
-            <label>Confirm Password</label>
-            <input type="password" th:field="*{confirmPassword}"/>
-        </div>
+        <label for="inputConfirmPassword" class="sr-only">Confirm Password</label>
+        <input type="password" id="inputConfirmPassword" class="form-control mb-5" name="confirmpassword" th:field="*{confirmPassword}" placeholder="Confirm Password" required>
 
-        <div>
-            <button type="submit">Submit</button>
-        </div>
+        <button id="submitBtn" class="btn btn-lg btn-block btnh w-50 m-auto" name="submitButton" type="submit">Create</button>
+
+        <p class="mt-5 mb-3 text-muted">&copy; 2017-2018</p>
+
     </form>
 </div>
-<script src="/js/create-account.js"></script>
 
+<script type="text/javascript" th:src="@{/js/create-account.js}"></script>
 </body>
 </html>

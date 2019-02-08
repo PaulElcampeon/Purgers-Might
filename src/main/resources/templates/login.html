@@ -8,36 +8,39 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
     <link rel="stylesheet" th:href="@{/css/crusaders-wrath.css}"
           href="../../css/crusaders-wrath.css" />
+    <link href="https://fonts.googleapis.com/css?family=Skranji" rel="stylesheet">
 </head>
-<body>
-
-<div class="d-flex text-white">
-    <h1>Crusaders Wrath</h1>
-</div>
-
-<div style="height: 400px;" class="d-flex p-2 text-white justify-content-center">
-    <div class="align-self-center">
-        <h3>Login</h3>
-
-        <form th:action="@{/login}" th:object="${loginReqDto}" method="post">
-
-            <div>
-                <label>Username</label>
-                <input type="text" th:field="*{username}" required="required"/>
-            </div>
-
-            <div>
-                <label>Password</label>
-                <input type="password" th:field="*{password}" required="required"/>
-            </div>
-
-            <div>
-                <button id="submitBtn" type="submit" class="p-3 mb-2 bg-dark text-white">Submit</button>
-            </div>
-
-        </form>
+<body class="text-center">
+<div class="d-flex flex-column m-auto">
+    <div>
+        <h1 style="font-family:'Skrangji', cursive" class="display-4 font-weight-bold">PURGERS MIGHT</h1>
     </div>
+
+    <form th:action="@{/login}" th:object="${loginReqDto}" method="post" class="form-signin mt-5">
+        <!--<img class="mb-4" src="/docs/4.2/assets/brand/bootstrap-solid.svg" alt="" width="72" height="72">-->
+        <h1 class="h3 mb-4 font-weight-normal">Please sign in</h1>
+
+        <label for="inputUsername" class="sr-only">Username</label>
+        <input type="text" id="inputUsername" class="form-control mb-3" th:field="*{username}" name="username" placeholder="Username" required autofocus>
+
+        <label for="inputPassword" class="sr-only">Password</label>
+        <input type="password" id="inputPassword" class="form-control" name="password" th:field="*{password}" placeholder="Password" required>
+
+        <div class="checkbox mb-3">
+            <label>
+                <input type="checkbox" value="remember-me" name="remember-me" id="remeberMe"> Remember me
+            </label>
+        </div>
+
+        <button id="submitBtn" class="btn btn-lg btn-block btnh w-50 m-auto mb-5" name="submitButton" type="submit">Sign in</button>
+        <br>
+        <a th:href="@{/create-account}" class="text-white m-auto">Create Account</a>
+
+        <p class="mt-5 mb-3 text-muted">&copy; 2017-2018</p>
+
+    </form>
 </div>
+
 <script type="text/javascript" th:src="@{/js/log-in.js}"></script>
 </body>
 </html>

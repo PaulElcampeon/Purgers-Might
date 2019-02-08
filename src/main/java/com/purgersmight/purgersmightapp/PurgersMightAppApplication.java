@@ -23,9 +23,17 @@ public class PurgersMightAppApplication {
 //
 //	@PostConstruct
 //	public void init(){
+//		userService.removeUserById("Angie1");
+//
 //		userService.removeAllUsers();
 //		User newUser = new User("Angie1", "123456");
 //		userService.addUser(newUser);
+//
+//		User ret = userService.getUserByUsername("Angie1");
+//
+//		System.out.println(ret);
+//
+//		userService.removeUserById("Angie1");
 //	}
 
 

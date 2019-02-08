@@ -1,13 +1,13 @@
 package com.purgersmight.purgersmightapp.controllers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.purgersmight.purgersmightapp.models.Avatar;
 import com.purgersmight.purgersmightapp.services.AvatarService;
 import com.purgersmight.purgersmightapp.services.CustomUserDetailsService;
 import com.purgersmight.purgersmightapp.config.WebSecurityConfig;
 import com.purgersmight.purgersmightapp.dto.CreateNewUserReqDto;
 import com.purgersmight.purgersmightapp.PurgersMightAppApplication;
 import com.purgersmight.purgersmightapp.dto.CreateNewUserResDto;
-import com.purgersmight.purgersmightapp.models.PlayerAvatar;
 import com.purgersmight.purgersmightapp.models.User;
 import com.purgersmight.purgersmightapp.services.UserService;
 import com.purgersmight.purgersmightapp.utils.ObjectMapperUtils;
@@ -57,7 +57,7 @@ public class UserServiceControllerTest {
         CreateNewUserReqDto createNewUserReqDto = new CreateNewUserReqDto("Angie123", "123456", "123456");
         String createNewUserReqDtoAsString = objectMapper.writeValueAsString(createNewUserReqDto);
 
-        CreateNewUserResDto createNewUserResDto = new CreateNewUserResDto(true, null, PlayerAvatar.getStarterAvatar("Angie123", null));
+        CreateNewUserResDto createNewUserResDto = new CreateNewUserResDto(true, null, Avatar.getStarterAvatar("Angie123", null));
         String createNewUserResDtoAsString = objectMapper.writeValueAsString(createNewUserResDto);
 
         this.mockMvc.perform(post("/user-service/create-account")

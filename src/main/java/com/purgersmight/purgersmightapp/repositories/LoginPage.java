@@ -10,21 +10,21 @@ public class LoginPage {
 
     public static WebElement username(WebDriver webDriver){
 
-        element = webDriver.findElement(By.cssSelector("blah bal blah"));
+        element = webDriver.findElement(By.name("username"));
 
         return element;
     }
 
     public static WebElement password(WebDriver webDriver){
 
-        element = webDriver.findElement(By.cssSelector("blah bal blah"));
+        element = webDriver.findElement(By.name("password"));
 
         return element;
     }
 
     public static WebElement submit(WebDriver webDriver){
 
-        element = webDriver.findElement(By.cssSelector("blah bal blah"));
+        element = webDriver.findElement(By.name("submitButton"));
 
         return element;
     }

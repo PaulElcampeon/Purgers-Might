@@ -5,7 +5,7 @@ import com.purgersmight.purgersmightapp.PurgersMightAppApplication;
 import com.purgersmight.purgersmightapp.config.WebSecurityConfig;
 import com.purgersmight.purgersmightapp.dto.CreateNewUserReqDto;
 import com.purgersmight.purgersmightapp.dto.CreateNewUserResDto;
-import com.purgersmight.purgersmightapp.models.PlayerAvatar;
+import com.purgersmight.purgersmightapp.models.Avatar;
 import com.purgersmight.purgersmightapp.utils.ObjectMapperUtils;
 import org.junit.Before;
 import org.junit.Test;
@@ -43,7 +43,7 @@ public class UserServiceIT {
 
         ResponseEntity<String> result = testRestTemplate.postForEntity("/user-service/create-account", createNewUserReqDto, String.class);
 
-        CreateNewUserResDto createNewUserResDto = new CreateNewUserResDto(true,null, PlayerAvatar.getStarterAvatar("Angie1",null));
+        CreateNewUserResDto createNewUserResDto = new CreateNewUserResDto(true,null, Avatar.getStarterAvatar("Angie1",null));
         String createNewUserResDtoAsString = ObjectMapperUtils.getObjectMapper().writeValueAsString(createNewUserResDto);
 
         assertEquals(createNewUserResDtoAsString, result.getBody());

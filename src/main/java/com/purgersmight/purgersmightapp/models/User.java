@@ -12,9 +12,9 @@ import java.util.*;
 @Document(collection = "USERS")
 public class User {
 
+    @Id
     @NotNull(message = "username cannot be empty")
     private String username;
-
     @NotNull(message = "password cannot be empty")
     @Size(min = 5, max = 10, message = "password must be at least 5 characters long")
     private String password;

@@ -3,6 +3,7 @@ package com.purgersmight.purgersmightapp;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.openqa.selenium.By;
@@ -13,12 +14,15 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.ui.Select;
 import org.springframework.test.context.junit4.SpringRunner;
 
+@Ignore
 @RunWith(SpringRunner.class)
 public class Automation {
 
     @Test
     public void des() throws InterruptedException {
-        System.setProperty("webdriver.chrome.driver", "/Users/paul.oladele/Downloads/chromedriver");
+//        System.setProperty("webdriver.chrome.driver", "/Users/paul.oladele/Downloads/chromedriver");
+        System.setProperty("webdriver.chrome.driver", "C:\\Users\\PaulO\\Downloads\\chromedriver.exe");
+
         WebDriver driver = new ChromeDriver();
         driver.get("http://www.google.com");
 

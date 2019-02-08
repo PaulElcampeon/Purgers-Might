@@ -4,7 +4,6 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.purgersmight.purgersmightapp.dto.CreateNewUserReqDto;
 import com.purgersmight.purgersmightapp.dto.CreateNewUserResDto;
 import com.purgersmight.purgersmightapp.models.Avatar;
-import com.purgersmight.purgersmightapp.models.PlayerAvatar;
 import com.purgersmight.purgersmightapp.models.User;
 import com.purgersmight.purgersmightapp.services.AvatarService;
 import com.purgersmight.purgersmightapp.services.UserService;
@@ -34,13 +33,9 @@ public class UserServiceController {
     public ResponseEntity<String> createUser(@RequestBody @Valid CreateNewUserReqDto createNewUserReqDto, BindingResult result) throws JsonProcessingException {
 
         if(result.hasErrors()){
-
             logger.log(Level.INFO, String.format("%s has tried to create an account but was unsuccessful",createNewUserReqDto.getUsername()));
-
             CreateNewUserResDto createNewUserResDtoError = new CreateNewUserResDto(false,result.getAllErrors(),null);
-
             String createNewUserResDtoErrorAsString = ObjectMapperUtils.getObjectMapper().writeValueAsString(createNewUserResDtoError);
-
             return new ResponseEntity<>(
                     createNewUserResDtoErrorAsString,
                     HttpStatus.BAD_REQUEST
@@ -48,17 +43,11 @@ public class UserServiceController {
         }
 
         User newUser = new User(createNewUserReqDto.getUsername(), createNewUserReqDto.getPassword());
-
-        Avatar newAvatar = PlayerAvatar.getStarterAvatar(newUser.getUsername(),null);
-
+        Avatar newAvatar = Avatar.getStarterAvatar(newUser.getUsername(),null);
         CreateNewUserResDto createNewUserResDto = new CreateNewUserResDto(true,null,newAvatar);
-
         String createNewUserResDtoAsString = ObjectMapperUtils.getObjectMapper().writeValueAsString(createNewUserResDto);
-
         userService.addUser(newUser);
-
         avatarService.addAvatar(newAvatar);
-
         return new ResponseEntity<>(
                 createNewUserResDtoAsString,
                 HttpStatus.CREATED

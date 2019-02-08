@@ -1,5 +1,6 @@
 package com.purgersmight.purgersmightapp.controllers;
 
+import com.purgersmight.purgersmightapp.dto.CreateNewUserReqDto;
 import com.purgersmight.purgersmightapp.dto.LoginReqDto;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -35,8 +36,8 @@ public class ViewController {
     }
 
     @RequestMapping(value = "/create-account", method = RequestMethod.GET)
-    public String createAccountPage(){
-
+    public String createAccountPage(Model model){
+        model.addAttribute("createNewUserReqDto", new CreateNewUserReqDto());
         logger.log(Level.INFO, "Request for Create-Account Page");
 
         return "create-account.html";
