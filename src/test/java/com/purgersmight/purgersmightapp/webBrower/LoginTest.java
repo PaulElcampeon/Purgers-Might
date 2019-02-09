@@ -1,4 +1,4 @@
-package com.purgersmight.purgersmightapp.LoginTests;
+package com.purgersmight.purgersmightapp.webBrower;
 
 import com.purgersmight.purgersmightapp.PurgersMightAppApplication;
 import com.purgersmight.purgersmightapp.config.WebSecurityConfig;
@@ -10,14 +10,13 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.web.server.LocalServerPort;
-import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import com.purgersmight.purgersmightapp.repositories.LoginPage;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = {PurgersMightAppApplication.class, WebSecurityConfig.class}, webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-public class LoginTests {
+public class LoginTest {
 
     @LocalServerPort
     private int port;
