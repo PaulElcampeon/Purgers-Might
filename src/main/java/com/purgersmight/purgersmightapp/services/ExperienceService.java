@@ -19,8 +19,11 @@ public class ExperienceService {
     public int getExperience(int levelOfWinner, int levelOfLoser){
         int differenceInLevel = levelOfWinner - levelOfLoser;
         int awardedExperience;
-        if(differenceInLevel >= 5 || differenceInLevel <=-5){
+
+        if(differenceInLevel >= 5){
             awardedExperience = 0;
+        } else if(differenceInLevel <=-5) {
+            awardedExperience = 40;
         } else {
             if(differenceInLevel >= 0){
                 awardedExperience = 20 - differenceInLevel*experienceAccumulator;

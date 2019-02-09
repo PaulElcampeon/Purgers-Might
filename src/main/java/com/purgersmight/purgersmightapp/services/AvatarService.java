@@ -3,13 +3,14 @@ package com.purgersmight.purgersmightapp.services;
 import com.purgersmight.purgersmightapp.models.Avatar;
 import com.purgersmight.purgersmightapp.repositories.AvatarRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
 @Service
+@Scope(value = "singleton")
 public class AvatarService {
 
     @Autowired
