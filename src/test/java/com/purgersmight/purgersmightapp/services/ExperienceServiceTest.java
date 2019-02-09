@@ -58,6 +58,6 @@ public class ExperienceServiceTest {
     @Test
     public void getExperience_Test7(){
         int expectedExperiencePoints = experienceService.getExperience(5,11);
-        assertEquals("Result should be equal to 0",expectedExperiencePoints, 0);
+        assertEquals("Result should be equal to 40",expectedExperiencePoints, 40);
     }
 }

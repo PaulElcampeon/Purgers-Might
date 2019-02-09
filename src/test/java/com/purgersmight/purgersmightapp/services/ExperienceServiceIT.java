@@ -59,4 +59,11 @@ public class ExperienceServiceIT {
         assertEquals(respEntity.getStatusCode(), HttpStatus.OK);
         assertEquals(respEntity.getBody(), "0");
     }
+
+    @Test
+    public void getPlayerExperience_Test5(){
+        ResponseEntity<String> respEntity = testRestTemplate.getForEntity(baseUrl+"/experience-service/get-experience/5/10", String.class);
+        assertEquals(respEntity.getStatusCode(), HttpStatus.OK);
+        assertEquals(respEntity.getBody(), "40");
+    }
 }
