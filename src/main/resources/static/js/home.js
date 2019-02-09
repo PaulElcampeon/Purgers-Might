@@ -127,7 +127,7 @@ function populateUserInfo(data) {
 
     itemDisplay.innerHTML = "";
 
-    profilePic.src = data.imageUrl;
+    profilePic.src = data.imageUrl
 
     userName.innerHTML = "Username: " + data.username;
 

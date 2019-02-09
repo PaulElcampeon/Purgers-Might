@@ -6,7 +6,7 @@ import lombok.Data;
 public class Weapon implements Item {
 
     private String name;
-    private String imageUrl = "http://localhost:8080/images/woodenSword.png";
+    private String imageUrl = "../images/woodenSword.png";
     private int topDamage;
     private int bottomDamage;
 

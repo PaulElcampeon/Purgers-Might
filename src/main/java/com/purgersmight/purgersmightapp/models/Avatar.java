@@ -11,7 +11,7 @@ public class Avatar {
 
     @Id
     private String username;
-    private String imageUrl = "http://localhost:8080/images/blankUser.png";
+    private String imageUrl = "../images/blankUser.png";
     private int level = 1;
     private AvatarAttribute<Integer> health = new AvatarAttribute<>(100);
     private AvatarAttribute<Integer> manna = new AvatarAttribute<>(60);
