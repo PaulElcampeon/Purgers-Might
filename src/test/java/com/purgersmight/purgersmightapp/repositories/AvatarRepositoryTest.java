@@ -37,7 +37,7 @@ public class AvatarRepositoryTest {
 
     @Test
     public void insertAvatar_Test1(){
-        Avatar avatar = Avatar.getStarterAvatar("Helpon", "");
+        Avatar avatar = Avatar.getStarterAvatar("Helpon");
 
         avatarRepository.insert(avatar);
 
@@ -48,7 +48,7 @@ public class AvatarRepositoryTest {
 
     @Test
     public void insertAvatar_Test2(){
-        Avatar avatar = Avatar.getStarterAvatar("Helpon", "");
+        Avatar avatar = Avatar.getStarterAvatar("Helpon");
 
         avatarRepository.insert(avatar);
 
@@ -59,7 +59,7 @@ public class AvatarRepositoryTest {
 
     @Test
     public void findAvatarByUsername_Test3(){
-        Avatar avatar = Avatar.getStarterAvatar("Helpon", "");
+        Avatar avatar = Avatar.getStarterAvatar("Helpon");
 
         avatarRepository.insert(avatar);
 
@@ -70,7 +70,7 @@ public class AvatarRepositoryTest {
 
     @Test
     public void findAvatarByUsername_Test4(){
-        Avatar avatar = Avatar.getStarterAvatar("Helpon", "");
+        Avatar avatar = Avatar.getStarterAvatar("Helpon");
 
         avatarRepository.insert(avatar);
 
@@ -81,7 +81,7 @@ public class AvatarRepositoryTest {
 
     @Test
     public void findAvatarById_Test5(){
-        Avatar avatar = Avatar.getStarterAvatar("Helpon", "");
+        Avatar avatar = Avatar.getStarterAvatar("Helpon");
 
         avatarRepository.insert(avatar);
 

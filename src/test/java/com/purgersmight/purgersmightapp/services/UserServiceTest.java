@@ -14,6 +14,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import java.util.Optional;
+
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = {PurgersMightAppApplication.class, WebSecurityConfig.class}, webEnvironment= SpringBootTest.WebEnvironment.NONE)
 public class UserServiceTest {
@@ -32,8 +34,9 @@ public class UserServiceTest {
         User user = new User();
         user.setUsername("Angie");
         user.setPassword("43");
+        Optional<User> userOptional = Optional.of(user);
 
-        when(userRepository.findByUsername(any(String.class))).thenReturn(user);
+        when(userRepository.findByUsername(any(String.class))).thenReturn(userOptional);
 
         userService.addUser(user);
 
@@ -49,8 +52,9 @@ public class UserServiceTest {
         User user = new User();
         user.setUsername("Angie");
         user.setPassword("43");
+        Optional<User> userOptional = Optional.of(user);
 
-        when(userRepository.findByUsername(any(String.class))).thenReturn(user);
+        when(userRepository.findByUsername(any(String.class))).thenReturn(userOptional);
 
         User retrievedUser = userService.getUserByUsername("Angie");
 

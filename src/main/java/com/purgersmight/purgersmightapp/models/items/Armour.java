@@ -13,6 +13,12 @@ public class Armour implements Item {
 
     public Armour(){}
 
+    public Armour(String name, int armourPoints, ArmourType armourType){
+        this.name = name;
+        this.armourPoints = armourPoints;
+        this.armourType = armourType;
+    }
+
     public Armour(String name, String imageUrl, int armourPoints, ArmourType armourType){
         this.name = name;
         this.imageUrl = imageUrl;

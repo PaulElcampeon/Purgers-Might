@@ -7,6 +7,7 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.NoSuchElementException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -29,7 +30,7 @@ public class UserService {
     }
 
     public User getUserByUsername(final String username){
-        return userRepository.findByUsername(username);
+        return userRepository.findByUsername(username).orElseThrow(NoSuchElementException::new);
     }
 
     public void removeUser(final User user){

@@ -29,19 +29,16 @@ public class LoginController {
     @RequestMapping(value = "/login", method = RequestMethod.POST)
     public ResponseEntity<LoginResDto> login(@RequestBody @Valid LoginReqDto loginReqDto, BindingResult result){
 
+        System.out.println("wagalolog");
+
         if(result.hasErrors()){
-
             logger.log(Level.WARNING, String.format("%s login credentials were incorrect", loginReqDto.getUsername()));
-
             return new ResponseEntity<>(LoginResDto.getUnsuccessfulLoginResDto(result.getAllErrors()), HttpStatus.ACCEPTED);
         }
 
         Avatar retrievedAvatar = avatarService.getAvatarByUsername(loginReqDto.getUsername()).get();
-
         LoginResDto loginResDto = new LoginResDto(true, null, retrievedAvatar);
-
         logger.log(Level.WARNING, String.format("%s has logged in successfully", loginReqDto.getUsername()));
-
         return new ResponseEntity<>(loginResDto, HttpStatus.ACCEPTED);
     }
 }

@@ -57,7 +57,7 @@ public class UserServiceControllerTest {
         CreateNewUserReqDto createNewUserReqDto = new CreateNewUserReqDto("Angie123", "123456", "123456");
         String createNewUserReqDtoAsString = objectMapper.writeValueAsString(createNewUserReqDto);
 
-        CreateNewUserResDto createNewUserResDto = new CreateNewUserResDto(true, null, Avatar.getStarterAvatar("Angie123", null));
+        CreateNewUserResDto createNewUserResDto = new CreateNewUserResDto(true, null, Avatar.getStarterAvatar("Angie123"));
         String createNewUserResDtoAsString = objectMapper.writeValueAsString(createNewUserResDto);
 
         this.mockMvc.perform(post("/user-service/create-account")

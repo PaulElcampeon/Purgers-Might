@@ -11,5 +11,6 @@ public class Spell {
     private String imageUrl;
     private int mannaCost;
     private int damagePoints;
+    private String description;
 
 }

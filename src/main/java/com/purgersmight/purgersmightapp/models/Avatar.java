@@ -11,7 +11,7 @@ public class Avatar {
 
     @Id
     private String username;
-    private String imageUrl;
+    private String imageUrl = "http://localhost:8080/images/blankUser.png";
     private int level = 1;
     private AvatarAttribute<Integer> health = new AvatarAttribute<>(100);
     private AvatarAttribute<Integer> manna = new AvatarAttribute<>(60);
@@ -46,10 +46,9 @@ public class Avatar {
         setKenjaPoints(AvatarBuilder.kenjaPoints);
     }
 
-    public static Avatar getStarterAvatar(final String username,final String imageUrl){
+    public static Avatar getStarterAvatar(final String username){
         return new Avatar.AvatarBuilder()
                 .setAvatarUsername(username)
-                .setAvatarImageUrl(imageUrl)
                 .build();
     }
 
@@ -61,7 +60,7 @@ public class Avatar {
         private AvatarAttribute<Integer> health = new AvatarAttribute<>(100);
         private AvatarAttribute<Integer> manna = new AvatarAttribute<>(60);
         private AvatarAttribute<Integer> experience = new AvatarAttribute<>(0);
-        private SpellBook spellBook;
+        private SpellBook spellBook = new SpellBook();
         private Weapon weapon = Weapon.getStarterWeapon();
         private BodyArmour bodyArmour = BodyArmour.getStarterBodyArmour();
         private boolean inEvent = false;

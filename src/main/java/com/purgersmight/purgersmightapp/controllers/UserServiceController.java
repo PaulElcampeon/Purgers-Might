@@ -43,7 +43,7 @@ public class UserServiceController {
         }
 
         User newUser = new User(createNewUserReqDto.getUsername(), createNewUserReqDto.getPassword());
-        Avatar newAvatar = Avatar.getStarterAvatar(newUser.getUsername(),null);
+        Avatar newAvatar = Avatar.getStarterAvatar(newUser.getUsername());
         CreateNewUserResDto createNewUserResDto = new CreateNewUserResDto(true,null,newAvatar);
         String createNewUserResDtoAsString = ObjectMapperUtils.getObjectMapper().writeValueAsString(createNewUserResDto);
         userService.addUser(newUser);

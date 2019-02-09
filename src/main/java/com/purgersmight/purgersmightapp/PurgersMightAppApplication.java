@@ -1,6 +1,8 @@
 package com.purgersmight.purgersmightapp;
 
+import com.purgersmight.purgersmightapp.models.Avatar;
 import com.purgersmight.purgersmightapp.models.User;
+import com.purgersmight.purgersmightapp.services.AvatarService;
 import com.purgersmight.purgersmightapp.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
@@ -18,23 +20,20 @@ public class PurgersMightAppApplication {
 		return new BCryptPasswordEncoder();
 	}
 
-//	@Autowired
-//	private UserService userService;
-//
-//	@PostConstruct
-//	public void init(){
-//		userService.removeUserById("Angie1");
-//
-//		userService.removeAllUsers();
-//		User newUser = new User("Angie1", "123456");
-//		userService.addUser(newUser);
-//
-//		User ret = userService.getUserByUsername("Angie1");
-//
-//		System.out.println(ret);
-//
-//		userService.removeUserById("Angie1");
-//	}
+	@Autowired
+	private UserService userService;
+
+	@Autowired
+	private AvatarService avatarService;
+
+	@PostConstruct
+	public void init(){
+		avatarService.removeAllAvatars();
+		userService.removeAllUsers();
+		User newUser = new User("Angie1", "123456");
+		userService.addUser(newUser);
+		avatarService.addAvatar(Avatar.getStarterAvatar("Angie1"));
+	}
 
 
 	public static void main(String[] args) {

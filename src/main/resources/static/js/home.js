@@ -1,9 +1,7 @@
-var playerUserName, tokenX, playerData, userName, userTrait, userLevel, userMoney, attributePoints, healthDiv,
-    manaDiv, energyDiv, experienceDiv, healthTag, manaTag, energyTag, experienceTag, messageDiv, recipient,
-    eventMessage, hasEventMessage, hideMessageDiv, hideMessageDivInterval, eventContent, messageHTag, operationEventDiv,
-    activeOperationsDiv, activeOperationTitle, activeOperationResults, startTimeProgressBar, endTimeProgressBar,
-    progressBarFunc, progressBarDiv, progressBarDivOuter, itemDisplay, tempOuterDivBag, tempOuterDivWeapon,
-    tempOuterDivAbilities;
+var playerUserName, avatar, userName, userLevel, kenjaPoints, healthDiv,
+    mannaDiv, experienceDiv, healthTag, mannaTag, experienceTag, messageDiv, recipient,
+    eventMessage, hasEventMessage, hideMessageDiv, hideMessageDivInterval, eventContent, messageHTag,
+    itemDisplay, tempOuterDivBag, tempOuterDivWeapon, tempOuterDivAbilities, profilePic;
 
 var stompClient = null;
 
@@ -12,26 +10,18 @@ userName = document.getElementById("userName");
 userTrait = document.getElementById("userTrait");
 userLevel = document.getElementById("userLevel");
 userMoney = document.getElementById("userMoney");
-attributePoints = document.getElementById("attributePoints");
+kenjaPoints = document.getElementById("kenjaPoints");
 healthDiv = document.getElementById("healthDiv");
-manaDiv = document.getElementById("manaDiv");
-energyDiv = document.getElementById("energyDiv");
+mannaDiv = document.getElementById("mannaDiv");
 experienceDiv = document.getElementById("experienceDiv");
 healthTag = document.getElementById("healthTag");
-manaTag = document.getElementById("manaTag");
-energyTag = document.getElementById("energyTag");
+mannaTag = document.getElementById("mannaTag");
 experienceTag = document.getElementById("experienceTag");
 messageDiv = document.getElementById("messageDiv");
 messageHTag = document.getElementById("messageHTag");
-operationEventDiv = document.getElementById("operationEventDiv");
-activeOperationsDiv = document.getElementById("activeOperationsDiv");
-activeOperationTitle = document.getElementById("activeOperationTitle");
-activeOperationResults = document.getElementById("activeOperationResults");
-progressBarDiv = document.getElementById("progressBarDiv");
-progressBarDivOuter = document.getElementById("progressBarDivOuter");
 itemDisplay = document.getElementById("itemDisplay");
 itemDisplay.style.display = "none";
-operationEventDiv.style.display = "none";
+profilePic = document.getElementById("profilePic");
 
 
 if (document.readyState !== 'loading') {
@@ -45,50 +35,45 @@ if (document.readyState !== 'loading') {
 
 function ready () {
 
-    playerUserName = JSON.parse(sessionStorage.getItem("username"));
+    avatar = JSON.parse(sessionStorage.getItem("avatar"));
 
-    tokenX = JSON.parse(sessionStorage.getItem("token"));
+    playerUserName = avatar.username;
 
-    let dataForGettingDetails = {name: playerUserName, token: tokenX};
+    handleDataFromGettingUserRequest(avatar)
 
-    getUserData(dataForGettingDetails);
-
-    connect();
+//    connect();
 
 }
 
-function getUserData(data) {
+//function getUserData(data) {
+//
+//    let url = "http://localhost:8080/user";
+//
+//    fetch(url, {
+//        method: 'POST',
+//        body: JSON.stringify(data),
+//        headers:{
+//            'Content-Type': 'application/json'
+//        }
+//    })
+//        .then(res => res.json())
+//        .catch(error => console.error('Error:', error))
+//        .then((data) => {
+//
+//            console.log("DATA FROM GETTING USER DATA REQUEST");
+//
+//            handleDataFromGettingUserRequest(data);
+//
+//            saveavatarInSessionStorage(data.avatar);
+//
+//        })
+//
+//}
 
-    let url = "http://localhost:8080/user";
 
-    fetch(url, {
-        method: 'POST',
-        body: JSON.stringify(data),
-        headers:{
-            'Content-Type': 'application/json'
-        }
-    })
-        .then(res => res.json())
-        .catch(error => console.error('Error:', error))
-        .then((data) => {
-
-            console.log("DATA FROM GETTING USER DATA REQUEST");
-
-            handleDataFromGettingUserRequest(data);
-
-            savePlayerDataInSessionStorage(data.avatar);
-
-        })
-
-}
-
-
-function handleDataFromGettingUserRequest(data) {
-
-    populateUserInfo(data.avatar);
-
-    checkForInEvent(data.avatar)
-
+function handleDataFromGettingUserRequest(avatar) {
+    populateUserInfo(avatar);
+    checkForInEvent(avatar)
 }
 
 function checkForInEvent(data) {
@@ -142,95 +127,57 @@ function populateUserInfo(data) {
 
     itemDisplay.innerHTML = "";
 
-    playerData = data;
+    profilePic.src = data.imageUrl;
 
-    userName.innerHTML = "Username: " + data.userName;
-
-    userTrait.innerHTML = "Trait: " + data.traitType;
+    userName.innerHTML = "Username: " + data.username;
 
     userLevel.innerHTML = "Level: " + data.level;
 
-    userMoney.innerHTML = "Money: £" + data.money;
-
-    attributePoints.innerHTML = "Attribute Points: " + data.attributePoints;
+    kenjaPoints.innerHTML = "Kenja Points: " + data.kenjaPoints;
 
     populateHealthDiv(data);
 
-    populateManaDiv(data);
-
-    populateEnergyDiv(data);
+    populateMannaDiv(data);
 
     populateExperience(data);
 
-    displayBag();
+    displayBag(data.bag.inventory);
 
-    displayAbilities();
+    displayAbilities(data.spellBook.spellList);
 
-    displayArmour();
+    displayArmour(data.bodyArmour);
 
-    displayWeapon();
+    displayWeapon(data.weapon);
 
 }
 
 function populateHealthDiv(data) {
-
-    let baseHealth = data.health;
-
-    let runningHealth = data.runningHealth;
-
-    let healthPercentage = (data.runningHealth/data.health) * 100;
-
+    let baseHealth = data.health.actual;
+    let runningHealth = data.health.running;
+    let healthPercentage = (runningHealth/baseHealth) * 100;
     healthDiv.style.width = healthPercentage + "%";
-
     healthTag.innerHTML = runningHealth + "/" + baseHealth;
-
 }
 
-function populateManaDiv(data) {
-
-    let baseMana = data.mana;
-
-    let runningMana = data.runningMana;
-
-    let manaPercentage = (data.runningMana/data.mana) * 100;
-
-    manaDiv.style.width = manaPercentage + "%";
-
-    manaTag.innerHTML = runningMana + "/" + baseMana;
-
-}
-
-function populateEnergyDiv(data) {
-
-    let baseEnergy = data.energy;
-
-    let runningEnergy = data.runningEnergy;
-
-    let energyPercentage = (data.runningEnergy/data.energy) * 100;
-
-    energyDiv.style.width = energyPercentage + "%";
-
-    energyTag.innerHTML = runningEnergy + "/" + baseEnergy;
-
+function populateMannaDiv(data) {
+    let baseManna = data.manna.actual;
+    let runningManna = data.manna.running;
+    let mannaPercentage = (runningManna/baseManna) * 100;
+    mannaDiv.style.width = mannaPercentage + "%";
+    mannaTag.innerHTML = runningManna + "/" + baseManna;
 }
 
 function populateExperience(data) {
-
-    let baseExperience = data.experience;
-
-    let runningExperience = data.runningExperience;
-
-    let experiencePercentage = (data.runningExperience/data.experience) * 100;
-
+    let baseExperience = data.experience.actual;
+    let runningExperience = data.experience.running;
+    let experiencePercentage = (baseExperience/runningExperience) * 100;
     experienceDiv.style.width = experiencePercentage + "%";
-
     experienceTag.innerHTML = runningExperience + "/" + baseExperience;
-
 }
 
-function displayBag() {
+function displayBag(data) {
 
-    let itemsInBag = playerData.bag.items;
+    let itemsInBag = data;
 
     tempOuterDivBag = document.createElement("div");
 
@@ -248,7 +195,7 @@ function displayBag() {
         tempDiv.classList.add('p-0', 'col-sm-3');
         tempImg.style.width = "50px";
         tempImg.style.height = "50px";
-        tempImg.src = itemsInBag[i].imgUrl;
+        tempImg.src = itemsInBag[i].imageUrl;
         tempButton.innerHTML = "EQUIP";
         tempButton.addEventListener("click", ()=>{
 
@@ -277,7 +224,7 @@ function displayBag() {
     itemDisplay.appendChild(tempOuterDivBag);
 }
 
-function displayWeapon() {
+function displayWeapon(data) {
 
     tempOuterDivWeapon = document.createElement("div");
 
@@ -292,8 +239,8 @@ function displayWeapon() {
     tempDiv.classList.add('p-0', 'col-sm-4', 'offset-md-4', 'mb-5');
     tempImg.style.width = "50px";
     tempImg.style.height = "50px";
-    tempImg.src = playerData.weapon.imgUrl;
-    tempTag.innerHTML = "Name: " + playerData.weapon.name + "<br>Level: " + playerData.weapon.level + "<br>Damage: " + playerData.weapon.topDamage + " - " + playerData.weapon.bottomDamage;
+    tempImg.src = data.imageUrl;
+    tempTag.innerHTML = "Name: " + data.name + "<br>Damage: " + data.topDamage + " - " + data.bottomDamage;
 
     tempDiv.appendChild(tempImg);
     tempDiv.appendChild(tempTag);
@@ -303,7 +250,7 @@ function displayWeapon() {
 
 }
 
-function displayArmour() {
+function displayArmour(data) {
 
 //    let tempDiv = document.createElement("div");
 //    let tempImg = document.createElement("img");
@@ -312,8 +259,8 @@ function displayArmour() {
 //    tempDiv.classList.add('m-1', 'p-0', 'col-sm-4', 'offset-md-4');
 //    tempImg.style.width = "50px";
 //    tempImg.style.height = "50px";
-//    tempImg.src = playerData.weapon.imgUrl;
-//    tempTag.innerHTML = "Name: " + playerData.weapon.name + "<br>Level: " + playerData.weapon.level + "<br>Damage: " + playerData.weapon.topDamage + " - " + playerData.weapon.bottomDamage;
+//    tempImg.src = avatar.weapon.imageUrl;
+//    tempTag.innerHTML = "Name: " + avatar.weapon.name + "<br>Level: " + avatar.weapon.level + "<br>Damage: " + avatar.weapon.topDamage + " - " + avatar.weapon.bottomDamage;
 //
 //    tempDiv.appendChild(tempImg);
 //    tempDiv.appendChild(tempImg);
@@ -321,7 +268,7 @@ function displayArmour() {
 //    weaponItems.appendChild(tempDiv);
 }
 
-function displayAbilities() {
+function displayAbilities(data) {
 
     tempOuterDivAbilities = document.createElement("div");
 
@@ -329,7 +276,7 @@ function displayAbilities() {
 
     tempOuterDivAbilities.classList.add('row', 'text-white', 'text-center', 'mb-5');
 
-    let abilitiesList = playerData.abilities;
+    let abilitiesList = data;
 
     for (let i = 0; i < abilitiesList.length; i++) {
 
@@ -340,9 +287,9 @@ function displayAbilities() {
         tempDiv.classList.add('p-0', 'col-sm-3');
         tempImg.style.width = "50px";
         tempImg.style.height = "50px";
-        tempImg.src = abilitiesList[i].imgUrl;
+        tempImg.src = abilitiesList[i].imageUrl;
 
-        pTag.innerHTML = "Name: " + abilitiesList[i].name + "<br>Ability Type: " + abilitiesList[i].abilityType + "<br>Increased Damage by : " + (abilitiesList[i].amount * 100).toFixed(2) + "%" + "<br>Cost : " + abilitiesList[i].cost;
+        pTag.innerHTML = "Name: " + abilitiesList[i].name + "<br>Spell Type: " + abilitiesList[i].spellType + "<br>Damage : " + abilitiesList[i].damagePoints + "<br>Cost : " + abilitiesList[i].mannaCost;
         pTag.title = abilitiesList[i].description;
 
         tempDiv.appendChild(tempImg);
@@ -400,7 +347,7 @@ function equipItem(data) {
 
             if (data.success) {
 
-                savePlayerDataInSessionStorage(data.avatar);
+                saveavatarInSessionStorage(data.avatar);
 
                 populateUserInfo(data.avatar);
 
@@ -441,129 +388,32 @@ function handleRestoreAttributeResponse(data) {
 
         if (data.option == "health") {
 
-            let tempHealthData = {health: playerData.health, runningHealth: playerData.health};
+            let tempHealthData = {health: avatar.health, runningHealth: avatar.health};
 
-            playerData.runningHealth = playerData.health;
+            avatar.runningHealth = avatar.health;
 
             populateHealthDiv(tempHealthData);
 
         } else {
 
-            let tempManaData = {mana: playerData.mana, runningMana: playerData.mana};
+            let tempmannaData = {manna: avatar.manna, runningmanna: avatar.manna};
 
-            playerData.runningMana = playerData.mana;
+            avatar.runningmanna = avatar.manna;
 
-            populateManaDiv(tempManaData);
+            populateMannaDiv(tempmannaData);
 
         }
 
-        playerData.money -= 10;
+        avatar.money -= 10;
 
-        userMoney.innerHTML = "Money: £" + playerData.money;
+        userMoney.innerHTML = "Money: £" + avatar.money;
 
     }
 
-    savePlayerDataInSessionStorage(playerData);
+    saveavatarInSessionStorage(avatar);
 }
 
 
-function populateActiveOperationsDiv(operationData) {
-
-//        setEverythingToLocked();
-
-        document.getElementById("previousOperationResults").innerHTML = "";
-
-        console.log("POPULATING ACTIVE OPERATIONS DIV");
-
-        activeOperationResults.innerHTML = "";
-
-        activeOperationTitle.innerHTML = "ACTIVE OPERATION";
-
-        let p = document.createElement("p");
-
-        p.innerHTML = "Operation: " + operationData.name + "<br> Level: " + operationData.level + "<br> ExperienceSetter Points: " + operationData.experience + "<br> Payment: £" + operationData.money + "<br> End Time: " + (new Date(Number(operationData.endTime)).toLocaleTimeString());
-
-        activeOperationsDiv.appendChild(p);
-        startTimeProgressBar = operationData.startTime;
-        endTimeProgressBar  = operationData.endTime;
-        console.log(startTimeProgressBar);
-        console.log(endTimeProgressBar)
-        progressBarFunc = setInterval(progressBarAnimation, 2000);
-        operationEventDiv.style.display = "block";
-
-}
-
-function progressBarAnimation() {
-
-    let divWidth = Math.round((endTimeProgressBar - new Date().getTime())/(endTimeProgressBar - startTimeProgressBar) * 100);
-
-    progressBarDiv.style.width = divWidth + "%";
-
-    progressBarDiv.innerHTML = divWidth + "%";
-
-    if (new Date().getTime() >= endTimeProgressBar) {
-
-        clearInterval(progressBarFunc);
-
-        let data = {name: playerUserName};
-
-        operationEventDiv.style.display = "none";
-
-        checkIfOperationIsComplete(data);
-
-    }
-}
-
-function checkIfOperationIsComplete(data) {
-
-    console.log("SENDING REQUEST TO CHECK IF ACTIVE OPERATION IS COMPLETE");
-
-    let url = "http://localhost:8080/operationComplete";
-
-    fetch(url, {
-        method:'PUT',
-        body: JSON.stringify(data),
-        headers:{
-            'Content-Type': 'application/json'
-        }
-    })
-        .then(res => res.json())
-        .catch(error => console.error('Error:', error))
-        .then(data => {
-            console.log("DATA FROM CHECKING IF ACTIVE OPERATION IS COMPLETE REQUEST");
-            console.log(data);
-            checkIfOperationIsCompleteAction(data);
-        })
-}
-
-function checkIfOperationIsCompleteAction(data) {
-
-    if (data.success) {
-
-        if (data.operationSuccess) {
-
-            document.getElementById("previousOperationResults").innerHTML = "You have completed your last quest and were successful check your bag for a reward"
-        }
-
-        if (!data.operationSuccess) {
-
-            document.getElementById("previousOperationResults").innerHTML = "You have completed your last quest and were unsuccessful"
-        }
-
-        savePlayerDataInSessionStorage(data.avatar);
-
-        populateUserInfo(data.avatar);
-
-        activeOperationsDiv.innerHTML = "";
-
-//        operationEventDiv.style.display = "block";
-
-//        setEverythingToUnlocked();
-
-        hasEventMessage = false;
-
-    }
-}
 
 function teleportToFightingRoom() {
 
@@ -579,9 +429,9 @@ document.getElementById("healPlayerBtn").addEventListener("click", ()=>{
 
 });
 
-document.getElementById("restoreManaBtn").addEventListener("click", ()=>{
+document.getElementById("restoreMannaBtn").addEventListener("click", ()=>{
 
-    let messageDto = {sender: playerUserName, content: "mana", option: ""};
+    let messageDto = {sender: playerUserName, content: "manna", option: ""};
 
     restoreAttribute(messageDto);
 
@@ -593,17 +443,12 @@ document.getElementById("pvpBtn").addEventListener("click", ()=>{
 
 });
 
-document.getElementById("attributesBtn").addEventListener("click", ()=>{
+document.getElementById("spellsBtn").addEventListener("click", ()=>{
 
     location.href = "http://localhost:8080/attributes"
 
 });
 
-document.getElementById("operationBtn").addEventListener("click", ()=>{
-
-    location.href = "http://localhost:8080/operationlists"
-
-});
 
 document.getElementById("bagBtn").addEventListener("click", ()=>{
 
@@ -667,9 +512,9 @@ document.getElementById("weaponBtn").addEventListener("click", ()=>{
 })
 
 
-function savePlayerDataInSessionStorage(data) {
+function saveavatarInSessionStorage(data) {
 
-    sessionStorage.setItem("playerData", JSON.stringify(data));
+    sessionStorage.setItem("avatar", JSON.stringify(data));
 
 }
 
@@ -765,11 +610,11 @@ document.getElementById("acceptInvite").addEventListener("click", ()=>{
 
     eventInvite(dataX);
 
-    playerData.inEvent = true;
+    avatar.inEvent = true;
 
-    playerData.eventId = recipient + "battleEvent";
+    avatar.eventId = recipient + "battleEvent";
 
-    savePlayerDataInSessionStorage(playerData);
+    saveavatarInSessionStorage(avatar);
 
     let fightersNames = {attacker: playerUserName, defender: eventMessage.sender};
 

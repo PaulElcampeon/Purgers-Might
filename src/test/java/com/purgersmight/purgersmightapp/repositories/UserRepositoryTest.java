@@ -67,12 +67,11 @@ public class UserRepositoryTest {
         user.setPassword("43");
 
         userRepository.insert(user);
-
         user.setPassword("0000");
 
         userRepository.save(user);
+        User resultUser = userRepository.findByUsername("Angie").get();
 
-        User resultUser = userRepository.findByUsername("Angie");
         assertEquals("0000", resultUser.getPassword());
     }
 
@@ -83,8 +82,8 @@ public class UserRepositoryTest {
         user.setPassword("43");
 
         userRepository.insert(user);
+        User resultUser = userRepository.findByUsername("Angie").get();
 
-        User resultUser = userRepository.findByUsername("Angie");
         assertEquals(user, resultUser);
     }
 

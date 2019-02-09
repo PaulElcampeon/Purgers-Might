@@ -21,9 +21,9 @@ public class BodyArmour {
 
     public static BodyArmour getStarterBodyArmour(){
         return new BodyArmour(
-                new Armour("Squire's Hat",null,2, ArmourType.HEAD),
-                new Armour("Squire's Chest Piece", null, 3, ArmourType.CHEST),
-                new Armour("Squire's Leggings", null,2,ArmourType.LEG)
+                new Armour("Squire's Hat","http://localhost:8080/images/hat1.png",2, ArmourType.HEAD),
+                new Armour("Squire's Chest Piece", "http://localhost:8080/images/chest1.png", 3, ArmourType.CHEST),
+                new Armour("Squire's Leggings", "http://localhost:8080/images/leg1.png",2,ArmourType.LEG)
                 );
     }
 }

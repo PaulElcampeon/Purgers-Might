@@ -2,6 +2,11 @@ package com.purgersmight.purgersmightapp.controllers;
 
 import com.purgersmight.purgersmightapp.dto.CreateNewUserReqDto;
 import com.purgersmight.purgersmightapp.dto.LoginReqDto;
+import com.purgersmight.purgersmightapp.models.Avatar;
+import com.purgersmight.purgersmightapp.services.AvatarService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -12,6 +17,9 @@ import java.util.logging.Logger;
 
 @Controller
 public class ViewController {
+
+    @Autowired
+    private AvatarService avatarService;
 
     Logger logger = Logger.getLogger(ViewController.class.getName());
 
@@ -44,8 +52,28 @@ public class ViewController {
     }
 
     @RequestMapping(value = "/home", method = RequestMethod.GET)
-    public String homePage(){
-
+    public String homePage(Model model){
+        model.addAttribute("avatar",getAvatar(getPrincipal()));
         return "home.html";
     }
+
+    /**
+     * This method returns the principal[user-name] of logged-in user.
+     */
+    private String getPrincipal(){
+        String userName = null;
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+        if (principal instanceof UserDetails) {
+            userName = ((UserDetails)principal).getUsername();
+        } else {
+            userName = principal.toString();
+        }
+        return userName;
+    }
+
+    private Avatar getAvatar(String username){
+        return avatarService.getAvatarByUsername(username).get();
+    }
+
 }

@@ -43,11 +43,10 @@ public class UserServiceIT {
 
         ResponseEntity<String> result = testRestTemplate.postForEntity("/user-service/create-account", createNewUserReqDto, String.class);
 
-        CreateNewUserResDto createNewUserResDto = new CreateNewUserResDto(true,null, Avatar.getStarterAvatar("Angie1",null));
+        CreateNewUserResDto createNewUserResDto = new CreateNewUserResDto(true,null, Avatar.getStarterAvatar("Angie1"));
         String createNewUserResDtoAsString = ObjectMapperUtils.getObjectMapper().writeValueAsString(createNewUserResDto);
 
         assertEquals(createNewUserResDtoAsString, result.getBody());
         assertEquals(result.getStatusCode(), HttpStatus.CREATED);
-        System.out.println(result.getHeaders());
     }
 }

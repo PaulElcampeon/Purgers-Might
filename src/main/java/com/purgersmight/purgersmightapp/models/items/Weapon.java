@@ -6,15 +6,14 @@ import lombok.Data;
 public class Weapon implements Item {
 
     private String name;
-    private String imageUrl;
+    private String imageUrl = "http://localhost:8080/images/woodenSword.png";
     private int topDamage;
     private int bottomDamage;
 
     public Weapon(){}
 
-    public Weapon(String name, String imageUrl, int topDamage, int bottomDamage){
+    public Weapon(String name,int topDamage, int bottomDamage){
         this.name = name;
-        this.imageUrl = imageUrl;
         this.topDamage = topDamage;
         this.bottomDamage = bottomDamage;
     }
@@ -27,7 +26,7 @@ public class Weapon implements Item {
     }
 
     public static Weapon getStarterWeapon(){
-        return new Weapon("Wooden Sword",null,8,4);
+        return new Weapon("Wooden Sword",8,4);
     }
 
     public static class WeaponBuilder {
