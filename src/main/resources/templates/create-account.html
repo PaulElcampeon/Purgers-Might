@@ -2,12 +2,13 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-    <meta name="viewport" content="width=device-width" />
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <meta name="viewport" content="width=device-width"/>
     <title>User Registration</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css"
+          integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
     <link rel="stylesheet" th:href="@{/css/crusaders-wrath.css}"
-          href="../../css/crusaders-wrath.css" />
+          href="../../css/crusaders-wrath.css"/>
     <link href="https://fonts.googleapis.com/css?family=Skranji" rel="stylesheet">
 </head>
 
@@ -17,20 +18,30 @@
         <h1 style="font-family:'Skrangji', cursive" class="display-4 font-weight-bold">PURGERS MIGHT</h1>
     </div>
 
-    <form th:action="@{/user-service/create-account}" th:object="${createNewUserReqDto}" method="post" class="form-signin mt-5">
-        <!--<img class="mb-4" src="/docs/4.2/assets/brand/bootstrap-solid.svg" alt="" width="72" height="72">-->
+    <form th:action="@{/create-account}" th:object="${createNewUserReqDto}" method="post" class="form-signin mt-5">
+
         <h1 class="h3 mb-4 font-weight-normal">User Registration Form</h1>
 
         <label for="inputUsername" class="sr-only">Username</label>
-        <input type="text" id="inputUsername" class="form-control mb-3" th:field="*{username}" name="username" placeholder="Username" required autofocus>
+        <input type="text" id="inputUsername" class="form-control mb-3" th:field="*{username}" name="username"
+               placeholder="Username" required autofocus>
 
         <label for="inputPassword" class="sr-only">Password</label>
-        <input type="password" id="inputPassword" class="form-control mb-3" name="password" th:field="*{password}" placeholder="Password" required>
+        <input type="password" id="inputPassword" class="form-control mb-3" name="password" th:field="*{password}"
+               placeholder="Password" required>
 
         <label for="inputConfirmPassword" class="sr-only">Confirm Password</label>
-        <input type="password" id="inputConfirmPassword" class="form-control mb-5" name="confirmpassword" th:field="*{confirmPassword}" placeholder="Confirm Password" required>
+        <input type="password" id="inputConfirmPassword" class="form-control mb-3" name="confirmPassword"
+               th:field="*{confirmPassword}" placeholder="Confirm Password" required>
 
-        <button id="submitBtn" class="btn btn-lg btn-block btnh w-50 m-auto" name="submitButton" type="submit">Create</button>
+        <div th:if="${param.error}" class="mb-3">
+            <div class="alert alert-danger" name="errorMsg">
+                Invalid username or password.
+            </div>
+        </div>
+
+        <button id="submitBtn" class="btn btn-lg btn-block btnh w-50 m-auto" name="submitButton" type="submit">Create
+        </button>
 
         <p class="mt-5 mb-3 text-muted">&copy; 2017-2018</p>
 

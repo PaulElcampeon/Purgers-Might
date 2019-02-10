@@ -2,12 +2,13 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-    <meta name="viewport" content="width=device-width" />
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <meta name="viewport" content="width=device-width"/>
     <title>Login</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css"
+          integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
     <link rel="stylesheet" th:href="@{/css/crusaders-wrath.css}"
-          href="../../css/crusaders-wrath.css" />
+          href="../../css/crusaders-wrath.css"/>
     <link href="https://fonts.googleapis.com/css?family=Skranji" rel="stylesheet">
 </head>
 <body class="text-center">
@@ -17,14 +18,16 @@
     </div>
 
     <form th:action="@{/login}" th:object="${loginReqDto}" method="post" class="form-signin mt-5">
-        <!--<img class="mb-4" src="/docs/4.2/assets/brand/bootstrap-solid.svg" alt="" width="72" height="72">-->
+
         <h1 class="h3 mb-4 font-weight-normal">Please sign in</h1>
 
         <label for="inputUsername" class="sr-only">Username</label>
-        <input type="text" id="inputUsername" class="form-control mb-3" th:field="*{username}" name="username" placeholder="Username" required autofocus>
+        <input type="text" id="inputUsername" class="form-control mb-3" th:field="*{username}" name="username"
+               placeholder="Username" required autofocus>
 
         <label for="inputPassword" class="sr-only">Password</label>
-        <input type="password" id="inputPassword" class="form-control" name="password" th:field="*{password}" placeholder="Password" required>
+        <input type="password" id="inputPassword" class="form-control" name="password" th:field="*{password}"
+               placeholder="Password" required>
 
         <div class="checkbox mb-3">
             <label>
@@ -33,18 +36,26 @@
         </div>
 
         <div th:if="${param.error}">
-            <div class="alert alert-danger">
+            <div class="alert alert-danger" name="errorMsg">
                 Invalid username or password.
             </div>
         </div>
 
         <div th:if="${param.logout}">
-            <div class="alert alert-success" role="alert">
+            <div class="alert alert-success" role="alert" name="logoutMsg">
                 Logged out successfully.
             </div>
         </div>
 
-        <button id="submitBtn" class="btn btn-lg btn-block btnh w-50 m-auto mb-5" name="submitButton" type="submit">Sign in</button>
+        <div th:if="${param.created}">
+            <div class="alert alert-success" role="alert" name="createdMsg">
+                Account created successfully.
+            </div>
+        </div>
+
+        <button id="submitBtn" class="btn btn-lg btn-block btnh w-50 m-auto mb-5" name="submitButton" type="submit">Sign
+            in
+        </button>
         <br>
         <a th:href="@{/create-account}" class="text-white m-auto">Create Account</a>
 
