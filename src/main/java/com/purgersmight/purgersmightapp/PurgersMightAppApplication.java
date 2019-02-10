@@ -1,9 +1,7 @@
 package com.purgersmight.purgersmightapp;
 
-import com.purgersmight.purgersmightapp.models.Avatar;
-import com.purgersmight.purgersmightapp.models.User;
-import com.purgersmight.purgersmightapp.services.AvatarService;
-import com.purgersmight.purgersmightapp.services.UserService;
+import com.purgersmight.purgersmightapp.models.PvpEvent;
+import com.purgersmight.purgersmightapp.repositories.PvpEventRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -20,19 +18,28 @@ public class PurgersMightAppApplication {
 		return new BCryptPasswordEncoder();
 	}
 
-	@Autowired
-	private UserService userService;
-
-	@Autowired
-	private AvatarService avatarService;
+//	@Autowired
+//	private UserService userService;
+//
+//	@Autowired
+//	private AvatarService avatarService;
+//
+//	@Autowired
+//	private PvpEventRepository pvpEventRepository;
 
 	@PostConstruct
 	public void init(){
-		avatarService.removeAllAvatars();
-		userService.removeAllUsers();
-		User newUser = new User("Angie1", "123456");
-		userService.addUser(newUser);
-		avatarService.addAvatar(Avatar.getStarterAvatar("Angie1"));
+//		pvpEventRepository.deleteAll();
+//		avatarService.removeAllAvatars();
+//		userService.removeAllUsers();
+//		User newUser = new User("Angie1", "123456");
+//		userService.addUser(newUser);
+//		avatarService.addAvatar(Avatar.getStarterAvatar("Angie1"));
+//
+//		PvpEvent pvpEvent = new PvpEvent();
+//		pvpEvent.setEventId("rews");
+//		pvpEventRepository.insert(pvpEvent);
+
 	}
 
 
