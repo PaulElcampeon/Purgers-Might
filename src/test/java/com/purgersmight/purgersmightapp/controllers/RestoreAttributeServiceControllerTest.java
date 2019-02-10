@@ -3,7 +3,6 @@ package com.purgersmight.purgersmightapp.controllers;
 import com.purgersmight.purgersmightapp.dto.RestoreAttributeReqDto;
 import com.purgersmight.purgersmightapp.models.Avatar;
 import com.purgersmight.purgersmightapp.services.AvatarService;
-import com.purgersmight.purgersmightapp.services.CustomUserDetailsService;
 import com.purgersmight.purgersmightapp.services.RestoreAttributeService;
 import com.purgersmight.purgersmightapp.utils.ObjectMapperUtils;
 import org.junit.Test;
@@ -16,8 +15,6 @@ import org.springframework.boot.test.mock.mockito.SpyBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
-
-import java.util.Optional;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
@@ -39,9 +36,6 @@ public class RestoreAttributeServiceControllerTest {
     @MockBean
     private AvatarService avatarService;
 
-    @MockBean
-    private CustomUserDetailsService customUserDetailsService;
-
     @Test
     public void restoreHealth_Test1() throws Exception {
         //Request being made
@@ -52,9 +46,8 @@ public class RestoreAttributeServiceControllerTest {
         Avatar avatar = Avatar.getStarterAvatar("Dave");
         avatar.getHealth().setRunning(50);
         avatar.setKenjaPoints(1);
-        Optional<Avatar> avatarX = Optional.of(avatar);
 
-        when(avatarService.getAvatarByUsername(Mockito.anyString())).thenReturn(avatarX);
+        when(avatarService.getAvatarByUsername(Mockito.anyString())).thenReturn(avatar);
 
         //Avatar sent in response
         Avatar avatarResponse = Avatar.getStarterAvatar("Dave");
@@ -86,9 +79,8 @@ public class RestoreAttributeServiceControllerTest {
         Avatar avatar = Avatar.getStarterAvatar("Dave");
         avatar.getHealth().setRunning(50);
         avatar.setKenjaPoints(0);
-        Optional<Avatar> avatarX = Optional.of(avatar);
 
-        when(avatarService.getAvatarByUsername(Mockito.anyString())).thenReturn(avatarX);
+        when(avatarService.getAvatarByUsername(Mockito.anyString())).thenReturn(avatar);
 
         //Avatar sent in response
         Avatar avatarResponse = Avatar.getStarterAvatar("Dave");
@@ -120,9 +112,8 @@ public class RestoreAttributeServiceControllerTest {
         Avatar avatar = Avatar.getStarterAvatar("Dave");
         avatar.getHealth().setRunning(100);
         avatar.setKenjaPoints(2);
-        Optional<Avatar> avatarX = Optional.of(avatar);
 
-        when(avatarService.getAvatarByUsername(Mockito.anyString())).thenReturn(avatarX);
+        when(avatarService.getAvatarByUsername(Mockito.anyString())).thenReturn(avatar);
 
         //Avatar sent in response
         Avatar avatarResponse = Avatar.getStarterAvatar("Dave");
@@ -154,9 +145,8 @@ public class RestoreAttributeServiceControllerTest {
         Avatar avatar = Avatar.getStarterAvatar("Dave");
         avatar.getManna().setRunning(40);
         avatar.setKenjaPoints(1);
-        Optional<Avatar> avatarX = Optional.of(avatar);
 
-        when(avatarService.getAvatarByUsername(Mockito.anyString())).thenReturn(avatarX);
+        when(avatarService.getAvatarByUsername(Mockito.anyString())).thenReturn(avatar);
 
         //Avatar sent in response
         Avatar avatarResponse = Avatar.getStarterAvatar("Dave");
@@ -188,9 +178,8 @@ public class RestoreAttributeServiceControllerTest {
         Avatar avatar = Avatar.getStarterAvatar("Dave");
         avatar.getManna().setRunning(40);
         avatar.setKenjaPoints(0);
-        Optional<Avatar> avatarX = Optional.of(avatar);
 
-        when(avatarService.getAvatarByUsername(Mockito.anyString())).thenReturn(avatarX);
+        when(avatarService.getAvatarByUsername(Mockito.anyString())).thenReturn(avatar);
 
         //Avatar sent in response
         Avatar avatarResponse = Avatar.getStarterAvatar("Dave");
@@ -222,9 +211,8 @@ public class RestoreAttributeServiceControllerTest {
         Avatar avatar = Avatar.getStarterAvatar("Dave");
         avatar.getManna().setRunning(60);
         avatar.setKenjaPoints(2);
-        Optional<Avatar> avatarX = Optional.of(avatar);
 
-        when(avatarService.getAvatarByUsername(Mockito.anyString())).thenReturn(avatarX);
+        when(avatarService.getAvatarByUsername(Mockito.anyString())).thenReturn(avatar);
 
         //Avatar sent in response
         Avatar avatarResponse = Avatar.getStarterAvatar("Dave");
