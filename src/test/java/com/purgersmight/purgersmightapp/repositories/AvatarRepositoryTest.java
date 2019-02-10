@@ -1,20 +1,19 @@
 package com.purgersmight.purgersmightapp.repositories;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 import com.purgersmight.purgersmightapp.models.Avatar;
-import com.purgersmight.purgersmightapp.services.UserService;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.data.mongo.DataMongoTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.NoSuchElementException;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @RunWith(SpringRunner.class)
 @DataMongoTest
@@ -23,13 +22,11 @@ public class AvatarRepositoryTest {
     @Autowired
     private AvatarRepository avatarRepository;
 
-    @MockBean
-    private UserService userService;
-
     @Before
     public void clearDBBefore(){
         avatarRepository.deleteAll();
     }
+
     @After
     public void clearDBAfter(){
         avatarRepository.deleteAll();
