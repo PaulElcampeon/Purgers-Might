@@ -1,20 +1,18 @@
 package com.purgersmight.purgersmightapp.controllers;
 
-import com.purgersmight.purgersmightapp.services.CustomUserDetailsService;
 import com.purgersmight.purgersmightapp.services.ExperienceService;
-import com.purgersmight.purgersmightapp.services.UserService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.boot.test.mock.mockito.SpyBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @RunWith(SpringRunner.class)
 @WebMvcTest(controllers = ExperienceServiceController.class, secure = false)
@@ -25,12 +23,6 @@ public class ExperienceControllerTest {
 
     @SpyBean
     private ExperienceService experienceService;
-
-    @MockBean
-    private CustomUserDetailsService customUserDetailsService;
-
-    @MockBean
-    private UserService userService;
 
     @Test
     public void getExperiencePoint_Test1() throws Exception {

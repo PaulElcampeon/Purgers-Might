@@ -1,7 +1,5 @@
 package com.purgersmight.purgersmightapp.services;
 
-import static org.junit.Assert.*;
-
 import com.purgersmight.purgersmightapp.PurgersMightAppApplication;
 import com.purgersmight.purgersmightapp.config.WebSecurityConfig;
 import org.junit.Before;
@@ -14,6 +12,8 @@ import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit4.SpringRunner;
+
+import static org.junit.Assert.assertEquals;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = {PurgersMightAppApplication.class, WebSecurityConfig.class}, webEnvironment= SpringBootTest.WebEnvironment.RANDOM_PORT)
