@@ -6,7 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 
-import java.util.Optional;
+import java.util.NoSuchElementException;
 import java.util.logging.Logger;
 
 @Service
@@ -22,8 +22,8 @@ public class AvatarService {
         avatarRepository.insert(newAvatar);
     }
 
-    public Optional<Avatar> getAvatarByUsername(final String username){
-        return avatarRepository.findByUsername(username);
+    public Avatar getAvatarByUsername(final String username){
+        return avatarRepository.findByUsername(username).orElseThrow(NoSuchElementException::new);
     }
 
     public void removeAvatar(final Avatar avatar){
@@ -40,5 +40,9 @@ public class AvatarService {
 
     public void removeAllAvatars(){
         avatarRepository.deleteAll();
+    }
+
+    public boolean existsById(final String username){
+        return avatarRepository.existsById(username);
     }
 }
