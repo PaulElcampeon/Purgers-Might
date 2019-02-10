@@ -1,4 +1,15 @@
 package com.purgersmight.purgersmightapp.dto;
 
-public class JoinPvpEventQueue {
+import lombok.Data;
+
+@Data
+public class JoinPvpEventQueueReqDto {
+
+    private String username;
+
+    public JoinPvpEventQueueReqDto(){}
+
+    public JoinPvpEventQueueReqDto(String username){
+        this.username = username;
+    }
 }

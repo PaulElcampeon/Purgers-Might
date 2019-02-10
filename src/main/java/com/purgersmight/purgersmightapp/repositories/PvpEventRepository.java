@@ -5,9 +5,11 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.Optional;
+
 @Repository
 @Scope(value = "singleton")
-public interface EventRepository extends MongoRepository<PvpEvent,String> {
+public interface PvpEventRepository extends MongoRepository<PvpEvent,String> {
 
-    public PvpEvent findByEventId(String eventId);
+    public Optional<PvpEvent> findByEventId(String eventId);
 }
