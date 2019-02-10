@@ -2,59 +2,74 @@ package com.purgersmight.purgersmightapp.webBrower;
 
 import com.purgersmight.purgersmightapp.PurgersMightAppApplication;
 import com.purgersmight.purgersmightapp.config.WebSecurityConfig;
+import com.purgersmight.purgersmightapp.models.Avatar;
 import com.purgersmight.purgersmightapp.models.User;
+import com.purgersmight.purgersmightapp.pageObjects.LoginPage;
+import com.purgersmight.purgersmightapp.services.AvatarService;
 import com.purgersmight.purgersmightapp.services.UserService;
-import org.junit.*;
+import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedCondition;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import com.purgersmight.purgersmightapp.repositories.LoginPage;
+import static org.junit.Assert.assertEquals;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = {PurgersMightAppApplication.class, WebSecurityConfig.class}, webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-public class LoginTest {
+public class LoginTest extends BaseTest{
 
     @LocalServerPort
     private int port;
 
-    public String baseUrl = "http://localhost:";
-    public ChromeDriver driver;
-
     @Autowired
     private UserService userService;
 
-    @Before
-    public void setup(){
-        baseUrl+=port;
-        System.out.println(baseUrl);
-        System.setProperty("webdriver.chrome.driver", "/Users/PaulO/Downloads/chromedriver.exe");
-        driver = new ChromeDriver();
-        driver.get(baseUrl);
-    }
+    @Autowired
+    private AvatarService avatarService;
 
-    @After
-    public void tearDown(){
+    @Test
+    public void login_success_Test1() {
+        LoginPage loginPage = new LoginPage(driver,port);
+        loginPage.open();
+
         userService.removeAllUsers();
+
+        User user = new User("Angie1", "123456");
+
+        userService.addUser(user);
+
+        avatarService.addAvatar(Avatar.getStarterAvatar("Angie1"));
+
+        LoginPage.username(driver).sendKeys("Angie1");
+        LoginPage.password(driver).sendKeys("123456");
+        LoginPage.submit(driver).click();
+
+        userService.removeAllUsers();
+        avatarService.removeAllAvatars();
     }
 
     @Test
-    public void loginSuccess() throws InterruptedException {
-        User user = new User("Angie1", "123456");
-        userService.addUser(user);
-        LoginPage.username(driver).sendKeys("Angie1");
-        Thread.sleep(3000);
-        LoginPage.password(driver).sendKeys("123456");
-        Thread.sleep(3000);
-        LoginPage.submit(driver).click();
-        Thread.sleep(5000);
-//        String message = LoginPage.errorMessage(driver).getText();
-//        String expectedMessage = "Welcome back";
-//        Assert.assertEquals(message,expectedMessage);
+    public void login_error_Test2() {
+        WebDriverWait wait = new WebDriverWait(driver,10);
 
-    driver.quit();
+        LoginPage loginPage = new LoginPage(driver,port);
+        loginPage.open();
+
+        LoginPage.username(driver).sendKeys("Angie1");
+        LoginPage.password(driver).sendKeys("1234");
+        LoginPage.submit(driver).click();
+
+        wait.until(ExpectedConditions.presenceOfElementLocated(By.name("errorMsg")));
+
+        String errorMsg = LoginPage.errorMsg(driver).getText();
+
+        assertEquals("Invalid username or password.", errorMsg);
     }
 }
