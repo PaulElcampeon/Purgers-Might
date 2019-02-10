@@ -12,7 +12,7 @@ public class CustomUserDetails implements UserDetails {
 
     private User user;
 
-    public CustomUserDetails(User user){
+    public CustomUserDetails(User user) {
         super();
         this.user = user;
     }

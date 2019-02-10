@@ -54,7 +54,7 @@ public class Avatar {
 
     public static class AvatarBuilder {
         private String userName;
-        private String imageUrl;
+        private String imageUrl  = "../images/blankUser.png";
         private int level = 1;
         private int kenjaPoints = 0;
         private AvatarAttribute<Integer> health = new AvatarAttribute<>(100);
