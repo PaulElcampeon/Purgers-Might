@@ -4,6 +4,7 @@ import lombok.Data;
 
 @Data
 public class RestoreAttributeReqDto {
+
     private String username;
 
     public RestoreAttributeReqDto(){}
