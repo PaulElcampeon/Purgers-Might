@@ -1,8 +1,5 @@
 package com.purgersmight.purgersmightapp.services;
 
-import static org.mockito.Mockito.*;
-import static org.junit.jupiter.api.Assertions.*;
-
 import com.purgersmight.purgersmightapp.PurgersMightAppApplication;
 import com.purgersmight.purgersmightapp.config.WebSecurityConfig;
 import com.purgersmight.purgersmightapp.models.User;
@@ -16,6 +13,9 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.Optional;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.Mockito.*;
+
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = {PurgersMightAppApplication.class, WebSecurityConfig.class}, webEnvironment= SpringBootTest.WebEnvironment.NONE)
 public class UserServiceTest {
@@ -25,9 +25,6 @@ public class UserServiceTest {
 
     @MockBean
     private UserRepository userRepository;
-
-    @MockBean
-    private AvatarService avatarService;
 
     @Test
     public void addUser_Test1(){
@@ -93,6 +90,4 @@ public class UserServiceTest {
 
         verify(userRepository, times(1)).save(user);
     }
-
-
 }
