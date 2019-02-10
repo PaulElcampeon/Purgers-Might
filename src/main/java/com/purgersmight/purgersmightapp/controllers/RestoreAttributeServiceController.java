@@ -21,21 +21,19 @@ public class RestoreAttributeServiceController {
     @Autowired
     private AvatarService avatarService;
 
-
     @RequestMapping(value = "/restore-attribute-service/health", method = RequestMethod.PUT)
-    public ResponseEntity<Avatar> restoreHealth(@RequestBody RestoreAttributeReqDto restoreAttributeReqDto){
-        Avatar playerAvatar = avatarService.getAvatarByUsername(restoreAttributeReqDto.getUsername()).get();
+    public ResponseEntity<Avatar> restoreHealth(@RequestBody RestoreAttributeReqDto restoreAttributeReqDto) {
+        Avatar playerAvatar = avatarService.getAvatarByUsername(restoreAttributeReqDto.getUsername());
 
         restoreAttributeService.restoreHealth(playerAvatar);
         avatarService.updateAvatar(playerAvatar);
 
-        System.out.println(playerAvatar.getHealth());
         return new ResponseEntity<>(playerAvatar, HttpStatus.ACCEPTED);
     }
 
     @RequestMapping(value = "/restore-attribute-service/manna", method = RequestMethod.PUT)
-    public ResponseEntity<Avatar> restoreManna(@RequestBody RestoreAttributeReqDto restoreAttributeReqDto){
-        Avatar playerAvatar = avatarService.getAvatarByUsername(restoreAttributeReqDto.getUsername()).get();
+    public ResponseEntity<Avatar> restoreManna(@RequestBody RestoreAttributeReqDto restoreAttributeReqDto) {
+        Avatar playerAvatar = avatarService.getAvatarByUsername(restoreAttributeReqDto.getUsername());
 
         restoreAttributeService.restoreManna(playerAvatar);
         avatarService.updateAvatar(playerAvatar);

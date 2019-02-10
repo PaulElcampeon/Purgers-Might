@@ -1,8 +1,5 @@
 package com.purgersmight.purgersmightapp.controllers;
 
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
 import com.purgersmight.purgersmightapp.dto.LoginReqDto;
 import com.purgersmight.purgersmightapp.dto.LoginResDto;
 import com.purgersmight.purgersmightapp.models.Avatar;
@@ -17,6 +14,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 @RestController
 public class LoginController {
@@ -29,14 +28,12 @@ public class LoginController {
     @RequestMapping(value = "/login", method = RequestMethod.POST)
     public ResponseEntity<LoginResDto> login(@RequestBody @Valid LoginReqDto loginReqDto, BindingResult result){
 
-        System.out.println("wagalolog");
-
         if(result.hasErrors()){
             logger.log(Level.WARNING, String.format("%s login credentials were incorrect", loginReqDto.getUsername()));
             return new ResponseEntity<>(LoginResDto.getUnsuccessfulLoginResDto(result.getAllErrors()), HttpStatus.ACCEPTED);
         }
 
-        Avatar retrievedAvatar = avatarService.getAvatarByUsername(loginReqDto.getUsername()).get();
+        Avatar retrievedAvatar = avatarService.getAvatarByUsername(loginReqDto.getUsername());
         LoginResDto loginResDto = new LoginResDto(true, null, retrievedAvatar);
         logger.log(Level.WARNING, String.format("%s has logged in successfully", loginReqDto.getUsername()));
         return new ResponseEntity<>(loginResDto, HttpStatus.ACCEPTED);

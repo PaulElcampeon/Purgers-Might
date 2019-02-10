@@ -26,7 +26,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         auth
                 .userDetailsService(customUserDetailsService)
                 .passwordEncoder(passwordEncoder);
-
     }
 
     @Override
@@ -35,7 +34,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                     .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll()
                     .antMatchers("/webjars/**").permitAll()
-                    .antMatchers("/", "/login", "/create-account", "/user-service/create-account", "/experience-service/**").permitAll()
+                    .antMatchers("/", "/login", "/create-account", "/experience-service/**").permitAll()
                     .antMatchers("/home", "/user-service/**").hasRole("USER")
                     .anyRequest().authenticated()
                     .and()
