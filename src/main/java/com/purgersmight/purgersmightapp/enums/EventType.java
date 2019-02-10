@@ -1,4 +1,5 @@
 package com.purgersmight.purgersmightapp.enums;
 
-public class EventType {
+public enum EventType {
+    PVP_EVENT, PVE_EVENT;
 }
