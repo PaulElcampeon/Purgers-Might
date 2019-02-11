@@ -26,9 +26,10 @@ public class Avatar {
     private boolean hasInvitation;
     private Bag bag;
 
-    public Avatar(){}
+    public Avatar() {
+    }
 
-    public Avatar(AvatarBuilder AvatarBuilder){
+    public Avatar(AvatarBuilder AvatarBuilder) {
         setUsername(AvatarBuilder.userName);
         setImageUrl(AvatarBuilder.imageUrl);
         setHealth(AvatarBuilder.health);
@@ -46,7 +47,7 @@ public class Avatar {
         setKenjaPoints(AvatarBuilder.kenjaPoints);
     }
 
-    public static Avatar getStarterAvatar(final String username){
+    public static Avatar getStarterAvatar(final String username) {
         return new Avatar.AvatarBuilder()
                 .setAvatarUsername(username)
                 .build();
@@ -54,7 +55,7 @@ public class Avatar {
 
     public static class AvatarBuilder {
         private String userName;
-        private String imageUrl  = "../images/blankUser.png";
+        private String imageUrl = "../images/blankUser.png";
         private int level = 1;
         private int kenjaPoints = 0;
         private AvatarAttribute<Integer> health = new AvatarAttribute<>(100);
@@ -69,67 +70,67 @@ public class Avatar {
         private boolean active = false;
         private Bag bag = new Bag();
 
-        public AvatarBuilder setAvatarUsername(final String avatarUsername){
+        public AvatarBuilder setAvatarUsername(final String avatarUsername) {
             userName = avatarUsername;
             return this;
         }
 
-        public AvatarBuilder setAvatarImageUrl(final String avatarImageUrl){
+        public AvatarBuilder setAvatarImageUrl(final String avatarImageUrl) {
             imageUrl = avatarImageUrl;
             return this;
         }
 
-        public AvatarBuilder setAvatarHealth(final int avatarHealthValue){
+        public AvatarBuilder setAvatarHealth(final int avatarHealthValue) {
             health = new AvatarAttribute<>(avatarHealthValue);
             return this;
         }
 
-        public AvatarBuilder setAvatarManna(final int avatarMannaValue){
+        public AvatarBuilder setAvatarManna(final int avatarMannaValue) {
             manna = new AvatarAttribute<>(avatarMannaValue);
             return this;
         }
 
-        public AvatarBuilder setAvatarExperience(final int avatarExperienceValue){
+        public AvatarBuilder setAvatarExperience(final int avatarExperienceValue) {
             experience = new AvatarAttribute<>(avatarExperienceValue);
             return this;
         }
 
-        public AvatarBuilder setAvatarLevel(final int avatarLevel){
+        public AvatarBuilder setAvatarLevel(final int avatarLevel) {
             level = avatarLevel;
             return this;
         }
 
-        public AvatarBuilder setAvatarSpellBook(final SpellBook avatarSpellBook){
+        public AvatarBuilder setAvatarSpellBook(final SpellBook avatarSpellBook) {
             spellBook = avatarSpellBook;
             return this;
         }
 
-        public AvatarBuilder setAvatarWeapon(final Weapon avatarWeapon){
+        public AvatarBuilder setAvatarWeapon(final Weapon avatarWeapon) {
             weapon = avatarWeapon;
             return this;
         }
 
-        public AvatarBuilder setAvatarBodyArmour(final BodyArmour avatarBodyArmour){
+        public AvatarBuilder setAvatarBodyArmour(final BodyArmour avatarBodyArmour) {
             bodyArmour = avatarBodyArmour;
             return this;
         }
 
-        public AvatarBuilder setAvatarBag(final Bag avatarBag){
+        public AvatarBuilder setAvatarBag(final Bag avatarBag) {
             bag = avatarBag;
             return this;
         }
 
-        public AvatarBuilder setAvatarKenjaPoints(final int avatarKenjaPoints){
+        public AvatarBuilder setAvatarKenjaPoints(final int avatarKenjaPoints) {
             kenjaPoints = avatarKenjaPoints;
             return this;
         }
 
-        public AvatarBuilder setAvatarEventId(final String avatarEventId){
+        public AvatarBuilder setAvatarEventId(final String avatarEventId) {
             eventId = avatarEventId;
             return this;
         }
 
-        public Avatar build(){
+        public Avatar build() {
             return new Avatar(this);
         }
     }
