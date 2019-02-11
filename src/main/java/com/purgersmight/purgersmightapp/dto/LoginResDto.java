@@ -15,9 +15,10 @@ public class LoginResDto {
     private List<ObjectError> error;
     private Avatar avatar;
 
-    public LoginResDto(){}
+    public LoginResDto() {
+    }
 
-    public static LoginResDto getUnsuccessfulLoginResDto(List<ObjectError> errors){
-        return new LoginResDto(false, errors,null);
+    public static LoginResDto getUnsuccessfulLoginResDto(List<ObjectError> errors) {
+        return new LoginResDto(false, errors, null);
     }
 }

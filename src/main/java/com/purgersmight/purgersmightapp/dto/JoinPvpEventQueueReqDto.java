@@ -7,9 +7,10 @@ public class JoinPvpEventQueueReqDto {
 
     private String username;
 
-    public JoinPvpEventQueueReqDto(){}
+    public JoinPvpEventQueueReqDto() {
+    }
 
-    public JoinPvpEventQueueReqDto(String username){
+    public JoinPvpEventQueueReqDto(String username) {
         this.username = username;
     }
 }

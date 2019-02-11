@@ -25,28 +25,39 @@ public class ViewController {
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public String defaultPage(Model model) {
+
         model.addAttribute("loginReqDto", new LoginReqDto());
+
         logger.log(Level.INFO, "Request for Login Page");
+
         return "login.html";
     }
 
     @RequestMapping(value = "/login", method = RequestMethod.GET)
     public String loginPage(Model model) {
+
         model.addAttribute("loginReqDto", new LoginReqDto());
+
         logger.log(Level.INFO, "Request for Login Page");
+
         return "login.html";
     }
 
     @RequestMapping(value = "/create-account", method = RequestMethod.GET)
     public String createAccountPage(Model model) {
+
         model.addAttribute("createNewUserReqDto", new CreateNewUserReqDto());
+
         logger.log(Level.INFO, "Request for Create-Account Page");
+
         return "create-account.html";
     }
 
     @RequestMapping(value = "/home", method = RequestMethod.GET)
     public String homePage(Model model) {
+
         model.addAttribute("avatar", getAvatar(getPrincipal()));
+
         return "home.html";
     }
 
@@ -54,18 +65,24 @@ public class ViewController {
      * This method returns the principal[user-name] of logged-in user.
      */
     private String getPrincipal() {
+
         String userName = null;
+
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
         if (principal instanceof UserDetails) {
+
             userName = ((UserDetails) principal).getUsername();
+
         } else {
+
             userName = principal.toString();
         }
         return userName;
     }
 
     private Avatar getAvatar(String username) {
+
         return avatarService.getAvatarByUsername(username);
     }
 }

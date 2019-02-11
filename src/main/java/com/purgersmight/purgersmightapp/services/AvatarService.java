@@ -18,31 +18,38 @@ public class AvatarService {
 
     private Logger logger = Logger.getLogger(AvatarService.class.getName());
 
-    public void addAvatar(Avatar newAvatar){
+    public void addAvatar(Avatar newAvatar) {
+
         avatarRepository.insert(newAvatar);
     }
 
-    public Avatar getAvatarByUsername(final String username){
+    public Avatar getAvatarByUsername(final String username) {
+
         return avatarRepository.findByUsername(username).orElseThrow(NoSuchElementException::new);
     }
 
-    public void removeAvatar(final Avatar avatar){
+    public void removeAvatar(final Avatar avatar) {
+
         avatarRepository.delete(avatar);
     }
 
-    public void removeAvatarById(final String username){
+    public void removeAvatarById(final String username) {
+
         avatarRepository.deleteById(username);
     }
 
-    public void updateAvatar(final Avatar avatar){
+    public void updateAvatar(final Avatar avatar) {
+
         avatarRepository.save(avatar);
     }
 
-    public void removeAllAvatars(){
+    public void removeAllAvatars() {
+
         avatarRepository.deleteAll();
     }
 
-    public boolean existsById(final String username){
+    public boolean existsById(final String username) {
+
         return avatarRepository.existsById(username);
     }
 }

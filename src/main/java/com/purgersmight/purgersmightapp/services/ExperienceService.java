@@ -16,22 +16,33 @@ public class ExperienceService {
     @Value("${experience.accumulator}")
     private int experienceAccumulator;
 
-    public int getExperience(int levelOfWinner, int levelOfLoser){
+    public int getExperience(int levelOfWinner, int levelOfLoser) {
+
         int differenceInLevel = levelOfWinner - levelOfLoser;
+
         int awardedExperience;
 
-        if(differenceInLevel >= 5){
+        if (differenceInLevel >= 5) {
+
             awardedExperience = 0;
-        } else if(differenceInLevel <=-5) {
+
+        } else if (differenceInLevel <= -5) {
+
             awardedExperience = 40;
+
         } else {
-            if(differenceInLevel >= 0){
-                awardedExperience = 20 - differenceInLevel*experienceAccumulator;
+
+            if (differenceInLevel >= 0) {
+
+                awardedExperience = 20 - differenceInLevel * experienceAccumulator;
             } else {
-                awardedExperience = 20 + Math.abs(differenceInLevel)*experienceAccumulator;
+
+                awardedExperience = 20 + Math.abs(differenceInLevel) * experienceAccumulator;
             }
         }
-        logger.log(Level.INFO, String.format("Player was awarded %d experience points",awardedExperience));
+
+        logger.log(Level.INFO, String.format("Player was awarded %d experience points", awardedExperience));
+
         return awardedExperience;
     }
 }

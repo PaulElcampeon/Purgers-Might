@@ -6,7 +6,8 @@ public class ObjectMapperUtils {
 
     private static ObjectMapper objectMapper = new ObjectMapper();
 
-    public static ObjectMapper getObjectMapper(){
+    public static ObjectMapper getObjectMapper() {
+
         return objectMapper;
     }
 }

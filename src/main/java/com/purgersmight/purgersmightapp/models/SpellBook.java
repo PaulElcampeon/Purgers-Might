@@ -8,4 +8,5 @@ import java.util.ArrayList;
 public class SpellBook {
 
     private ArrayList<Spell> spellList = new ArrayList<>();
+
 }

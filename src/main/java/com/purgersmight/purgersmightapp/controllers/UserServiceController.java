@@ -23,7 +23,9 @@ public class UserServiceController {
 
     @RequestMapping(value = "/user-service/{username}", method = RequestMethod.GET)
     public ResponseEntity<String> getUser(@PathVariable String username) throws JsonProcessingException {
+
         String retrievedUserAsString = ObjectMapperUtils.getObjectMapper().writeValueAsString(userService.getUserByUsername(username));
+
         return new ResponseEntity<>(retrievedUserAsString, HttpStatus.OK);
     }
 

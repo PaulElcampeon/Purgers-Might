@@ -23,9 +23,11 @@ public class RestoreAttributeServiceController {
 
     @RequestMapping(value = "/restore-attribute-service/health", method = RequestMethod.PUT)
     public ResponseEntity<Avatar> restoreHealth(@RequestBody RestoreAttributeReqDto restoreAttributeReqDto) {
+
         Avatar playerAvatar = avatarService.getAvatarByUsername(restoreAttributeReqDto.getUsername());
 
         restoreAttributeService.restoreHealth(playerAvatar);
+
         avatarService.updateAvatar(playerAvatar);
 
         return new ResponseEntity<>(playerAvatar, HttpStatus.ACCEPTED);
@@ -33,9 +35,11 @@ public class RestoreAttributeServiceController {
 
     @RequestMapping(value = "/restore-attribute-service/manna", method = RequestMethod.PUT)
     public ResponseEntity<Avatar> restoreManna(@RequestBody RestoreAttributeReqDto restoreAttributeReqDto) {
+
         Avatar playerAvatar = avatarService.getAvatarByUsername(restoreAttributeReqDto.getUsername());
 
         restoreAttributeService.restoreManna(playerAvatar);
+
         avatarService.updateAvatar(playerAvatar);
 
         return new ResponseEntity<>(playerAvatar, HttpStatus.ACCEPTED);

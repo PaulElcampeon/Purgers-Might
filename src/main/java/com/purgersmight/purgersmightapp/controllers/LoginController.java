@@ -26,16 +26,21 @@ public class LoginController {
     private Logger logger = Logger.getLogger(LoginController.class.getName());
 
     @RequestMapping(value = "/login", method = RequestMethod.POST)
-    public ResponseEntity<LoginResDto> login(@RequestBody @Valid LoginReqDto loginReqDto, BindingResult result){
+    public ResponseEntity<LoginResDto> login(@RequestBody @Valid LoginReqDto loginReqDto, BindingResult result) {
 
-        if(result.hasErrors()){
+        if (result.hasErrors()) {
+
             logger.log(Level.WARNING, String.format("%s login credentials were incorrect", loginReqDto.getUsername()));
+
             return new ResponseEntity<>(LoginResDto.getUnsuccessfulLoginResDto(result.getAllErrors()), HttpStatus.ACCEPTED);
         }
 
         Avatar retrievedAvatar = avatarService.getAvatarByUsername(loginReqDto.getUsername());
+
         LoginResDto loginResDto = new LoginResDto(true, null, retrievedAvatar);
+
         logger.log(Level.WARNING, String.format("%s has logged in successfully", loginReqDto.getUsername()));
+
         return new ResponseEntity<>(loginResDto, HttpStatus.ACCEPTED);
     }
 }

@@ -32,15 +32,21 @@ public class CreateAccountController {
     @RequestMapping(value = "/create-account", method = RequestMethod.POST)
     public RedirectView createUser(@ModelAttribute @Valid CreateNewUserReqDto createNewUserReqDto, BindingResult result, HttpServletResponse response) {
 
-        if(result.hasErrors()){
-            logger.log(Level.INFO, String.format("%s has tried to create an account but was unsuccessful",createNewUserReqDto.getUsername()));
+        if (result.hasErrors()) {
+
+            logger.log(Level.INFO, String.format("%s has tried to create an account but was unsuccessful", createNewUserReqDto.getUsername()));
+
             return new RedirectView("/create-account?error");
         }
 
         User newUser = new User(createNewUserReqDto.getUsername(), createNewUserReqDto.getPassword());
+
         Avatar newAvatar = Avatar.getStarterAvatar(newUser.getUsername());
+
         userService.addUser(newUser);
+
         avatarService.addAvatar(newAvatar);
+
         return new RedirectView("/login?created");
     }
 }

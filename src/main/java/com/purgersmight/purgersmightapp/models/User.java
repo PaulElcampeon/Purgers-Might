@@ -6,7 +6,8 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import java.util.*;
+import java.util.Arrays;
+import java.util.List;
 
 @Data
 @Document(collection = "USERS")
@@ -21,14 +22,15 @@ public class User {
 
     private List<String> roles = Arrays.asList("USER");
 
-    public User(){}
+    public User() {
+    }
 
-    public User(String username, String password){
+    public User(String username, String password) {
         this.username = username;
         this.password = password;
     }
 
-    public static User getTesterUser(){
+    public static User getTesterUser() {
         return new User("angie", "127dh34");
     }
 }

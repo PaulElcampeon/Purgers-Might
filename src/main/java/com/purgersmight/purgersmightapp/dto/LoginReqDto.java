@@ -10,5 +10,6 @@ public class LoginReqDto {
     private String username;
     private String password;
 
-    public LoginReqDto(){}
+    public LoginReqDto() {
+    }
 }
