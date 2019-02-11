@@ -1,35 +1,43 @@
 package com.purgersmight.purgersmightapp.services;
 
+import com.purgersmight.purgersmightapp.PurgersMightAppApplication;
+import com.purgersmight.purgersmightapp.config.WebSecurityConfig;
 import com.purgersmight.purgersmightapp.dto.AttackPlayerReqDto;
 import com.purgersmight.purgersmightapp.dto.AttackPlayerResDto;
 import com.purgersmight.purgersmightapp.enums.AttackType;
 import com.purgersmight.purgersmightapp.models.Avatar;
 import com.purgersmight.purgersmightapp.models.PvpEvent;
 import com.purgersmight.purgersmightapp.models.Spell;
+import org.junit.After;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.boot.test.mock.mockito.SpyBean;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.when;
+
 
 @RunWith(SpringRunner.class)
-public class BattleServiceTest {
+@SpringBootTest(classes = {PurgersMightAppApplication.class, WebSecurityConfig.class}, webEnvironment = SpringBootTest.WebEnvironment.NONE)
+public class BattleServiceIT {
 
-    @SpyBean
+    @Autowired
     private BattleService battleService;
 
-    @MockBean
+    @Autowired
     private PvpEventService pvpEventService;
 
-    @MockBean
-    private AwardService awardService;
-
-    @MockBean
+    @Autowired
     private AvatarService avatarService;
+
+    @After
+    public void tearDown() {
+
+        pvpEventService.removeAllPvpEvents();
+
+        avatarService.removeAllAvatars();
+    }
 
     @Test
     public void playerAttackMelee_playersHealthShouldReduce_Test1() {
@@ -455,17 +463,25 @@ public class BattleServiceTest {
 
         pvpEvent.setWhosTurn("Dave");
 
+        pvpEvent.setEventId("MockEvent");
+
         AttackPlayerReqDto attackPlayerReqDto = new AttackPlayerReqDto("MockEvent", AttackType.MELEE, 0);
 
-        when(pvpEventService.getPvpEventByEventId(any())).thenReturn(pvpEvent);
+        pvpEventService.addPvpEvent(pvpEvent);
 
         AttackPlayerResDto result = battleService.processPlayerAttackDto(attackPlayerReqDto);
 
-        assertTrue(defender.getHealth().getRunning() < 100);
+        assertTrue(result.getPvpEvent().getPlayer2().getHealth().getRunning() < 100);
 
         assertFalse(result.isEnded());
 
         assertEquals("Stanley", result.getPvpEvent().getWhosTurn());
+
+        //PvPEvent should still exist in DB
+        assertTrue(pvpEventService.existsById("MockEvent"));
+
+        //Avatar in the Avatar DB should be the same as the Avatar in PvPEvent DB
+        assertEquals(avatarService.getAvatarByUsername("Stanley"), pvpEventService.getPvpEventByEventId("MockEvent").getPlayer2());
     }
 
     @Test
@@ -487,19 +503,27 @@ public class BattleServiceTest {
 
         pvpEvent.setWhosTurn("Dave");
 
-        AttackPlayerReqDto attackPlayerReqDto = new AttackPlayerReqDto("MockEvent", AttackType.SPELL, 0);
+        pvpEvent.setEventId("MockEvent");
 
-        when(pvpEventService.getPvpEventByEventId("MockEvent")).thenReturn(pvpEvent);
+        pvpEventService.addPvpEvent(pvpEvent);
+
+        AttackPlayerReqDto attackPlayerReqDto = new AttackPlayerReqDto("MockEvent", AttackType.SPELL, 0);
 
         AttackPlayerResDto result = battleService.processPlayerAttackDto(attackPlayerReqDto);
 
-        assertEquals(60, defender.getHealth().getRunning().intValue());
+        assertEquals(60, result.getPvpEvent().getPlayer2().getHealth().getRunning().intValue());
 
-        assertEquals(50, attacker.getManna().getRunning().intValue());
+        assertEquals(50, result.getPvpEvent().getPlayer1().getManna().getRunning().intValue());
 
         assertFalse(result.isEnded());
 
         assertEquals("Stanley", result.getPvpEvent().getWhosTurn());
+
+        //PvPEvent should still exist in DB
+        assertTrue(pvpEventService.existsById("MockEvent"));
+
+        //Avatar in the Avatar DB should be the same as the Avatar in PvPEvent DB
+        assertEquals(avatarService.getAvatarByUsername("Stanley"), pvpEventService.getPvpEventByEventId("MockEvent").getPlayer2());
     }
 
     @Test
@@ -523,19 +547,27 @@ public class BattleServiceTest {
 
         pvpEvent.setWhosTurn("Dave");
 
-        AttackPlayerReqDto attackPlayerReqDto = new AttackPlayerReqDto("MockEvent", AttackType.SPELL, 0);
+        pvpEvent.setEventId("MockEvent");
 
-        when(pvpEventService.getPvpEventByEventId("MockEvent")).thenReturn(pvpEvent);
+        pvpEventService.addPvpEvent(pvpEvent);
+
+        AttackPlayerReqDto attackPlayerReqDto = new AttackPlayerReqDto("MockEvent", AttackType.SPELL, 0);
 
         AttackPlayerResDto result = battleService.processPlayerAttackDto(attackPlayerReqDto);
 
-        assertEquals(80, attacker.getHealth().getRunning().intValue());
+        assertEquals(80, result.getPvpEvent().getPlayer1().getHealth().getRunning().intValue());
 
-        assertEquals(50, attacker.getManna().getRunning().intValue());
+        assertEquals(50, result.getPvpEvent().getPlayer1().getManna().getRunning().intValue());
 
         assertFalse(result.isEnded());
 
         assertEquals("Stanley", result.getPvpEvent().getWhosTurn());
+
+        //PvPEvent should still exist in DB
+        assertTrue(pvpEventService.existsById("MockEvent"));
+
+        //Avatar in the Avatar DB should be the same as the Avatar in PvPEvent DB
+        assertEquals(avatarService.getAvatarByUsername("Stanley"), pvpEventService.getPvpEventByEventId("MockEvent").getPlayer2());
     }
 
     @Test
@@ -544,6 +576,8 @@ public class BattleServiceTest {
         Avatar attacker = Avatar.getStarterAvatar("Dave");
 
         Avatar defender = Avatar.getStarterAvatar("Stanley");
+
+        avatarService.addAvatar(defender);
 
         defender.getHealth().setRunning(10);
 
@@ -559,17 +593,21 @@ public class BattleServiceTest {
 
         pvpEvent.setWhosTurn("Dave");
 
-        AttackPlayerReqDto attackPlayerReqDto = new AttackPlayerReqDto("MockEvent", AttackType.SPELL, 0);
+        pvpEvent.setEventId("MockEvent");
 
-        when(pvpEventService.getPvpEventByEventId("MockEvent")).thenReturn(pvpEvent);
+        pvpEventService.addPvpEvent(pvpEvent);
+
+        AttackPlayerReqDto attackPlayerReqDto = new AttackPlayerReqDto("MockEvent", AttackType.SPELL, 0);
 
         AttackPlayerResDto result = battleService.processPlayerAttackDto(attackPlayerReqDto);
 
-        assertEquals(50, attacker.getManna().getRunning().intValue());
+        assertEquals(50, result.getPvpEvent().getPlayer1().getManna().getRunning().intValue());
 
-        assertEquals(0, defender.getHealth().getRunning().intValue());
+        assertEquals(0, result.getPvpEvent().getPlayer2().getHealth().getRunning().intValue());
 
         assertTrue(result.isEnded());
-    }
 
+        //Event should no longer exist in DB
+        assertFalse(pvpEventService.existsById("MockEvent"));
+    }
 }
