@@ -14,7 +14,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = {PurgersMightAppApplication.class, WebSecurityConfig.class}, webEnvironment = SpringBootTest.WebEnvironment.NONE)
-public class AwardServiceTest {
+public class AwardServiceIT {
 
     @Autowired
     private AwardService awardService;
