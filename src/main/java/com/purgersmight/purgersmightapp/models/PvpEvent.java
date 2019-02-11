@@ -4,13 +4,13 @@ import com.purgersmight.purgersmightapp.enums.EventType;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 @Document(collection = "PVPEVENT")
-public class PvpEvent extends AbstractEvent{
+public class PvpEvent extends AbstractEvent {
 
-    public PvpEvent(){
+    public PvpEvent() {
         super();
-    };
+    }
 
-    public PvpEvent(PvpEventBuilder builder){
+    public PvpEvent(PvpEventBuilder builder) {
         super();
         setEventId(builder.eventId);
         setEventType(builder.eventType);
@@ -30,42 +30,42 @@ public class PvpEvent extends AbstractEvent{
         private Avatar player2;
         private long timestamp;
 
-        public PvpEventBuilder setEventId(String eventId){
+        public PvpEventBuilder setEventId(String eventId) {
             this.eventId = eventId;
             return this;
         }
 
-        public PvpEventBuilder setEventType(EventType eventType){
+        public PvpEventBuilder setEventType(EventType eventType) {
             this.eventType = eventType;
             return this;
         }
 
-        public PvpEventBuilder setWhosTurn(String whosTurn){
+        public PvpEventBuilder setWhosTurn(String whosTurn) {
             this.whosTurn = whosTurn;
             return this;
         }
 
-        public PvpEventBuilder setEnded(boolean ended){
+        public PvpEventBuilder setEnded(boolean ended) {
             this.ended = ended;
             return this;
         }
 
-        public PvpEventBuilder setPlayer1(Avatar player1){
+        public PvpEventBuilder setPlayer1(Avatar player1) {
             this.player1 = player1;
             return this;
         }
 
-        public PvpEventBuilder setPlayer2(Avatar player2){
+        public PvpEventBuilder setPlayer2(Avatar player2) {
             this.player2 = player2;
             return this;
         }
 
-        public PvpEventBuilder setTimestamp(long timestamp){
+        public PvpEventBuilder setTimestamp(long timestamp) {
             this.timestamp = timestamp;
             return this;
         }
 
-        public PvpEvent build(){
+        public PvpEvent build() {
             return new PvpEvent(this);
         }
     }

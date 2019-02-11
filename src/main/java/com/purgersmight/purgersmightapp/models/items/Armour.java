@@ -11,22 +11,23 @@ public class Armour implements Item {
     private int armourPoints;
     private ArmourType armourType;
 
-    public Armour(){}
+    public Armour() {
+    }
 
-    public Armour(String name, int armourPoints, ArmourType armourType){
+    public Armour(String name, int armourPoints, ArmourType armourType) {
         this.name = name;
         this.armourPoints = armourPoints;
         this.armourType = armourType;
     }
 
-    public Armour(String name, String imageUrl, int armourPoints, ArmourType armourType){
+    public Armour(String name, String imageUrl, int armourPoints, ArmourType armourType) {
         this.name = name;
         this.imageUrl = imageUrl;
         this.armourPoints = armourPoints;
         this.armourType = armourType;
     }
 
-    public Armour(final ArmourBuilder armourBuilder){
+    public Armour(final ArmourBuilder armourBuilder) {
         this.name = armourBuilder.name;
         this.imageUrl = armourBuilder.imageUrl;
         this.armourPoints = armourBuilder.armourPoints;
@@ -40,27 +41,27 @@ public class Armour implements Item {
         private int armourPoints;
         private ArmourType armourType;
 
-        public ArmourBuilder setArmourName(final String armourName){
+        public ArmourBuilder setArmourName(final String armourName) {
             name = armourName;
             return this;
         }
 
-        public ArmourBuilder setArmourImageUrl(final String armourImageUrl){
+        public ArmourBuilder setArmourImageUrl(final String armourImageUrl) {
             imageUrl = armourImageUrl;
             return this;
         }
 
-        public ArmourBuilder setArmourPoints(final int armourPoints){
+        public ArmourBuilder setArmourPoints(final int armourPoints) {
             this.armourPoints = armourPoints;
             return this;
         }
 
-        public ArmourBuilder setArmourType(final ArmourType armourType){
+        public ArmourBuilder setArmourType(final ArmourType armourType) {
             this.armourType = armourType;
             return this;
         }
 
-        public Armour build(){
+        public Armour build() {
             return new Armour(this);
         }
     }
