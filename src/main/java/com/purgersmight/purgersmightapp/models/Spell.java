@@ -1,8 +1,10 @@
 package com.purgersmight.purgersmightapp.models;
 
 import com.purgersmight.purgersmightapp.enums.SpellType;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 
+@AllArgsConstructor
 @Data
 public class Spell {
 
@@ -13,4 +15,28 @@ public class Spell {
     private int damagePoints;
     private String description;
 
+    public Spell() {
+    }
+
+    public Spell(SpellType spellType, int mannaCost, int damagePoints) {
+        this.spellType = spellType;
+        this.mannaCost = mannaCost;
+        this.damagePoints = damagePoints;
+    }
+
+    public static Spell getDefaultAttackSpell() {
+        return new Spell(SpellType.DAMAGE, 10, 15);
+    }
+
+    public static Spell getDefaultAttackSpell(int mannaCost, int damagePoints) {
+        return new Spell(SpellType.DAMAGE, mannaCost, damagePoints);
+    }
+
+    public static Spell getDefaultHealSpell() {
+        return new Spell(SpellType.HEAL, 20, 20);
+    }
+
+    public static Spell getDefaultHealSpell(int mannaCost, int damagePoints) {
+        return new Spell(SpellType.HEAL, mannaCost, damagePoints);
+    }
 }
