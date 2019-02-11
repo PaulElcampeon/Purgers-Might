@@ -15,4 +15,9 @@ public class AvatarAttribute<T extends Number> {
         this.running = value;
         this.actual = value;
     }
+
+    public AvatarAttribute(T valueR, T valueA) {
+        this.running = valueR;
+        this.actual = valueA;
+    }
 }
