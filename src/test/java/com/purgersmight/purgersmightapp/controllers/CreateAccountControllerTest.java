@@ -2,10 +2,6 @@ package com.purgersmight.purgersmightapp.controllers;
 
 import com.purgersmight.purgersmightapp.PurgersMightAppApplication;
 import com.purgersmight.purgersmightapp.config.WebSecurityConfig;
-import com.purgersmight.purgersmightapp.models.Avatar;
-import com.purgersmight.purgersmightapp.models.User;
-import com.purgersmight.purgersmightapp.services.AvatarService;
-import com.purgersmight.purgersmightapp.services.UserService;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -17,12 +13,11 @@ import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = {PurgersMightAppApplication.class, WebSecurityConfig.class}, webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
@@ -30,15 +25,6 @@ public class CreateAccountControllerIT {
 
     @Autowired
     private TestRestTemplate testRestTemplate;
-
-    @Autowired
-    private AvatarService avatarService;
-
-    @Autowired
-    private UserService userService;
-
-    @Autowired
-    private BCryptPasswordEncoder bCryptPasswordEncoder;
 
     @LocalServerPort
     private int port;
@@ -66,14 +52,6 @@ public class CreateAccountControllerIT {
 
         //We get redirected back to login page
         assertTrue(response.getHeaders().get("Location").get(0).contains("/login?created"));
-
-        Avatar createdAvatar = avatarService.getAvatarByUsername("Angie1");
-
-        assertEquals(Avatar.getStarterAvatar("Angie1"), createdAvatar);
-
-        User createdUser = userService.getUserByUsername("Angie1");
-
-        assertTrue(bCryptPasswordEncoder.matches("123456", createdUser.getPassword()));
     }
 
     @Test
@@ -92,7 +70,5 @@ public class CreateAccountControllerIT {
 
         //We get redirected back to create-account page
         assertTrue(response.getHeaders().get("Location").get(0).contains("/create-account?error"));
-
-        assertFalse(userService.existsById("Angie1"));
     }
 }
