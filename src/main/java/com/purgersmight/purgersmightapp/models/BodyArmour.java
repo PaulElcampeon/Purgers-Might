@@ -11,19 +11,28 @@ public class BodyArmour {
     private Armour chestArmour;
     private Armour legArmour;
 
-    public BodyArmour(){}
+    public BodyArmour() {
+    }
 
-    private BodyArmour(Armour headArmour, Armour chestArmour, Armour legArmour){
+    private BodyArmour(Armour headArmour, Armour chestArmour, Armour legArmour) {
         this.headArmour = headArmour;
         this.chestArmour = chestArmour;
         this.legArmour = legArmour;
     }
 
-    public static BodyArmour getStarterBodyArmour(){
+    public static BodyArmour getStarterBodyArmour() {
         return new BodyArmour(
-                new Armour("Squire's Hat","../images/hat1.png",2, ArmourType.HEAD),
+                new Armour("Squire's Hat", "../images/hat1.png", 2, ArmourType.HEAD),
                 new Armour("Squire's Chest Piece", "../images/chest1.png", 3, ArmourType.CHEST),
-                new Armour("Squire's Leggings", "../images/leg1.png",2,ArmourType.LEG)
-                );
+                new Armour("Squire's Leggings", "../images/leg1.png", 2, ArmourType.LEG)
+        );
+    }
+
+    public static BodyArmour getStarterBodyArmour(int headArmourPoints, int chestArmourPoints, int legArmourPoints) {
+        return new BodyArmour(
+                new Armour("Squire's Hat", "../images/hat1.png", headArmourPoints, ArmourType.HEAD),
+                new Armour("Squire's Chest Piece", "../images/chest1.png", chestArmourPoints, ArmourType.CHEST),
+                new Armour("Squire's Leggings", "../images/leg1.png", legArmourPoints, ArmourType.LEG)
+        );
     }
 }
