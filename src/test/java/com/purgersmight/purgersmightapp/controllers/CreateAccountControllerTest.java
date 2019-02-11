@@ -1,74 +1,51 @@
 package com.purgersmight.purgersmightapp.controllers;
 
-import com.purgersmight.purgersmightapp.PurgersMightAppApplication;
-import com.purgersmight.purgersmightapp.config.WebSecurityConfig;
-import org.junit.Before;
+import com.purgersmight.purgersmightapp.services.AvatarService;
+import com.purgersmight.purgersmightapp.services.UserService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.web.client.TestRestTemplate;
-import org.springframework.boot.web.server.LocalServerPort;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit4.SpringRunner;
-import org.springframework.util.LinkedMultiValueMap;
-import org.springframework.util.MultiValueMap;
+import org.springframework.test.web.servlet.MockMvc;
 
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.redirectedUrl;
 
 @RunWith(SpringRunner.class)
-@SpringBootTest(classes = {PurgersMightAppApplication.class, WebSecurityConfig.class}, webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-public class CreateAccountControllerIT {
+@WebMvcTest(controllers = CreateAccountController.class)
+public class CreateAccountControllerTest {
 
     @Autowired
-    private TestRestTemplate testRestTemplate;
+    private MockMvc mockMvc;
 
-    @LocalServerPort
-    private int port;
+    @MockBean
+    private AvatarService avatarService;
 
-    private String baseUrl = "http://localhost:";
+    @MockBean
+    private UserService userService;
 
-    @Before
-    public void initBaseUrl() {
-        baseUrl += port;
+    @Test
+    public void createUser_shouldBeRedirectedToLoginPage_Test1() throws Exception {
+        mockMvc.perform(post("/create-account")
+                .contentType(MediaType.APPLICATION_FORM_URLENCODED)
+                .param("username", "Angie1")
+                .param("password", "123456")
+                .param("confirmPassword", "123456"))
+                .andExpect(redirectedUrl("/login?created"))
+                .andReturn();
     }
 
     @Test
-    public void createUser_shouldBeRedirectedToLoginPage_Test1() {
-        HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
-
-        MultiValueMap<String, String> map = new LinkedMultiValueMap<>();
-        map.add("username", "Angie1");
-        map.add("password", "123456");
-        map.add("confirmPassword", "123456");
-
-        HttpEntity<MultiValueMap<String, String>> request = new HttpEntity<>(map, headers);
-
-        ResponseEntity<String> response = testRestTemplate.postForEntity(baseUrl + "/create-account", request, String.class);
-
-        //We get redirected back to login page
-        assertTrue(response.getHeaders().get("Location").get(0).contains("/login?created"));
-    }
-
-    @Test
-    public void createUser_shouldBeRedirectedBackToCreateAccountPage_Test2() {
-        HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
-
-        MultiValueMap<String, String> map = new LinkedMultiValueMap<>();
-        map.add("username", "Angie1");
-        map.add("password", "123");
-        map.add("confirmPassword", "123");
-
-        HttpEntity<MultiValueMap<String, String>> request = new HttpEntity<>(map, headers);
-
-        ResponseEntity<String> response = testRestTemplate.postForEntity(baseUrl + "/create-account", request, String.class);
-
-        //We get redirected back to create-account page
-        assertTrue(response.getHeaders().get("Location").get(0).contains("/create-account?error"));
+    public void createUser_shouldBeRedirectedBackToCreateAccountPage_Test2() throws Exception {
+        mockMvc.perform(post("/create-account")
+                .contentType(MediaType.APPLICATION_FORM_URLENCODED)
+                .param("username", "Angie1")
+                .param("password", "1234")
+                .param("confirmPassword", "1234"))
+                .andExpect(redirectedUrl("/create-account?error"))
+                .andReturn();
     }
 }
