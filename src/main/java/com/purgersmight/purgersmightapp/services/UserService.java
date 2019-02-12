@@ -8,6 +8,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.NoSuchElementException;
+import java.util.Optional;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -32,9 +33,9 @@ public class UserService {
         logger.log(Level.INFO, String.format("%s has just created an account", newUser.getUsername()));
     }
 
-    public User getUserByUsername(final String username) {
+    public Optional<User> getUserByUsername(final String username) {
 
-        return userRepository.findByUsername(username).orElseThrow(NoSuchElementException::new);
+        return userRepository.findByUsername(username);
     }
 
     public void removeUser(final User user) {

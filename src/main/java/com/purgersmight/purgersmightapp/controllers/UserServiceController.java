@@ -1,6 +1,7 @@
 package com.purgersmight.purgersmightapp.controllers;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.purgersmight.purgersmightapp.models.User;
 import com.purgersmight.purgersmightapp.services.UserService;
 import com.purgersmight.purgersmightapp.utils.ObjectMapperUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.Optional;
 import java.util.logging.Logger;
 
 @RestController
@@ -24,9 +26,16 @@ public class UserServiceController {
     @RequestMapping(value = "/user-service/{username}", method = RequestMethod.GET)
     public ResponseEntity<String> getUser(@PathVariable String username) throws JsonProcessingException {
 
-        String retrievedUserAsString = ObjectMapperUtils.getObjectMapper().writeValueAsString(userService.getUserByUsername(username));
+        Optional<User> retrievedUser = userService.getUserByUsername(username);
 
-        return new ResponseEntity<>(retrievedUserAsString, HttpStatus.OK);
+        if (retrievedUser.isPresent()) {
+
+            String retrievedUserAsString = ObjectMapperUtils.getObjectMapper().writeValueAsString(retrievedUser.get());
+
+            return new ResponseEntity<>(retrievedUserAsString, HttpStatus.OK);
+        }
+
+        return new ResponseEntity<>(Optional.empty().toString(), HttpStatus.BAD_REQUEST);
     }
 
 }

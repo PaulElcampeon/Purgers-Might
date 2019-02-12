@@ -15,6 +15,8 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 
+import java.util.Optional;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.when;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.user;
@@ -37,7 +39,9 @@ public class UserServiceControllerTest {
     @Test
     public void getUser_userShouldBeReturned_Test1() throws Exception {
 
-        when(userService.getUserByUsername(Mockito.anyString())).thenReturn(User.getTesterUser());
+        Optional<User> userOptional = Optional.of(User.getTesterUser());
+
+        when(userService.getUserByUsername(Mockito.anyString())).thenReturn(userOptional);
 
         MvcResult result = this.mockMvc.perform(get("/user-service/angie")
                 .with(user("admin").password("admin123").roles("USER", "ADMIN"))
@@ -46,6 +50,25 @@ public class UserServiceControllerTest {
                 .andReturn();
 
         String resultContent = result.getResponse().getContentAsString();
-        assertEquals(ObjectMapperUtils.getObjectMapper().writeValueAsString(User.getTesterUser()), resultContent);
+
+        assertEquals(ObjectMapperUtils.getObjectMapper().writeValueAsString(userOptional.get()), resultContent);
+    }
+
+    @Test
+    public void getUser_badRequestHTTPStatus_Test2() throws Exception {
+
+        Optional<User> userOptional = Optional.empty();
+
+        when(userService.getUserByUsername(Mockito.anyString())).thenReturn(userOptional);
+
+        MvcResult result = this.mockMvc.perform(get("/user-service/angie")
+                .with(user("admin").password("admin123").roles("USER", "ADMIN"))
+                .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isBadRequest())
+                .andReturn();
+
+        String resultContent = result.getResponse().getContentAsString();
+
+        assertEquals(userOptional.toString(), resultContent);
     }
 }

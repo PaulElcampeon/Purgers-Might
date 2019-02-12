@@ -4,44 +4,42 @@ import com.purgersmight.purgersmightapp.PurgersMightAppApplication;
 import com.purgersmight.purgersmightapp.config.WebSecurityConfig;
 import com.purgersmight.purgersmightapp.models.User;
 import com.purgersmight.purgersmightapp.repositories.UserRepository;
+import org.junit.After;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.Mockito.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = {PurgersMightAppApplication.class, WebSecurityConfig.class}, webEnvironment = SpringBootTest.WebEnvironment.NONE)
-public class UserServiceTest {
+public class UserServiceIT {
 
     @Autowired
     private UserService userService;
 
-    @MockBean
+    @Autowired
     private UserRepository userRepository;
+
+    @After
+    public void tearDown() {
+
+        userService.removeAllUsers();
+    }
 
     @Test
     public void addUser_Test1() {
         User user = new User();
         user.setUsername("Angie");
         user.setPassword("43");
-        Optional<User> userOptional = Optional.of(user);
-
-        when(userRepository.findByUsername(any(String.class))).thenReturn(userOptional);
 
         userService.addUser(user);
 
-        verify(userRepository, times(1)).insert(any(User.class));
-
-        User retrievedUser = userService.getUserByUsername("Angie").get();
-
-        assertEquals(user, retrievedUser);
+        assertTrue(userService.existsById("Angie"));
     }
 
     @Test
@@ -49,9 +47,8 @@ public class UserServiceTest {
         User user = new User();
         user.setUsername("Angie");
         user.setPassword("43");
-        Optional<User> userOptional = Optional.of(user);
 
-        when(userRepository.findByUsername(any(String.class))).thenReturn(userOptional);
+        userService.addUser(user);
 
         User retrievedUser = userService.getUserByUsername("Angie").get();
 
@@ -59,14 +56,14 @@ public class UserServiceTest {
     }
 
     @Test
-    public void removeUser_Test3() {
+    public void findUserByUsername_Test3() {
         User user = new User();
         user.setUsername("Angie");
         user.setPassword("43");
 
-        userService.removeUser(user);
+        Optional<User> retrievedUser = userService.getUserByUsername("Angie");
 
-        verify(userRepository, times(1)).delete(any(User.class));
+        assertFalse(retrievedUser.isPresent());
     }
 
     @Test
@@ -75,19 +72,27 @@ public class UserServiceTest {
         user.setUsername("Angie");
         user.setPassword("43");
 
-        userService.removeUserById("Angie");
+        userService.addUser(user);
 
-        verify(userRepository, times(1)).deleteById("Angie");
+        assertTrue(userService.existsById("Angie"));
+
+        userService.removeUser(user);
+
+        assertFalse(userService.existsById("Angie"));
     }
 
     @Test
-    public void updateUser_Test5() {
+    public void updateUser_Test6() {
         User user = new User();
         user.setUsername("Angie");
         user.setPassword("43");
 
+        userService.addUser(user);
+
+        user.setPassword("52");
+
         userService.updateUser(user);
 
-        verify(userRepository, times(1)).save(user);
+        assertEquals("52", userService.getUserByUsername("Angie").get().getPassword());
     }
 }
