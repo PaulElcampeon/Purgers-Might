@@ -20,7 +20,7 @@ import static org.junit.Assert.assertEquals;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = {PurgersMightAppApplication.class, WebSecurityConfig.class}, webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-public class CreateAccountTest extends BaseTest {
+public class CreateAccountPageTest extends BaseTest {
 
     @LocalServerPort
     private int port;

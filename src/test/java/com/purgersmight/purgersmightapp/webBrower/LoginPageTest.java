@@ -22,7 +22,7 @@ import static org.junit.Assert.assertEquals;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = {PurgersMightAppApplication.class, WebSecurityConfig.class}, webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-public class LoginTest extends BaseTest {
+public class LoginPageTest extends BaseTest {
 
     @LocalServerPort
     private int port;
@@ -69,6 +69,7 @@ public class LoginTest extends BaseTest {
         String experienceText = homePage.experienceText(driver).getText();
 
         userService.removeAllUsers();
+
         avatarService.removeAllAvatars();
 
         assertEquals("Username: Angie1", username);
