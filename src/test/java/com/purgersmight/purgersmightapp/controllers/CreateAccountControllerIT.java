@@ -71,7 +71,7 @@ public class CreateAccountControllerIT {
 
         assertEquals(Avatar.getStarterAvatar("Angie1"), createdAvatar);
 
-        User createdUser = userService.getUserByUsername("Angie1");
+        User createdUser = userService.getUserByUsername("Angie1").get();
 
         assertTrue(bCryptPasswordEncoder.matches("123456", createdUser.getPassword()));
     }

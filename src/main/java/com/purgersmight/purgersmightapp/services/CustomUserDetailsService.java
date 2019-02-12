@@ -8,6 +8,8 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import java.util.NoSuchElementException;
+import java.util.Optional;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -24,8 +26,23 @@ public class CustomUserDetailsService implements UserDetailsService {
 
         logger.log(Level.WARNING, String.format("User with username %s tried to log in", username));
 
-        User user = userService.getUserByUsername(username);
+        Optional<User> user = userService.getUserByUsername(username);
 
-        return new CustomUserDetails(user);
+        if (!user.isPresent()) {
+
+            logger.log(Level.INFO, String.format("User with username %s failed to log in", username));
+
+            throw new UsernameNotFoundException("User not found by name: " + username);
+        }
+//        try {
+//
+//            Optional<user> = userService.getUserByUsername(username);
+//
+//        } catch (NoSuchElementException n){
+//
+//            user = new User("1", "1");
+//        }
+
+        return new CustomUserDetails(user.get());
     }
 }
