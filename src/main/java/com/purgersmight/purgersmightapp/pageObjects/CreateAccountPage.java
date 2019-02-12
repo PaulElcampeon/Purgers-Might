@@ -62,6 +62,7 @@ public class CreateAccountPage extends BasePageObject {
     }
 
     public LoginPage getLoginPage() {
+
         return new LoginPage(driver, portNo);
     }
 
