@@ -10,11 +10,15 @@ public class LoginPage extends BasePageObject {
 
     public static WebElement element = null;
 
+    private int portNo;
+
     public LoginPage(WebDriver driver, int portNo) {
 
         super(driver);
 
         url += (portNo + "/login");
+
+        this.portNo = portNo;
     }
 
     public void open() {
@@ -69,6 +73,11 @@ public class LoginPage extends BasePageObject {
         element = webDriver.findElement(By.linkText("createAccount"));
 
         return element;
+    }
+
+    public HomePage getHomePage() {
+
+        return new HomePage(driver, portNo);
     }
 
 }
