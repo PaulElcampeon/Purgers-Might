@@ -123,7 +123,8 @@ function checkForInEvent(data) {
 
 function populateUserInfo(data) {
 
-    sessionStorage.setItem("avatar", JSON.stringify(data))
+//    sessionStorage.setItem("avatar", JSON.stringify(avatar));
+//    sessionStorage.setItem("avatar", JSON.stringify(data))
 
     itemDisplay.innerHTML = "";
 
