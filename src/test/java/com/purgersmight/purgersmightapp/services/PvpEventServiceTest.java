@@ -140,7 +140,7 @@ public class PvpEventServiceTest {
         when(avatarService.getAvatarByUsername("Angie1")).thenReturn(avatar);
 
         pvpEventService.joinPvpEvent("Angie1");
-        
+
         JoinPvpEventQueueReqDto joinPvpEventQueueReqDto = new JoinPvpEventQueueReqDto();
         joinPvpEventQueueReqDto.setUsername("Angie1");
 
