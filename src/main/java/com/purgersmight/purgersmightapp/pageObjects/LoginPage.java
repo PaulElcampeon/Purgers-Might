@@ -4,7 +4,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
-public class LoginPage1 extends BasePageObject {
+public class LoginPage extends BasePageObject {
 
     protected String url = "http://localhost:";
 
@@ -12,7 +12,7 @@ public class LoginPage1 extends BasePageObject {
 
     private int portNo;
 
-    public LoginPage1(WebDriver driver, int portNo) {
+    public LoginPage(WebDriver driver, int portNo) {
 
         super(driver);
 
@@ -68,7 +68,7 @@ public class LoginPage1 extends BasePageObject {
         return element;
     }
 
-    public static WebElement createAccountLink(WebDriver webDriver){
+    public static WebElement createAccountLink(WebDriver webDriver) {
 
         element = webDriver.findElement(By.linkText("createAccount"));
 

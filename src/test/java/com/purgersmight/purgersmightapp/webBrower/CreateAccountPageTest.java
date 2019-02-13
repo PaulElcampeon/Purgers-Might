@@ -31,7 +31,6 @@ public class CreateAccountPageTest extends BaseTest {
     @Autowired
     private AvatarService avatarService;
 
-
     @Test
     public void createAccount_success_Test1() {
         WebDriverWait wait = new WebDriverWait(driver, 10);

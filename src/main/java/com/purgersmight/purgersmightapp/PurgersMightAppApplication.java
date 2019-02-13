@@ -1,7 +1,11 @@
 package com.purgersmight.purgersmightapp;
 
+import com.purgersmight.purgersmightapp.models.Avatar;
 import com.purgersmight.purgersmightapp.models.PvpEvent;
+import com.purgersmight.purgersmightapp.models.User;
 import com.purgersmight.purgersmightapp.repositories.PvpEventRepository;
+import com.purgersmight.purgersmightapp.services.AvatarService;
+import com.purgersmight.purgersmightapp.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -13,10 +17,10 @@ import javax.annotation.PostConstruct;
 @SpringBootApplication
 public class PurgersMightAppApplication {
 
-	@Bean
-	public BCryptPasswordEncoder getPasswordEncoder(){
-		return new BCryptPasswordEncoder();
-	}
+    @Bean
+    public BCryptPasswordEncoder getPasswordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
 
 //	@Autowired
 //	private UserService userService;
@@ -27,25 +31,29 @@ public class PurgersMightAppApplication {
 //	@Autowired
 //	private PvpEventRepository pvpEventRepository;
 
-	@PostConstruct
-	public void init(){
+    @PostConstruct
+    public void init() {
 //		pvpEventRepository.deleteAll();
 //		avatarService.removeAllAvatars();
 //		userService.removeAllUsers();
 //		User newUser = new User("Angie1", "123456");
 //		userService.addUser(newUser);
-//		avatarService.addAvatar(Avatar.getStarterAvatar("Angie1"));
+//		Avatar n = Avatar.getStarterAvatar("Angie1");
+//		n.setKenjaPoints(2);
+//		n.getHealth().setRunning(50);
+//		n.getManna().setRunning(30);
+//		avatarService.addAvatar(n);
 //
 //		PvpEvent pvpEvent = new PvpEvent();
 //		pvpEvent.setEventId("rews");
 //		pvpEventRepository.insert(pvpEvent);
 
-	}
+    }
 
 
-	public static void main(String[] args) {
-		SpringApplication.run(PurgersMightAppApplication.class, args);
-	}
+    public static void main(String[] args) {
+        SpringApplication.run(PurgersMightAppApplication.class, args);
+    }
 
 }
 

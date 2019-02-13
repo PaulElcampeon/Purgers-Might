@@ -9,14 +9,14 @@ public class BaseTest {
     protected WebDriver driver;
 
     @Before
-    public void setUp(){
+    public void setUp() {
         System.out.println("Setting up driver");
-        System.setProperty("webdriver.chrome.driver","src/main/resources/chromedriver.exe");
+        System.setProperty("webdriver.chrome.driver", "src/main/resources/chromedriver.exe");
         driver = new ChromeDriver();
     }
 
     @After
-    public void tearDown(){
+    public void tearDown() {
         System.out.println("Closing driver");
         driver.quit();
     }

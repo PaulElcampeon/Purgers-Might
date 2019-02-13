@@ -20,15 +20,15 @@ public class Automation {
 
     @Test
     public void des() throws InterruptedException {
-//        System.setProperty("webdriver.chrome.driver", "/Users/paul.oladele/Downloads/chromedriver");
-        System.setProperty("webdriver.chrome.driver", "C:\\Users\\PaulO\\Downloads\\chromedriver.exe");
+//        System.setProperty("webdriver.chrome.driver1", "/Users/paul.oladele/Downloads/chromedriver");
+        System.setProperty("webdriver.chrome.driver1", "C:\\Users\\PaulO\\Downloads\\chromedriver.exe");
 
         WebDriver driver = new ChromeDriver();
         driver.get("http://www.google.com");
 
         WebElement searchBox = driver.findElement(By.name("q"));
-//        WebElement searchBox = ((ChromeDriver) driver).findElementById(By.name("q"));
-//        WebElement searchBox = ((ChromeDriver) driver).findElementByCssSelector("#tsf > div:nth-child(2) > div > div.RNNXgb > div > div.a4bIc > input");
+//        WebElement searchBox = ((ChromeDriver) driver1).findElementById(By.name("q"));
+//        WebElement searchBox = ((ChromeDriver) driver1).findElementByCssSelector("#tsf > div:nth-child(2) > div > div.RNNXgb > div > div.a4bIc > input");
 
         Thread.sleep(3000);
         searchBox.sendKeys("pigs flying");
@@ -48,7 +48,7 @@ public class Automation {
 
         Thread.sleep(3000);
 
-//        System.out.println(driver.getTitle());
+//        System.out.println(driver1.getTitle());
 //        Thread.sleep(3000);
         driver.quit();
 
