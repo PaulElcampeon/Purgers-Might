@@ -72,7 +72,9 @@ function ready () {
 
 
 function handleDataFromGettingUserRequest(avatar) {
+
     populateUserInfo(avatar);
+
     checkForInEvent(avatar)
 }
 
@@ -91,8 +93,6 @@ function checkForInEvent(data) {
             teleportToFightingRoom();
 
             console.log("YOU SHOULD BE IN A BATTLE EVENT");
-
-
         }
 
         if (data.eventId.includes("bossEvent")) {//MEANS YOUR IN A BOSS EVENT
@@ -106,7 +106,6 @@ function checkForInEvent(data) {
             teleportToBossEvent();
 
             console.log("YOU SHOULD BE IN A BOSS EVENT");
-
         }
 
         if (data.eventId.includes("operationEvent")) {
@@ -114,7 +113,6 @@ function checkForInEvent(data) {
             console.log("YOU ARE IN AN OPERATION");
 
             populateActiveOperationsDiv(data.operationEvent);
-
         }
 
     } else {
@@ -124,6 +122,8 @@ function checkForInEvent(data) {
 }
 
 function populateUserInfo(data) {
+
+    sessionStorage.setItem("avatar", JSON.stringify(data))
 
     itemDisplay.innerHTML = "";
 
@@ -148,30 +148,44 @@ function populateUserInfo(data) {
     displayArmour(data.bodyArmour);
 
     displayWeapon(data.weapon);
-
 }
 
 function populateHealthDiv(data) {
+
     let baseHealth = data.health.actual;
+
     let runningHealth = data.health.running;
+
     let healthPercentage = (runningHealth/baseHealth) * 100;
+
     healthDiv.style.width = healthPercentage + "%";
+
     healthTag.innerHTML = runningHealth + "/" + baseHealth;
 }
 
 function populateMannaDiv(data) {
+
     let baseManna = data.manna.actual;
+
     let runningManna = data.manna.running;
+
     let mannaPercentage = (runningManna/baseManna) * 100;
+
     mannaDiv.style.width = mannaPercentage + "%";
+
     mannaTag.innerHTML = runningManna + "/" + baseManna;
 }
 
 function populateExperience(data) {
+
     let baseExperience = data.experience.actual;
+
     let runningExperience = data.experience.running;
+
     let experiencePercentage = (baseExperience/runningExperience) * 100;
+
     experienceDiv.style.width = experiencePercentage + "%";
+
     experienceTag.innerHTML = runningExperience + "/" + baseExperience;
 }
 
@@ -328,9 +342,41 @@ function displayAbilities(data) {
     itemDisplay.appendChild(tempOuterDivAbilities);
 }
 
-function equipItem(data) {
+//function equipItem(data) {
+//
+//    let url = "http://localhost:8080/equipitem";
+//
+//    fetch(url, {
+//        method: 'PUT',
+//        body: JSON.stringify(data),
+//        headers:{
+//            'Content-Type': 'application/json'
+//        }
+//    })
+//        .then(res => res.json())
+//        .catch(error => console.error('Error:', error))
+//        .then((data) => {
+//
+//            console.log("DATA FROM EQUIPPING ITEM REQUEST");
+//
+//            if (data.success) {
+//
+//                saveavatarInSessionStorage(data.avatar);
+//
+//                populateUserInfo(data.avatar);
+//
+//            } else {
+//
+//                console.log("SOMETHING WENT WRONG");
+//
+//            }
+//        })
+//
+//}
 
-    let url = "http://localhost:8080/equipitem";
+function restoreAttributeHealth(data) {
+
+    let url = "../restore-attribute-service/health";
 
     fetch(url, {
         method: 'PUT',
@@ -343,29 +389,18 @@ function equipItem(data) {
         .catch(error => console.error('Error:', error))
         .then((data) => {
 
-            console.log("DATA FROM EQUIPPING ITEM REQUEST");
-
-            if (data.success) {
-
-                saveavatarInSessionStorage(data.avatar);
-
-                populateUserInfo(data.avatar);
-
-            } else {
-
-                console.log("SOMETHING WENT WRONG");
-
-            }
+            console.log("DATA FROM RESTORING HEALTH REQUEST");
+            populateUserInfo(data)
+//            handleRestoreAttributeResponse(data);
         })
-
 }
 
-function restoreAttribute(data) {
+function restoreAttributeManna(data) {
 
-    let url = "http://localhost:8080/restoreHealth";
+    let url = "../restore-attribute-service/manna";
 
     fetch(url, {
-        method: 'POST',
+        method: 'PUT',
         body: JSON.stringify(data),
         headers:{
             'Content-Type': 'application/json'
@@ -376,78 +411,74 @@ function restoreAttribute(data) {
         .then((data) => {
 
             console.log("DATA FROM RESTORING HEALTH REQUEST");
-
-            handleRestoreAttributeResponse(data);
+            populateUserInfo(data)
+//            handleRestoreAttributeResponse(data);
         })
-
 }
 
-function handleRestoreAttributeResponse(data) {
+//function handleRestoreAttributeResponse(data) {
+//
+//    if (data.success) {
+//
+//        if (data.option == "health") {
+//
+//            let tempHealthData = {health: avatar.health, runningHealth: avatar.health};
+//
+//            avatar.runningHealth = avatar.health;
+//
+//            populateHealthDiv(tempHealthData);
+//
+//        } else {
+//
+//            let tempmannaData = {manna: avatar.manna, runningmanna: avatar.manna};
+//
+//            avatar.runningmanna = avatar.manna;
+//
+//            populateMannaDiv(tempmannaData);
+//
+//        }
+//
+//        avatar.money -= 10;
+//
+//        userMoney.innerHTML = "Money: £" + avatar.money;
+//
+//    }
+//
+//    saveavatarInSessionStorage(avatar);
+//}
 
-    if (data.success) {
-
-        if (data.option == "health") {
-
-            let tempHealthData = {health: avatar.health, runningHealth: avatar.health};
-
-            avatar.runningHealth = avatar.health;
-
-            populateHealthDiv(tempHealthData);
-
-        } else {
-
-            let tempmannaData = {manna: avatar.manna, runningmanna: avatar.manna};
-
-            avatar.runningmanna = avatar.manna;
-
-            populateMannaDiv(tempmannaData);
-
-        }
-
-        avatar.money -= 10;
-
-        userMoney.innerHTML = "Money: £" + avatar.money;
-
-    }
-
-    saveavatarInSessionStorage(avatar);
-}
 
 
+//function teleportToFightingRoom() {
+//
+//   location.href = "http://localhost:8080/fightingroom";
+//
+//}
 
-function teleportToFightingRoom() {
+function restoreAttributeReqDto(){
 
-   location.href = "http://localhost:8080/fightingroom";
-
+    return {username: playerUserName};
 }
 
 document.getElementById("healPlayerBtn").addEventListener("click", ()=>{
 
-    let messageDto = {sender: playerUserName, content: "health", option: ""};
-
-    restoreAttribute(messageDto);
-
+    restoreAttributeHealth(restoreAttributeReqDto());
 });
 
 document.getElementById("restoreMannaBtn").addEventListener("click", ()=>{
 
-    let messageDto = {sender: playerUserName, content: "manna", option: ""};
-
-    restoreAttribute(messageDto);
-
+    restoreAttributeManna(restoreAttributeReqDto());
 });
 
-document.getElementById("pvpBtn").addEventListener("click", ()=>{
-
-    location.href = "http://localhost:8080/playerpvplist"
-
-});
-
-document.getElementById("spellsBtn").addEventListener("click", ()=>{
-
-    location.href = "http://localhost:8080/attributes"
-
-});
+//document.getElementById("pvpBtn").addEventListener("click", ()=>{
+//
+//    location.href = "http://localhost:8080/playerpvplist"
+//});
+//
+//document.getElementById("spellsBtn").addEventListener("click", ()=>{
+//
+//    location.href = "http://localhost:8080/attributes"
+//});
 
 
 document.getElementById("bagBtn").addEventListener("click", ()=>{

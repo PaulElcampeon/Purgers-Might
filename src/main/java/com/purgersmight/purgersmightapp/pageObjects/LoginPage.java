@@ -4,7 +4,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
-public class LoginPage extends BasePageObject {
+public class LoginPage1 extends BasePageObject {
 
     protected String url = "http://localhost:";
 
@@ -12,7 +12,7 @@ public class LoginPage extends BasePageObject {
 
     private int portNo;
 
-    public LoginPage(WebDriver driver, int portNo) {
+    public LoginPage1(WebDriver driver, int portNo) {
 
         super(driver);
 
