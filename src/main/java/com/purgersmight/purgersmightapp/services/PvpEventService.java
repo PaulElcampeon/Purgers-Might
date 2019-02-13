@@ -95,7 +95,9 @@ public class PvpEventService {
         return avatarsInQueueForPvpEvent.contains(avatar);
     }
 
-    public synchronized void joinPvpEvent(Avatar incomingAvatar) {
+    public synchronized void joinPvpEvent(String incomingUsername) {
+
+        Avatar incomingAvatar = avatarService.getAvatarByUsername(incomingUsername);
 
         if (avatarsInQueueForPvpEvent.size() == 0) {
 

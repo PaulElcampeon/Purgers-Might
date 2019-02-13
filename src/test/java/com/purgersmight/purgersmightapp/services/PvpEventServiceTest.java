@@ -137,10 +137,10 @@ public class PvpEventServiceTest {
     public void checkIfAlreadyInPvpEventQueue_shouldReturnTrue_Test9(){
         Avatar avatar = Avatar.getStarterAvatar("Angie1");
 
-        pvpEventService.joinPvpEvent(avatar);
-
         when(avatarService.getAvatarByUsername("Angie1")).thenReturn(avatar);
 
+        pvpEventService.joinPvpEvent("Angie1");
+        
         JoinPvpEventQueueReqDto joinPvpEventQueueReqDto = new JoinPvpEventQueueReqDto();
         joinPvpEventQueueReqDto.setUsername("Angie1");
 
@@ -163,9 +163,9 @@ public class PvpEventServiceTest {
     public void joinPvpEvent_avatarShouldBeInQueue_Test11(){
         Avatar avatar = Avatar.getStarterAvatar("Angie1");
 
-        pvpEventService.joinPvpEvent(avatar);
-
         when(avatarService.getAvatarByUsername("Angie1")).thenReturn(avatar);
+
+        pvpEventService.joinPvpEvent("Angie1");
 
         JoinPvpEventQueueReqDto joinPvpEventQueueReqDto = new JoinPvpEventQueueReqDto();
         joinPvpEventQueueReqDto.setUsername("Angie1");
@@ -177,11 +177,15 @@ public class PvpEventServiceTest {
     public void joinPvpEvent_eventShouldBeCreated_Test12(){
         Avatar avatar1 = Avatar.getStarterAvatar("Angie1");
 
-        pvpEventService.joinPvpEvent(avatar1);
+        when(avatarService.getAvatarByUsername("Angie1")).thenReturn(avatar1);
+
+        pvpEventService.joinPvpEvent("Angie1");
 
         Avatar avatar2 = Avatar.getStarterAvatar("Angie2");
 
-        pvpEventService.joinPvpEvent(avatar2);
+        when(avatarService.getAvatarByUsername("Angie2")).thenReturn(avatar2);
+
+        pvpEventService.joinPvpEvent("Angie2");
 
         assertTrue(pvpEventService.existsById(avatar1.getUsername().concat(avatar2.getUsername().concat("eventId"))));
     }
