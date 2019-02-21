@@ -43,7 +43,7 @@ function ready () {
 
 function checkForInEvent(data) {
 
-    console.log("Checking if you are in an event")
+    console.log("Checking if you are in an event");
 
     if (data.inEvent) {
 
@@ -66,7 +66,7 @@ function populateUserInfo(data) {
 
     itemDisplay.innerHTML = "";
 
-    profilePic.src = data.imageUrl
+    profilePic.src = data.imageUrl;
 
     userName.innerHTML = "Username: " + data.username;
 
@@ -152,11 +152,11 @@ function displayBag(data) {
         tempButton.innerHTML = "EQUIP";
         tempButton.addEventListener("click", ()=>{
 
-            let dataX = {name: playerUserName, indexOfItem: i};
+            let dataX = {username: playerUserName, indexOfItem: i};
 
             equipItem(dataX);
 
-        })
+        });
 
         if (itemsInBag[i].itemType == "WEAPON") {
 
@@ -164,7 +164,7 @@ function displayBag(data) {
 
         } else if (itemsInBag[i].itemType == "ARMOUR") {
 
-            pTag.innerHTML = "Name: " + itemsInBag[i].name + "<br>Level: " + itemsInBag[i].level + "<br>Defense: " + itemsInBag[i].defenseLevel + "<br>Body Part: " + itemsInBag[i].bodyPart;
+            pTag.innerHTML = "Name: " + itemsInBag[i].name + "<br>Level: " + itemsInBag[i].level + "<br>Defense: " + itemsInBag[i].armourPoints + "<br>Armour Part: " + itemsInBag[i].armourType;
 
         }
             tempDiv.appendChild(tempImg);
@@ -206,9 +206,9 @@ function createArmourDisplay(data) {
     let tempDiv = document.createElement("div");
     let tempImg = document.createElement("img");
     let tempBreak = document.createElement("br");
-    let tempPTag = document.createElement("p")
+    let tempPTag = document.createElement("p");
 
-    tempDiv.classList.add('col-sm-4')
+    tempDiv.classList.add('col-sm-4');
 
     tempImg.src = data.imageUrl;
     tempImg.style.width = "50px";
@@ -298,37 +298,29 @@ function displaySpells(data) {
     itemDisplay.appendChild(tempOuterDivSpells);
 }
 
-//function equipItem(data) {
-//
-//    let url = "http://localhost:8080/equipitem";
-//
-//    fetch(url, {
-//        method: 'PUT',
-//        body: JSON.stringify(data),
-//        headers:{
-//            'Content-Type': 'application/json'
-//        }
-//    })
-//        .then(res => res.json())
-//        .catch(error => console.error('Error:', error))
-//        .then((data) => {
-//
-//            console.log("DATA FROM EQUIPPING ITEM REQUEST");
-//
-//            if (data.success) {
-//
-//                saveAvatarDataInSessionStorage(data.avatar);
-//
-//                populateUserInfo(data.avatar);
-//
-//            } else {
-//
-//                console.log("SOMETHING WENT WRONG");
-//
-//            }
-//        })
-//
-//}
+function equipItem(data) {
+
+   let url = "../equip-item";
+
+   fetch(url, {
+       method: 'PUT',
+       body: JSON.stringify(data),
+       headers:{
+           'Content-Type': 'application/json'
+       }
+   })
+       .then(res => res.json())
+       .catch(error => console.error('Error:', error))
+       .then((data) => {
+
+           console.log("DATA FROM EQUIPPING ITEM REQUEST");
+
+           itemDisplay.style.display = "none";
+
+           populateUserInfo(data.avatar);
+       })
+
+}
 
 function restoreAttributeHealth(data) {
 
@@ -416,7 +408,7 @@ document.getElementById("bagBtn").addEventListener("click", ()=>{
 
         itemDisplay.style.display = "none";
     }
-})
+});
 
 document.getElementById("spellBtn").addEventListener("click", ()=>{
 
@@ -431,7 +423,7 @@ document.getElementById("spellBtn").addEventListener("click", ()=>{
 
         itemDisplay.style.display = "none";
     }
-})
+});
 
 document.getElementById("armourBtn").addEventListener("click", ()=>{
 
@@ -446,7 +438,7 @@ document.getElementById("armourBtn").addEventListener("click", ()=>{
 
         itemDisplay.style.display = "none";
     }
-})
+});
 
 document.getElementById("weaponBtn").addEventListener("click", ()=>{
 
@@ -461,7 +453,7 @@ document.getElementById("weaponBtn").addEventListener("click", ()=>{
 
         itemDisplay.style.display = "none";
     }
-})
+});
 
 function saveAvatarDataInSessionStorage(data) {
 
