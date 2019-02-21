@@ -1,11 +1,8 @@
-var playerUserName, avatar, userName, userLevel, kenjaPoints, healthDiv,
-    mannaDiv, experienceDiv, healthTag, mannaTag, experienceTag, messageDiv, recipient,
-    eventMessage, hasEventMessage, hideMessageDiv, hideMessageDivInterval, eventContent, messageHTag,
-    itemDisplay, tempOuterDivBag, tempOuterDivWeapon, tempOuterDivAbilities, profilePic;
+var playerUserName, avatar, userName, userLevel, kenjaPoints, healthDiv, messageHTag,
+    mannaDiv, experienceDiv, healthTag, mannaTag, experienceTag, messageDiv, itemDisplay,
+    tempOuterDivBag, tempOuterDivWeapon, tempOuterDivSpells, tempOuterDivArmour, profilePic;
 
-var stompClient = null;
 
-hasEventMessage = true;//default set to true
 userName = document.getElementById("userName");
 userTrait = document.getElementById("userTrait");
 userLevel = document.getElementById("userLevel");
@@ -39,92 +36,33 @@ function ready () {
 
     playerUserName = avatar.username;
 
-    handleDataFromGettingUserRequest(avatar)
-
-//    connect();
-
-}
-
-//function getUserData(data) {
-//
-//    let url = "http://localhost:8080/user";
-//
-//    fetch(url, {
-//        method: 'POST',
-//        body: JSON.stringify(data),
-//        headers:{
-//            'Content-Type': 'application/json'
-//        }
-//    })
-//        .then(res => res.json())
-//        .catch(error => console.error('Error:', error))
-//        .then((data) => {
-//
-//            console.log("DATA FROM GETTING USER DATA REQUEST");
-//
-//            handleDataFromGettingUserRequest(data);
-//
-//            saveavatarInSessionStorage(data.avatar);
-//
-//        })
-//
-//}
-
-
-function handleDataFromGettingUserRequest(avatar) {
-
     populateUserInfo(avatar);
 
-    checkForInEvent(avatar)
+    checkForInEvent(avatar);
 }
 
 function checkForInEvent(data) {
 
+    console.log("Checking if you are in an event")
+
     if (data.inEvent) {
 
-        if (data.eventId.includes("battleEvent")) {//MEANS YOUR IN A BATTLE EVENT
+        if (data.eventId.includes("eventId")) {//MEANS YOUR IN A PVP EVENT
 
             //TELEPORT THEM TO FIGHTING ROOM
 
-            messageHTag.innerHTML = "YOU ARE CURRENTLY IN A BATTLE EVENT, PREPARE FOR TELEPORTATION";
+            messageHTag.innerHTML = "YOU ARE CURRENTLY IN A PVP EVENT, PREPARE FOR TELEPORTATION";
 
             messageDiv.style.display = "block";
 
             teleportToFightingRoom();
-
-            console.log("YOU SHOULD BE IN A BATTLE EVENT");
         }
-
-        if (data.eventId.includes("bossEvent")) {//MEANS YOUR IN A BOSS EVENT
-
-            //TELEPORT THEM TO BOSS EVENT ROOM
-
-            messageHTag.innerHTML = "YOU ARE CURRENTLY IN A BOSS EVENT, PREPARE FOR TELEPORTATION";
-
-            messageDiv.style.display = "block";
-
-            teleportToBossEvent();
-
-            console.log("YOU SHOULD BE IN A BOSS EVENT");
-        }
-
-        if (data.eventId.includes("operationEvent")) {
-
-            console.log("YOU ARE IN AN OPERATION");
-
-            populateActiveOperationsDiv(data.operationEvent);
-        }
-
-    } else {
-
-        hasEventMessage = false;
     }
 }
 
 function populateUserInfo(data) {
 
-//    sessionStorage.setItem("avatar", JSON.stringify(avatar));
-//    sessionStorage.setItem("avatar", JSON.stringify(data))
+    saveAvatarDataInSessionStorage(data);
 
     itemDisplay.innerHTML = "";
 
@@ -144,7 +82,7 @@ function populateUserInfo(data) {
 
     displayBag(data.bag.inventory);
 
-    displayAbilities(data.spellBook.spellList);
+    displaySpells(data.spellBook.spellList);
 
     displayArmour(data.bodyArmour);
 
@@ -183,7 +121,7 @@ function populateExperience(data) {
 
     let runningExperience = data.experience.running;
 
-    let experiencePercentage = (baseExperience/runningExperience) * 100;
+    let experiencePercentage = (runningExperience/baseExperience) * 100;
 
     experienceDiv.style.width = experiencePercentage + "%";
 
@@ -198,7 +136,7 @@ function displayBag(data) {
 
     tempOuterDivBag.setAttribute("id", "tempOuterDivBag");
 
-    tempOuterDivBag.classList.add('row', 'text-white', 'text-center', 'mb-5')
+    tempOuterDivBag.classList.add('row', 'text-white', 'text-center', 'my-3', 'p-3', 'border', 'border-white')
 
     for (let i = 0; i < itemsInBag.length; i++) {
 
@@ -229,7 +167,6 @@ function displayBag(data) {
             pTag.innerHTML = "Name: " + itemsInBag[i].name + "<br>Level: " + itemsInBag[i].level + "<br>Defense: " + itemsInBag[i].defenseLevel + "<br>Body Part: " + itemsInBag[i].bodyPart;
 
         }
-
             tempDiv.appendChild(tempImg);
             tempDiv.appendChild(pTag);
             tempDiv.appendChild(tempButton);
@@ -245,13 +182,13 @@ function displayWeapon(data) {
 
     tempOuterDivWeapon.setAttribute("id", "tempOuterDivWeapon");
 
-    tempOuterDivWeapon.classList.add('row', 'text-white', 'text-center');
+    tempOuterDivWeapon.classList.add('row', 'text-white', 'text-center', 'my-3', 'p-3');
 
     let tempDiv = document.createElement("div");
     let tempImg = document.createElement("img");
     let tempTag = document.createElement("p");
 
-    tempDiv.classList.add('p-0', 'col-sm-4', 'offset-md-4', 'mb-5');
+    tempDiv.classList.add('p-0', 'col-sm-4', 'offset-md-4', 'border', 'border-white');
     tempImg.style.width = "50px";
     tempImg.style.height = "50px";
     tempImg.src = data.imageUrl;
@@ -262,38 +199,56 @@ function displayWeapon(data) {
     tempOuterDivWeapon.appendChild(tempDiv);
 
     itemDisplay.appendChild(tempOuterDivWeapon);
+}
 
+function createArmourDisplay(data) {
+
+    let tempDiv = document.createElement("div");
+    let tempImg = document.createElement("img");
+    let tempBreak = document.createElement("br");
+    let tempPTag = document.createElement("p")
+
+    tempDiv.classList.add('col-sm-4')
+
+    tempImg.src = data.imageUrl;
+    tempImg.style.width = "50px";
+    tempImg.style.height = "50px";
+
+    tempPTag.innerHTML = "Name: "+ data.name + "<br> Armour Points: " + data.armourPoints;
+
+    tempDiv.appendChild(tempImg);
+    tempDiv.appendChild(tempBreak);
+    tempDiv.appendChild(tempPTag);
+
+    return tempDiv;
 }
 
 function displayArmour(data) {
 
-//    let tempDiv = document.createElement("div");
-//    let tempImg = document.createElement("img");
-//    let tempTag = document.createElement("p");
-//
-//    tempDiv.classList.add('m-1', 'p-0', 'col-sm-4', 'offset-md-4');
-//    tempImg.style.width = "50px";
-//    tempImg.style.height = "50px";
-//    tempImg.src = avatar.weapon.imageUrl;
-//    tempTag.innerHTML = "Name: " + avatar.weapon.name + "<br>Level: " + avatar.weapon.level + "<br>Damage: " + avatar.weapon.topDamage + " - " + avatar.weapon.bottomDamage;
-//
-//    tempDiv.appendChild(tempImg);
-//    tempDiv.appendChild(tempImg);
-//
-//    weaponItems.appendChild(tempDiv);
+    tempOuterDivArmour = document.createElement("div");
+
+    tempOuterDivArmour.setAttribute("id", "tempOuterDivArmour");
+
+    tempOuterDivArmour.classList.add('row', 'text-white', 'text-center', 'my-3', 'p-3', 'border', 'border-white');
+
+    tempOuterDivArmour.appendChild(createArmourDisplay(data.headArmour));
+    tempOuterDivArmour.appendChild(createArmourDisplay(data.chestArmour));
+    tempOuterDivArmour.appendChild(createArmourDisplay(data.legArmour));
+
+    itemDisplay.appendChild(tempOuterDivArmour);
 }
 
-function displayAbilities(data) {
+function displaySpells(data) {
 
-    tempOuterDivAbilities = document.createElement("div");
+    tempOuterDivSpells = document.createElement("div");
 
-    tempOuterDivAbilities.setAttribute("id", "tempOuterDivAbilities");
+    tempOuterDivSpells.setAttribute("id", "tempOuterDivSpells");
 
-    tempOuterDivAbilities.classList.add('row', 'text-white', 'text-center', 'mb-5');
+    tempOuterDivSpells.classList.add('row', 'text-white', 'text-center', 'my-3', 'p-3', 'border', 'border-white');
 
-    let abilitiesList = data;
+    let spellList = data;
 
-    for (let i = 0; i < abilitiesList.length; i++) {
+    for (let i = 0; i < spellList.length; i++) {
 
         let tempDiv = document.createElement("div");
         let pTag = document.createElement("p");
@@ -302,45 +257,45 @@ function displayAbilities(data) {
         tempDiv.classList.add('p-0', 'col-sm-3');
         tempImg.style.width = "50px";
         tempImg.style.height = "50px";
-        tempImg.src = abilitiesList[i].imageUrl;
+        tempImg.src = spellList[i].imageUrl;
 
-        pTag.innerHTML = "Name: " + abilitiesList[i].name + "<br>Spell Type: " + abilitiesList[i].spellType + "<br>Damage : " + abilitiesList[i].damagePoints + "<br>Cost : " + abilitiesList[i].mannaCost;
-        pTag.title = abilitiesList[i].description;
+        pTag.innerHTML = "Name: " + spellList[i].name + "<br>Spell Type: " + spellList[i].spellType + "<br>Damage : " + spellList[i].damagePoints + "<br>Cost : " + spellList[i].mannaCost;
+        pTag.title = spellList[i].description;
 
         tempDiv.appendChild(tempImg);
         tempDiv.appendChild(pTag);
-        tempOuterDivAbilities.appendChild(tempDiv);
+        tempOuterDivSpells.appendChild(tempDiv);
     }
 
     let tempButtonDiv = document.createElement("div");
 
     tempButtonDiv.classList.add('p-2', 'col-sm-4', 'offset-sm-4', 'text-center');
-    let tempButtonChangeAbilities = document.createElement("button");
-    let tempButtonUpgradeAbilities = document.createElement("button");
-    tempButtonChangeAbilities.innerHTML = "Change Abilities";
-    tempButtonUpgradeAbilities.innerHTML = "Upgrade Abilities";
+    let tempButtonChangeSpells = document.createElement("button");
+    let tempButtonUpgradeSpells = document.createElement("button");
+    tempButtonChangeSpells.innerHTML = "Change Spells";
+    tempButtonUpgradeSpells.innerHTML = "Upgrade Spells";
 
-    tempButtonChangeAbilities.classList.add('p-3', 'mb-3', 'buttonX');
-    tempButtonChangeAbilities.addEventListener("click", ()=>{
+    tempButtonChangeSpells.classList.add('p-3', 'mb-3', 'btnh');
+    tempButtonChangeSpells.addEventListener("click", ()=>{
 
-        location.href = "http://localhost:8080/changeabilities"
-
-    });
-
-    tempButtonUpgradeAbilities.classList.add('p-3', 'buttonX');
-
-    tempButtonUpgradeAbilities.addEventListener("click", ()=>{
-
-         location.href = "http://localhost:8080/upgradeabilities"
+        location.href = "../change-spells"
 
     });
 
-    tempButtonDiv.appendChild(tempButtonChangeAbilities);
-    tempButtonDiv.appendChild(tempButtonUpgradeAbilities);
+    tempButtonUpgradeSpells.classList.add('p-3', 'btnh');
 
-    tempOuterDivAbilities.appendChild(tempButtonDiv);
+    tempButtonUpgradeSpells.addEventListener("click", ()=>{
 
-    itemDisplay.appendChild(tempOuterDivAbilities);
+         location.href = "../upgrade-spells"
+
+    });
+
+    tempButtonDiv.appendChild(tempButtonChangeSpells);
+    tempButtonDiv.appendChild(tempButtonUpgradeSpells);
+
+    tempOuterDivSpells.appendChild(tempButtonDiv);
+
+    itemDisplay.appendChild(tempOuterDivSpells);
 }
 
 //function equipItem(data) {
@@ -362,7 +317,7 @@ function displayAbilities(data) {
 //
 //            if (data.success) {
 //
-//                saveavatarInSessionStorage(data.avatar);
+//                saveAvatarDataInSessionStorage(data.avatar);
 //
 //                populateUserInfo(data.avatar);
 //
@@ -391,8 +346,8 @@ function restoreAttributeHealth(data) {
         .then((data) => {
 
             console.log("DATA FROM RESTORING HEALTH REQUEST");
+
             populateUserInfo(data)
-//            handleRestoreAttributeResponse(data);
         })
 }
 
@@ -412,49 +367,15 @@ function restoreAttributeManna(data) {
         .then((data) => {
 
             console.log("DATA FROM RESTORING HEALTH REQUEST");
+
             populateUserInfo(data)
-//            handleRestoreAttributeResponse(data);
         })
 }
 
-//function handleRestoreAttributeResponse(data) {
-//
-//    if (data.success) {
-//
-//        if (data.option == "health") {
-//
-//            let tempHealthData = {health: avatar.health, runningHealth: avatar.health};
-//
-//            avatar.runningHealth = avatar.health;
-//
-//            populateHealthDiv(tempHealthData);
-//
-//        } else {
-//
-//            let tempmannaData = {manna: avatar.manna, runningmanna: avatar.manna};
-//
-//            avatar.runningmanna = avatar.manna;
-//
-//            populateMannaDiv(tempmannaData);
-//
-//        }
-//
-//        avatar.money -= 10;
-//
-//        userMoney.innerHTML = "Money: £" + avatar.money;
-//
-//    }
-//
-//    saveavatarInSessionStorage(avatar);
-//}
+function teleportToFightingRoom() {
 
-
-
-//function teleportToFightingRoom() {
-//
-//   location.href = "http://localhost:8080/fightingroom";
-//
-//}
+   location.href = "../pvp-room";
+}
 
 function restoreAttributeReqDto(){
 
@@ -471,11 +392,11 @@ document.getElementById("restoreMannaBtn").addEventListener("click", ()=>{
     restoreAttributeManna(restoreAttributeReqDto());
 });
 
-//document.getElementById("pvpBtn").addEventListener("click", ()=>{
-//
-//    location.href = "http://localhost:8080/playerpvplist"
-//});
-//
+document.getElementById("pvpBtn").addEventListener("click", ()=>{
+
+    location.href = "../waiting-room"
+});
+
 //document.getElementById("spellsBtn").addEventListener("click", ()=>{
 //
 //    location.href = "http://localhost:8080/attributes"
@@ -485,188 +406,66 @@ document.getElementById("restoreMannaBtn").addEventListener("click", ()=>{
 document.getElementById("bagBtn").addEventListener("click", ()=>{
 
     if (itemDisplay.style.display == "none") {
-        tempOuterDivAbilities.style.display = "none";
+        tempOuterDivSpells.style.display = "none";
         tempOuterDivWeapon.style.display = "none";
+        tempOuterDivArmour.style.display = "none";
         tempOuterDivBag.style.display = "flex";
         itemDisplay.style.display = "block";
 
     } else {
 
         itemDisplay.style.display = "none";
-
     }
 })
 
-document.getElementById("abilitiesBtn").addEventListener("click", ()=>{
+document.getElementById("spellBtn").addEventListener("click", ()=>{
 
     if (itemDisplay.style.display == "none") {
         tempOuterDivBag.style.display = "none";
         tempOuterDivWeapon.style.display = "none";
-        tempOuterDivAbilities.style.display = "flex";
+        tempOuterDivArmour.style.display = "none";
+        tempOuterDivSpells.style.display = "flex";
         itemDisplay.style.display = "block";
 
     } else {
 
         itemDisplay.style.display = "none";
-
     }
 })
 
-//document.getElementById("armourBtn").addEventListener("click", ()=>{
-//
-//    if (armourItems.style.display == "none") {
-//        abilities.style.display = "none";
-//        bagItems.style.display = "none";
-//        weaponItems.style.display = "none";
-//
-//        armourItems.style.display = "flex";
-//
-//    } else {
-//
-//        armourItems.style.display = "none";
-//
-//    }
-//})
+document.getElementById("armourBtn").addEventListener("click", ()=>{
+
+    if (itemDisplay.style.display == "none") {
+        tempOuterDivBag.style.display = "none";
+        tempOuterDivWeapon.style.display = "none";
+        tempOuterDivSpells.style.display = "none";
+        tempOuterDivArmour.style.display = "flex";
+        itemDisplay.style.display = "block";
+
+    } else {
+
+        itemDisplay.style.display = "none";
+    }
+})
 
 document.getElementById("weaponBtn").addEventListener("click", ()=>{
 
     if (itemDisplay.style.display == "none") {
         tempOuterDivBag.style.display = "none";
-        tempOuterDivAbilities.style.display = "none";
+        tempOuterDivSpells.style.display = "none";
+        tempOuterDivArmour.style.display = "none";
         tempOuterDivWeapon.style.display = "flex";
         itemDisplay.style.display = "block";
 
     } else {
 
         itemDisplay.style.display = "none";
-
     }
 })
 
-
-function saveavatarInSessionStorage(data) {
+function saveAvatarDataInSessionStorage(data) {
 
     sessionStorage.setItem("avatar", JSON.stringify(data));
-
 }
-
-
-
-//////////////////////////////WEBSOCKET STUFF/////////////////////////////////////
-
-
-
-function connect() {
-    var socket = new SockJS('/gs');
-    stompClient = Stomp.over(socket);
-    stompClient.connect({}, function (frame) {
-
-        stompClient.subscribe('/topic/eventInvite/'+playerUserName, function (data) {
-            console.log(JSON.parse(data.body));
-            checkEventInvite(JSON.parse(data.body));
-        });
-
-    });
-}
-
-function checkEventInvite(data) {
-
-    if (hasEventMessage) {
-
-        console.log("WE HAVE JUST REFUSED AN EVENT")
-        //DO NOITHING
-
-    } else {
-
-        eventMessage = data;
-
-        hasEventMessage = true;
-
-        recipient = eventMessage.sender;
-
-        eventContent = eventMessage.content;
-
-        if (data.content == "battleEvent") {
-
-            hideMessageDivInterval = setTimeout(hideMessageDiv, 25000);//25 SECONDS TO ACT OR YOU LOSE YOUR CHANCE
-
-            respondToBattleEvent();
-
-        }
-
-        if (data.content == "bossEvent") {
-
-            hideMessageDivInterval = setTimeout(hideMessageDiv, 25000);//25 SECONDS TO ACT OR YOU LOSE YOUR CHANCE
-
-            respondToBossEvent();
-
-        }
-    }
-}
-
-function eventInvite(data) {
-
-    stompClient.send("/app/eventInvite/"+recipient, {}, JSON.stringify(data));
-
-}
-
-function respondToBossEvent() {
-
-    messageHTag.innerHTML = "YOU HAVE AN INVITE TO A BOSS EVENT WOULD YOU LIKE TO ACCEPT";
-
-    messageDiv.style.display = "block";
-}
-
-function respondToBattleEvent() {
-
-    messageHTag.innerHTML = "YOU HAVE AN INVITE TO A BATTLE EVENT WOULD YOU LIKE TO ACCEPT";
-
-    messageDiv.style.display = "block";
-
-}
-
-function hideMessageDiv() {
-
-    console.log("JUST HIDE BOXES");
-
-    hasEventMessage = false;
-
-    messageDiv.style.display = "none";
-
-}
-
-
-document.getElementById("acceptInvite").addEventListener("click", ()=>{
-
-    let dataX = {sender: playerUserName, content: eventContent, option: "accept"};
-
-    eventInvite(dataX);
-
-    avatar.inEvent = true;
-
-    avatar.eventId = recipient + "battleEvent";
-
-    saveavatarInSessionStorage(avatar);
-
-    let fightersNames = {attacker: playerUserName, defender: eventMessage.sender};
-
-    sessionStorage.setItem("fighters", JSON.stringify(fightersNames));
-
-    teleportToFightingRoom();
-
-});
-
-
-document.getElementById("refuseInvite").addEventListener("click", ()=>{
-
-    let dataX = {sender: playerUserName, content: eventContent, option: "refuse"};
-
-    eventInvite(dataX);
-
-    hasEventMessage = false;
-
-    hideMessageDiv();
-
-});
 
 

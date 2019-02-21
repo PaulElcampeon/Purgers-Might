@@ -3,6 +3,7 @@ package com.purgersmight.purgersmightapp.services;
 import com.purgersmight.purgersmightapp.dto.CheckForInEventReqDto;
 import com.purgersmight.purgersmightapp.dto.CheckForInEventResDto;
 import com.purgersmight.purgersmightapp.dto.JoinPvpEventQueueReqDto;
+import com.purgersmight.purgersmightapp.dto.RemoveFromPvpQueueResDto;
 import com.purgersmight.purgersmightapp.enums.EventType;
 import com.purgersmight.purgersmightapp.models.Avatar;
 import com.purgersmight.purgersmightapp.models.PvpEvent;
@@ -11,12 +12,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.NoSuchElementException;
+import java.util.*;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
 
 @Service
 @Scope(value = "singleton")
@@ -31,6 +32,9 @@ public class PvpEventService {
     private Logger logger = Logger.getLogger(PvpEventService.class.getName());
 
     private List<Avatar> avatarsInQueueForPvpEvent = new ArrayList<>();
+
+    Lock lock = new ReentrantLock();
+
 
     public void addPvpEvent(final PvpEvent pvpEvent) {
 
@@ -64,7 +68,7 @@ public class PvpEventService {
         pvpEventRepository.deleteAll();
     }
 
-    public boolean existsById(String eventId) {
+    public boolean existsById(final String eventId) {
 
         return pvpEventRepository.existsById(eventId);
     }
@@ -95,7 +99,48 @@ public class PvpEventService {
         return avatarsInQueueForPvpEvent.contains(avatar);
     }
 
-    public synchronized void joinPvpEvent(String incomingUsername) {
+    public RemoveFromPvpQueueResDto removeFromPvpQueue(String username) {
+
+        lock.lock();
+
+        Avatar tempAvatar = avatarService.getAvatarByUsername(username);
+
+        if(checkIfInQueue(username)){
+
+            avatarsInQueueForPvpEvent.remove(tempAvatar);
+
+            logger.log(Level.INFO, String.format("%s has left the pvp event queue", username));
+
+            lock.unlock();
+
+            return new RemoveFromPvpQueueResDto(true, null);//remove from queue
+
+        } else {
+
+            logger.log(Level.INFO, String.format("%s tried to leave the pvp event queue but has already been matched", username));
+
+            lock.unlock();
+
+            return new RemoveFromPvpQueueResDto(false, pvpEventRepository.findByEventId(tempAvatar.getEventId()).get());//get battle event
+        }
+    }
+
+    public boolean checkIfInQueue(String username){
+
+        for(Avatar avatar: avatarsInQueueForPvpEvent){
+
+            if(avatar.getUsername().equals(username)){
+
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    public void joinPvpEvent(String incomingUsername) {
+
+        lock.lock();
 
         Avatar incomingAvatar = avatarService.getAvatarByUsername(incomingUsername);
 
@@ -119,6 +164,8 @@ public class PvpEventService {
 
             avatarService.updateAvatar(avatarInQueue);
         }
+
+        lock.unlock();
     }
 
     public PvpEvent createEvent(Avatar player1, Avatar player2) {
@@ -130,7 +177,7 @@ public class PvpEventService {
                 .setEventType(EventType.PVP_EVENT)
                 .setWhosTurn(player1.getUsername())
                 .setEnded(false)
-                .setTimestamp(new Date().getTime() + 1000)
+                .setTimestamp(new Date().getTime() + 10000)//should mean that the event time stamp should be 10 seconds after creation
                 .build();
 
         player1.setEventId(pvpEvent.getEventId());

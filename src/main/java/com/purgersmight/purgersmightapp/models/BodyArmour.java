@@ -22,7 +22,7 @@ public class BodyArmour {
 
     public static BodyArmour getStarterBodyArmour() {
         return new BodyArmour(
-                new Armour("Squire's Hat", "../images/hat1.png", 2, ArmourType.HEAD),
+                new Armour("Squire's Hat", "../images/head1.png", 2, ArmourType.HEAD),
                 new Armour("Squire's Chest Piece", "../images/chest1.png", 3, ArmourType.CHEST),
                 new Armour("Squire's Leggings", "../images/leg1.png", 2, ArmourType.LEG)
         );
@@ -30,7 +30,7 @@ public class BodyArmour {
 
     public static BodyArmour getStarterBodyArmour(int headArmourPoints, int chestArmourPoints, int legArmourPoints) {
         return new BodyArmour(
-                new Armour("Squire's Hat", "../images/hat1.png", headArmourPoints, ArmourType.HEAD),
+                new Armour("Squire's Hat", "../images/head1.png", headArmourPoints, ArmourType.HEAD),
                 new Armour("Squire's Chest Piece", "../images/chest1.png", chestArmourPoints, ArmourType.CHEST),
                 new Armour("Squire's Leggings", "../images/leg1.png", legArmourPoints, ArmourType.LEG)
         );

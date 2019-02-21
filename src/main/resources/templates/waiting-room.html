@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <meta name="viewport" content="width=device-width"/>
+    <title>Login</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css"
+          integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+    <link rel="stylesheet" th:href="@{/css/crusaders-wrath.css}"
+          href="../../css/crusaders-wrath.css"/>
+    <link href="https://fonts.googleapis.com/css?family=Skranji" rel="stylesheet">
+</head>
+<body class="text-center">
+<div class="d-flex flex-column m-auto w-100 px-5">
+
+    <div>
+        <h1 style="font-family:'Skrangji', cursive" class="display-4 font-weight-bold">~PURGERS-MIGHT~</h1>
+    </div>
+
+    <div class="mt-5">
+        <img src="../images/waiting1.gif" width="500" height="300">
+    </div>
+
+    <div id="findingAMatch" style="font-size:5vw;" class="font-weight-bold" mt-5>Finding a match for you</div>
+
+    <div id="timerOuterDiv" style="height:80px;" class="progress m-1 p-0">
+        <div id="timerDiv" class="progress-bar"><p id="timerTag" class="p-0 m-0" name="timerText"></p></div>
+    </div>
+
+</div>
+<script type="text/javascript" th:src="@{/js/waiting-room.js}"></script>
+</body>
+</html>

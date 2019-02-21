@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -68,6 +69,8 @@ public class BattleService {
 
         changeWhosTurn(pvpEvent);
 
+        pvpEvent.setTimestamp(new Date().getTime());//updating the timestamp
+
         updatePvpEventInDB(pvpEvent);
 
         updateAvatarsInDB(pvpEvent.getPlayer1(), pvpEvent.getPlayer2());
@@ -101,6 +104,8 @@ public class BattleService {
         setAvatarHealthAfterAttack(defendingAvatar, finalDamage);
 
         autoCorrectPlayerHealth(defendingAvatar);
+
+        logger.log(Level.INFO, String.format("%s just attacked (melee) %s", actingAvatar.getUsername(), defendingAvatar.getUsername()));
     }
 
     public void playerAttackSpell(Avatar actingAvatar, Avatar defendingAvatar, final AttackPlayerReqDto attackPlayerReqDto) {
@@ -120,6 +125,8 @@ public class BattleService {
                 setAvatarManna(actingAvatar, spell.getMannaCost());
 
                 autoCorrectPlayerHealth(defendingAvatar);
+
+                logger.log(Level.INFO, String.format("%s just attacked (spell) %s", actingAvatar.getUsername(), defendingAvatar.getUsername()));
             }
         }
     }
@@ -131,6 +138,8 @@ public class BattleService {
             setAvatarHealthAfterHeal(actingAvatar, healSpell.getDamagePoints());
 
             setAvatarManna(actingAvatar, healSpell.getMannaCost());
+
+            logger.log(Level.INFO, String.format("%s just healed themselves", actingAvatar.getUsername()));
         }
 
         autoCorrectPlayerHealth(actingAvatar);

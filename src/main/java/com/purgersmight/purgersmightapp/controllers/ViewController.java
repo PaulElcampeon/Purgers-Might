@@ -61,6 +61,24 @@ public class ViewController {
         return "home.html";
     }
 
+    @RequestMapping(value = "/waiting-room", method = RequestMethod.GET)
+    public String waitingRoomPage() {
+
+        return "waiting-room.html";
+    }
+
+    @RequestMapping(value = "/pvp-room", method = RequestMethod.GET)
+    public String pvpRoomPage() {
+
+        return "pvp-room.html";
+    }
+
+    @RequestMapping(value = "/accessDenied", method = RequestMethod.GET)
+    public String errorPage() {
+
+        return "error.html";
+    }
+
     /**
      * This method returns the principal[user-name] of logged-in user.
      */

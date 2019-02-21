@@ -9,6 +9,7 @@ import com.purgersmight.purgersmightapp.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
@@ -36,13 +37,19 @@ public class PurgersMightAppApplication {
 //		pvpEventRepository.deleteAll();
 //		avatarService.removeAllAvatars();
 //		userService.removeAllUsers();
-//		User newUser = new User("Angie1", "123456");
-//		userService.addUser(newUser);
-//		Avatar n = Avatar.getStarterAvatar("Angie1");
-//		n.setKenjaPoints(2);
-//		n.getHealth().setRunning(50);
-//		n.getManna().setRunning(30);
-//		avatarService.addAvatar(n);
+//
+//		User angie1 = new User("Trunks", "123456");
+//		userService.addUser(angie1);
+//		Avatar angie1Ava = Avatar.getStarterAvatar("Trunks");
+//		angie1Ava.setImageUrl("../images/potrait1.gif");
+//
+//        User angie2 = new User("Goku", "123456");
+//        userService.addUser(angie2);
+//        Avatar angie2Ava = Avatar.getStarterAvatar("Goku");
+//        angie2Ava.setImageUrl("../images/potrait2.gif");
+//
+//        avatarService.addAvatar(angie1Ava);
+//        avatarService.addAvatar(angie2Ava);
 //
 //		PvpEvent pvpEvent = new PvpEvent();
 //		pvpEvent.setEventId("rews");
@@ -52,8 +59,12 @@ public class PurgersMightAppApplication {
 
 
     public static void main(String[] args) {
-        SpringApplication.run(PurgersMightAppApplication.class, args);
-    }
+        ApplicationContext ctx = SpringApplication.run(PurgersMightAppApplication.class, args);
 
+        String[] beanNames = ctx.getBeanDefinitionNames();
+        for(String beanName: beanNames){
+            System.out.println(beanName);
+        }
+    }
 }
 

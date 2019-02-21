@@ -4,6 +4,7 @@ import com.purgersmight.purgersmightapp.PurgersMightAppApplication;
 import com.purgersmight.purgersmightapp.config.WebSecurityConfig;
 import com.purgersmight.purgersmightapp.dto.CheckForInEventReqDto;
 import com.purgersmight.purgersmightapp.dto.JoinPvpEventQueueReqDto;
+import com.purgersmight.purgersmightapp.dto.RemoveFromPvpQueueResDto;
 import com.purgersmight.purgersmightapp.models.Avatar;
 import com.purgersmight.purgersmightapp.models.PvpEvent;
 import org.junit.After;
@@ -31,13 +32,13 @@ public class PvpEventServiceTest {
     private AvatarService avatarService;
 
     @After
-    public void tearDown(){
+    public void tearDown() {
         pvpEventService.removeAllPvpEvents();
         pvpEventService.clearPvpEventQueue();
     }
 
     @Test
-    public void addPvpEvent_eventShouldExist_Test1(){
+    public void addPvpEvent_eventShouldExist_Test1() {
         PvpEvent pvpEvent = new PvpEvent();
         pvpEvent.setEventId("Nimo");
 
@@ -47,20 +48,20 @@ public class PvpEventServiceTest {
     }
 
     @Test
-    public void addPvpEvent_exceptionShouldBeThrown_Test2(){
+    public void addPvpEvent_exceptionShouldBeThrown_Test2() {
         PvpEvent pvpEvent = new PvpEvent();
         pvpEvent.setEventId("Nimo");
 
         pvpEventService.addPvpEvent(pvpEvent);
 
-        assertThrows(DuplicateKeyException.class, ()->{
+        assertThrows(DuplicateKeyException.class, () -> {
             pvpEventService.addPvpEvent(pvpEvent);
 
         });
     }
 
     @Test
-    public void removePvpEvent_eventShouldNotExist_Test3(){
+    public void removePvpEvent_eventShouldNotExist_Test3() {
         PvpEvent pvpEvent = new PvpEvent();
         pvpEvent.setEventId("Nimo");
 
@@ -74,7 +75,7 @@ public class PvpEventServiceTest {
     }
 
     @Test
-    public void getPvpEventByEventId_eventShouldBeReturned_Test4(){
+    public void getPvpEventByEventId_eventShouldBeReturned_Test4() {
         PvpEvent pvpEvent = new PvpEvent();
         pvpEvent.setEventId("Nimo");
 
@@ -84,14 +85,14 @@ public class PvpEventServiceTest {
     }
 
     @Test
-    public void getPvpEventByEventId_exceptionShouldBeThrown_Test5(){
-        assertThrows(NoSuchElementException.class, ()->{
-                pvpEventService.getPvpEventByEventId("Nimo");
+    public void getPvpEventByEventId_exceptionShouldBeThrown_Test5() {
+        assertThrows(NoSuchElementException.class, () -> {
+            pvpEventService.getPvpEventByEventId("Nimo");
         });
     }
 
     @Test
-    public void updatePvpEventByEvent_eventShouldBeUpdated_Test6(){
+    public void updatePvpEventByEvent_eventShouldBeUpdated_Test6() {
         PvpEvent pvpEvent = new PvpEvent();
         pvpEvent.setEventId("Nimo");
 
@@ -105,7 +106,7 @@ public class PvpEventServiceTest {
     }
 
     @Test
-    public void checkForInEvent_shouldReturnTrue_Test7(){
+    public void checkForInEvent_shouldReturnTrue_Test7() {
         CheckForInEventReqDto checkForInEventReqDto = new CheckForInEventReqDto();
         checkForInEventReqDto.setUsername("Angie1");
 
@@ -124,7 +125,7 @@ public class PvpEventServiceTest {
     }
 
     @Test
-    public void checkForInEvent_shouldReturnFalse_Test8(){
+    public void checkForInEvent_shouldReturnFalse_Test8() {
         CheckForInEventReqDto checkForInEventReqDto = new CheckForInEventReqDto();
         checkForInEventReqDto.setUsername("Angie1");
 
@@ -134,7 +135,7 @@ public class PvpEventServiceTest {
     }
 
     @Test
-    public void checkIfAlreadyInPvpEventQueue_shouldReturnTrue_Test9(){
+    public void checkIfAlreadyInPvpEventQueue_shouldReturnTrue_Test9() {
         Avatar avatar = Avatar.getStarterAvatar("Angie1");
 
         when(avatarService.getAvatarByUsername("Angie1")).thenReturn(avatar);
@@ -148,7 +149,7 @@ public class PvpEventServiceTest {
     }
 
     @Test
-    public void checkIfAlreadyInPvpEventQueue_shouldReturnFalse_Test10(){
+    public void checkIfAlreadyInPvpEventQueue_shouldReturnFalse_Test10() {
         Avatar avatar = Avatar.getStarterAvatar("Angie1");
 
         when(avatarService.getAvatarByUsername("Angie1")).thenReturn(avatar);
@@ -160,7 +161,7 @@ public class PvpEventServiceTest {
     }
 
     @Test
-    public void joinPvpEvent_avatarShouldBeInQueue_Test11(){
+    public void joinPvpEvent_avatarShouldBeInQueue_Test11() {
         Avatar avatar = Avatar.getStarterAvatar("Angie1");
 
         when(avatarService.getAvatarByUsername("Angie1")).thenReturn(avatar);
@@ -174,7 +175,7 @@ public class PvpEventServiceTest {
     }
 
     @Test
-    public void joinPvpEvent_eventShouldBeCreated_Test12(){
+    public void joinPvpEvent_eventShouldBeCreated_Test12() {
         Avatar avatar1 = Avatar.getStarterAvatar("Angie1");
 
         when(avatarService.getAvatarByUsername("Angie1")).thenReturn(avatar1);
@@ -191,7 +192,7 @@ public class PvpEventServiceTest {
     }
 
     @Test
-    public void createEvent_eventShouldBeCreated_Test13(){
+    public void createEvent_eventShouldBeCreated_Test13() {
         Avatar avatar1 = Avatar.getStarterAvatar("Angie1");
         Avatar avatar2 = Avatar.getStarterAvatar("Angie2");
 
@@ -199,4 +200,63 @@ public class PvpEventServiceTest {
 
         assertTrue(pvpEventService.existsById(avatar1.getUsername().concat(avatar2.getUsername().concat("eventId"))));
     }
+
+    @Test
+    public void checkIfInQueue_shouldReturnTrue_Test14() {
+        Avatar avatar1 = Avatar.getStarterAvatar("Angie1");
+
+        when(avatarService.getAvatarByUsername("Angie1")).thenReturn(avatar1);
+
+        pvpEventService.joinPvpEvent("Angie1");
+
+        assertTrue(pvpEventService.checkIfInQueue("Angie1"));
+    }
+
+    @Test
+    public void checkIfInQueue_shouldReturnFalse_Test15() {
+        Avatar avatar2 = Avatar.getStarterAvatar("Angie2");
+
+        when(avatarService.getAvatarByUsername("Angie2")).thenReturn(avatar2);
+
+        pvpEventService.joinPvpEvent("Angie2");
+
+        assertFalse(pvpEventService.checkIfInQueue("Angie1"));
+    }
+
+    @Test
+    public void removeFromPvpQueue_shouldReturnFalse_Test16() {
+        Avatar avatar2 = Avatar.getStarterAvatar("Angie2");
+
+        when(avatarService.getAvatarByUsername("Angie2")).thenReturn(avatar2);
+
+        pvpEventService.joinPvpEvent("Angie2");
+
+        RemoveFromPvpQueueResDto result = pvpEventService.removeFromPvpQueue("Angie2");
+
+        assertTrue(result.isSuccess());
+
+        assertNull(result.getPvpEvent());
+    }
+
+    @Test
+    public void removeFromPvpQueue_shouldReturnTrue_Test17() {
+        Avatar avatar2 = Avatar.getStarterAvatar("Angie2");
+
+        avatar2.setEventId("eventId");
+
+        PvpEvent pvpEvent = new PvpEvent();
+
+        pvpEvent.setEventId("eventId");
+
+        pvpEventService.addPvpEvent(pvpEvent);
+
+        when(avatarService.getAvatarByUsername("Angie2")).thenReturn(avatar2);
+
+        RemoveFromPvpQueueResDto result = pvpEventService.removeFromPvpQueue("Angie2");
+
+        assertFalse(result.isSuccess());
+
+        assertNotNull(result.getPvpEvent());
+    }
+
 }

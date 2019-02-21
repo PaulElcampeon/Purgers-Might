@@ -24,7 +24,7 @@ public class AvatarService {
     }
 
     public Avatar getAvatarByUsername(final String username) {
-
+        System.out.println("OIm AD");
         return avatarRepository.findByUsername(username).orElseThrow(NoSuchElementException::new);
     }
 

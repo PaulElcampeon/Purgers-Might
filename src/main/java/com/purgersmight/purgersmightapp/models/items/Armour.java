@@ -1,11 +1,13 @@
 package com.purgersmight.purgersmightapp.models.items;
 
 import com.purgersmight.purgersmightapp.enums.ArmourType;
+import com.purgersmight.purgersmightapp.enums.ItemType;
 import lombok.Data;
 
 @Data
 public class Armour implements Item {
 
+    private ItemType itemType = ItemType.ARMOUR;
     private String name;
     private String imageUrl;
     private int armourPoints;

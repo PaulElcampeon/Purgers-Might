@@ -177,6 +177,14 @@ body {
     background-color: #bb33ff;
 }
 
+#timerOuterDiv {
+    background-color: #ededed;
+}
+
+#timerDiv {
+    background-color: #ffffff;
+}
+
 .progress {
     height: 30px;
 }

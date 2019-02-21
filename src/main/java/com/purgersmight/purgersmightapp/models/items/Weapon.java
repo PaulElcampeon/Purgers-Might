@@ -1,10 +1,12 @@
 package com.purgersmight.purgersmightapp.models.items;
 
+import com.purgersmight.purgersmightapp.enums.ItemType;
 import lombok.Data;
 
 @Data
-public class Weapon implements Item {
+public class Weapon implements Item, Cloneable {
 
+    private ItemType itemType = ItemType.WEAPON;
     private String name;
     private String imageUrl = "../images/woodenSword.png";
     private int topDamage;
@@ -24,6 +26,13 @@ public class Weapon implements Item {
         this.imageUrl = weaponBuilder.imageUrl;
         this.topDamage = weaponBuilder.topDamage;
         this.bottomDamage = weaponBuilder.bottomDamage;
+    }
+
+    public Weapon(Weapon weapon) {
+        this.name = weapon.name;
+        this.imageUrl = weapon.imageUrl;
+        this.topDamage = weapon.topDamage;
+        this.bottomDamage = weapon.bottomDamage;
     }
 
     public static Weapon getStarterWeapon() {
