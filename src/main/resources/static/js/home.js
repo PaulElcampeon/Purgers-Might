@@ -4,9 +4,7 @@ var playerUserName, avatar, userName, userLevel, kenjaPoints, healthDiv, message
 
 
 userName = document.getElementById("userName");
-userTrait = document.getElementById("userTrait");
 userLevel = document.getElementById("userLevel");
-userMoney = document.getElementById("userMoney");
 kenjaPoints = document.getElementById("kenjaPoints");
 healthDiv = document.getElementById("healthDiv");
 mannaDiv = document.getElementById("mannaDiv");
