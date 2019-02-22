@@ -1,4 +1,4 @@
-package com.purgersmight.purgersmightapp.services;
+package com.purgersmight.purgersmightapp.repositories;
 
 import com.purgersmight.purgersmightapp.models.Spell;
 import org.springframework.data.mongodb.repository.MongoRepository;

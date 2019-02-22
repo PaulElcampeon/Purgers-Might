@@ -1,6 +1,7 @@
 package com.purgersmight.purgersmightapp.services;
 
 import com.purgersmight.purgersmightapp.models.Spell;
+import com.purgersmight.purgersmightapp.repositories.SpellRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
