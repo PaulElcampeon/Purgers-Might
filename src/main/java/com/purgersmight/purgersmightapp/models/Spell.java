@@ -8,12 +8,13 @@ import lombok.Data;
 @Data
 public class Spell {
 
-    private SpellType spellType;
     private String name;
+    private SpellType spellType;
     private String imageUrl;
     private int mannaCost;
     private int damagePoints;
     private String description;
+    private int spellLevel;
 
     public Spell() {
     }
