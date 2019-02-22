@@ -5,6 +5,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @Scope(value = "singleton")
 public class SpellService {
@@ -20,6 +22,11 @@ public class SpellService {
     public void addSpell(final Spell spell) {
 
         spellRepository.insert(spell);
+    }
+
+    public List<Spell> getSpells() {
+
+        return spellRepository.findAll();
     }
 
 }
