@@ -37,7 +37,7 @@ public class UpdateAvatarAttributeControllerTest {
 
     @Test
     public void updateAvatarAttribute__Test1() throws Exception {
-        UpdateAvatarAttributeReqDto updateAvatarAttributeReqDto = new UpdateAvatarAttributeReqDto("Angie", AttributeType.HEALTH, 1);
+        UpdateAvatarAttributeReqDto updateAvatarAttributeReqDto = new UpdateAvatarAttributeReqDto("Angie", AttributeType.HEALTH, 1, true);
 
         String jsonReq = ObjectMapperUtils.getObjectMapper().writeValueAsString(updateAvatarAttributeReqDto);
 
@@ -69,7 +69,7 @@ public class UpdateAvatarAttributeControllerTest {
 
     @Test
     public void updateAvatarAttribute__Test2() throws Exception {
-        UpdateAvatarAttributeReqDto updateAvatarAttributeReqDto = new UpdateAvatarAttributeReqDto("Angie", AttributeType.MANNA, 1);
+        UpdateAvatarAttributeReqDto updateAvatarAttributeReqDto = new UpdateAvatarAttributeReqDto("Angie", AttributeType.MANNA, 1, true);
 
         String jsonReq = ObjectMapperUtils.getObjectMapper().writeValueAsString(updateAvatarAttributeReqDto);
 
@@ -101,7 +101,7 @@ public class UpdateAvatarAttributeControllerTest {
 
     @Test
     public void updateAvatarAttribute__Test3() throws Exception {
-        UpdateAvatarAttributeReqDto updateAvatarAttributeReqDto = new UpdateAvatarAttributeReqDto("Angie", AttributeType.MANNA, 1);
+        UpdateAvatarAttributeReqDto updateAvatarAttributeReqDto = new UpdateAvatarAttributeReqDto("Angie", AttributeType.MANNA, 1, true);
 
         String jsonReq = ObjectMapperUtils.getObjectMapper().writeValueAsString(updateAvatarAttributeReqDto);
 
@@ -111,6 +111,146 @@ public class UpdateAvatarAttributeControllerTest {
         when(avatarService.getAvatarByUsername("Angie")).thenReturn(avatar);
 
         UpdateAvatarAttributeResDto updateAvatarAttributeResDto = new UpdateAvatarAttributeResDto(false, avatar);
+
+        String jsonRes = ObjectMapperUtils.getObjectMapper().writeValueAsString(updateAvatarAttributeResDto);
+
+        mockMvc.perform(put("/update-avatar-attribute")
+                .with(user("admin").password("admin123").roles("USER", "ADMIN"))
+                .contentType(MediaType.APPLICATION_JSON)
+                .characterEncoding("UTF-8")
+                .content(jsonReq)
+                .accept(MediaType.APPLICATION_JSON))
+//                .andExpect(status().isOk())
+                .andExpect(content().json(jsonRes))
+                .andReturn();
+
+        verify(avatarService, times(1)).getAvatarByUsername("Angie");
+    }
+
+    @Test
+    public void updateAvatarAttribute__Test4() throws Exception {
+        UpdateAvatarAttributeReqDto updateAvatarAttributeReqDto = new UpdateAvatarAttributeReqDto("Angie", AttributeType.MANNA, 0, false);
+
+        String jsonReq = ObjectMapperUtils.getObjectMapper().writeValueAsString(updateAvatarAttributeReqDto);
+
+        Avatar avatar = Avatar.getStarterAvatar("Angie");
+        avatar.getHealth().setActual(100);
+        avatar.getManna().setActual(60);
+        avatar.setKenjaPoints(0);
+
+        when(avatarService.getAvatarByUsername("Angie")).thenReturn(avatar);
+
+        Avatar avatarRes = Avatar.getStarterAvatar("Angie");
+        avatarRes.getHealth().setActual(100);
+        avatarRes.getManna().setActual(55);
+        avatarRes.setKenjaPoints(1);
+
+        UpdateAvatarAttributeResDto updateAvatarAttributeResDto = new UpdateAvatarAttributeResDto(true, avatarRes);
+
+        String jsonRes = ObjectMapperUtils.getObjectMapper().writeValueAsString(updateAvatarAttributeResDto);
+
+        mockMvc.perform(put("/update-avatar-attribute")
+                .with(user("admin").password("admin123").roles("USER", "ADMIN"))
+                .contentType(MediaType.APPLICATION_JSON)
+                .characterEncoding("UTF-8")
+                .content(jsonReq)
+                .accept(MediaType.APPLICATION_JSON))
+//                .andExpect(status().isOk())
+                .andExpect(content().json(jsonRes))
+                .andReturn();
+
+        verify(avatarService, times(1)).getAvatarByUsername("Angie");
+    }
+
+    @Test
+    public void updateAvatarAttribute__Test5() throws Exception {
+        UpdateAvatarAttributeReqDto updateAvatarAttributeReqDto = new UpdateAvatarAttributeReqDto("Angie", AttributeType.HEALTH, 0, false);
+
+        String jsonReq = ObjectMapperUtils.getObjectMapper().writeValueAsString(updateAvatarAttributeReqDto);
+
+        Avatar avatar = Avatar.getStarterAvatar("Angie");
+        avatar.getHealth().setActual(100);
+        avatar.getManna().setActual(60);
+        avatar.setKenjaPoints(0);
+
+        when(avatarService.getAvatarByUsername("Angie")).thenReturn(avatar);
+
+        Avatar avatarRes = Avatar.getStarterAvatar("Angie");
+        avatarRes.getHealth().setActual(90);
+        avatarRes.getManna().setActual(60);
+        avatarRes.setKenjaPoints(1);
+
+        UpdateAvatarAttributeResDto updateAvatarAttributeResDto = new UpdateAvatarAttributeResDto(true, avatarRes);
+
+        String jsonRes = ObjectMapperUtils.getObjectMapper().writeValueAsString(updateAvatarAttributeResDto);
+
+        mockMvc.perform(put("/update-avatar-attribute")
+                .with(user("admin").password("admin123").roles("USER", "ADMIN"))
+                .contentType(MediaType.APPLICATION_JSON)
+                .characterEncoding("UTF-8")
+                .content(jsonReq)
+                .accept(MediaType.APPLICATION_JSON))
+//                .andExpect(status().isOk())
+                .andExpect(content().json(jsonRes))
+                .andReturn();
+
+        verify(avatarService, times(1)).getAvatarByUsername("Angie");
+    }
+
+    @Test
+    public void updateAvatarAttribute__Test6() throws Exception {
+        UpdateAvatarAttributeReqDto updateAvatarAttributeReqDto = new UpdateAvatarAttributeReqDto("Angie", AttributeType.HEALTH, 0, false);
+
+        String jsonReq = ObjectMapperUtils.getObjectMapper().writeValueAsString(updateAvatarAttributeReqDto);
+
+        Avatar avatar = Avatar.getStarterAvatar("Angie");
+        avatar.getHealth().setActual(50);
+        avatar.getManna().setActual(60);
+        avatar.setKenjaPoints(0);
+
+        when(avatarService.getAvatarByUsername("Angie")).thenReturn(avatar);
+
+        Avatar avatarRes = Avatar.getStarterAvatar("Angie");
+        avatarRes.getHealth().setActual(50);
+        avatarRes.getManna().setActual(60);
+        avatarRes.setKenjaPoints(0);
+
+        UpdateAvatarAttributeResDto updateAvatarAttributeResDto = new UpdateAvatarAttributeResDto(false, avatarRes);
+
+        String jsonRes = ObjectMapperUtils.getObjectMapper().writeValueAsString(updateAvatarAttributeResDto);
+
+        mockMvc.perform(put("/update-avatar-attribute")
+                .with(user("admin").password("admin123").roles("USER", "ADMIN"))
+                .contentType(MediaType.APPLICATION_JSON)
+                .characterEncoding("UTF-8")
+                .content(jsonReq)
+                .accept(MediaType.APPLICATION_JSON))
+//                .andExpect(status().isOk())
+                .andExpect(content().json(jsonRes))
+                .andReturn();
+
+        verify(avatarService, times(1)).getAvatarByUsername("Angie");
+    }
+
+    @Test
+    public void updateAvatarAttribute__Test7() throws Exception {
+        UpdateAvatarAttributeReqDto updateAvatarAttributeReqDto = new UpdateAvatarAttributeReqDto("Angie", AttributeType.MANNA, 0, false);
+
+        String jsonReq = ObjectMapperUtils.getObjectMapper().writeValueAsString(updateAvatarAttributeReqDto);
+
+        Avatar avatar = Avatar.getStarterAvatar("Angie");
+        avatar.getHealth().setActual(50);
+        avatar.getManna().setActual(60);
+        avatar.setKenjaPoints(0);
+
+        when(avatarService.getAvatarByUsername("Angie")).thenReturn(avatar);
+
+        Avatar avatarRes = Avatar.getStarterAvatar("Angie");
+        avatarRes.getHealth().setActual(50);
+        avatarRes.getManna().setActual(55);
+        avatarRes.setKenjaPoints(1);
+
+        UpdateAvatarAttributeResDto updateAvatarAttributeResDto = new UpdateAvatarAttributeResDto(true, avatarRes);
 
         String jsonRes = ObjectMapperUtils.getObjectMapper().writeValueAsString(updateAvatarAttributeResDto);
 

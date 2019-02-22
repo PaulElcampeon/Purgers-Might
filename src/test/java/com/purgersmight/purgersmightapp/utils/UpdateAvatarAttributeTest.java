@@ -30,7 +30,7 @@ public class UpdateAvatarAttributeTest {
     @Test
     public void updateAvatarAttribute_UpdateHealthReturnTrue_Test1() {
 
-        UpdateAvatarAttributeReqDto updateAvatarAttributeReqDto = new UpdateAvatarAttributeReqDto("Angie1", AttributeType.HEALTH, 1);
+        UpdateAvatarAttributeReqDto updateAvatarAttributeReqDto = new UpdateAvatarAttributeReqDto("Angie1", AttributeType.HEALTH, 1, true);
 
         Avatar avatar = Avatar.getStarterAvatar("Angie1");
         avatar.setKenjaPoints(2);
@@ -49,7 +49,7 @@ public class UpdateAvatarAttributeTest {
     @Test
     public void updateAvatarAttribute_UpdateMannaReturnTrue_Test2() {
 
-        UpdateAvatarAttributeReqDto updateAvatarAttributeReqDto = new UpdateAvatarAttributeReqDto("Angie1", AttributeType.MANNA, 2);
+        UpdateAvatarAttributeReqDto updateAvatarAttributeReqDto = new UpdateAvatarAttributeReqDto("Angie1", AttributeType.MANNA, 2, true);
 
         Avatar avatar = Avatar.getStarterAvatar("Angie1");
         avatar.setKenjaPoints(3);
@@ -68,7 +68,7 @@ public class UpdateAvatarAttributeTest {
     @Test
     public void updateAvatarAttribute_ReturnFalse_Test3() {
 
-        UpdateAvatarAttributeReqDto updateAvatarAttributeReqDto = new UpdateAvatarAttributeReqDto("Angie1", AttributeType.HEALTH, 1);
+        UpdateAvatarAttributeReqDto updateAvatarAttributeReqDto = new UpdateAvatarAttributeReqDto("Angie1", AttributeType.HEALTH, 1, true);
 
         Avatar avatar = Avatar.getStarterAvatar("Angie1");
         avatar.setKenjaPoints(0);
@@ -83,4 +83,44 @@ public class UpdateAvatarAttributeTest {
 
         assertEquals(100, avatar.getHealth().getActual().intValue());
     }
+
+    @Test
+    public void updateAvatarAttribute_ReturnTrue_Test4() {
+
+        UpdateAvatarAttributeReqDto updateAvatarAttributeReqDto = new UpdateAvatarAttributeReqDto("Angie1", AttributeType.HEALTH, 0, false);
+
+        Avatar avatar = Avatar.getStarterAvatar("Angie1");
+        avatar.setKenjaPoints(0);
+
+        when(avatarService.getAvatarByUsername("Angie1")).thenReturn(avatar);
+
+        UpdateAvatarAttributeResDto result = updateAvatarAttribute.updateAttributes(updateAvatarAttributeReqDto);
+
+        assertTrue(result.isSuccess());
+
+        assertEquals(1,result.getAvatar().getKenjaPoints());
+
+        assertEquals(90, avatar.getHealth().getActual().intValue());
+    }
+
+    @Test
+    public void updateAvatarAttribute_ReturnFalse_Test4() {
+
+        UpdateAvatarAttributeReqDto updateAvatarAttributeReqDto = new UpdateAvatarAttributeReqDto("Angie1", AttributeType.HEALTH, 0, false);
+
+        Avatar avatar = Avatar.getStarterAvatar("Angie1");
+        avatar.setKenjaPoints(2);
+        avatar.getHealth().setActual(50);
+
+        when(avatarService.getAvatarByUsername("Angie1")).thenReturn(avatar);
+
+        UpdateAvatarAttributeResDto result = updateAvatarAttribute.updateAttributes(updateAvatarAttributeReqDto);
+
+        assertFalse(result.isSuccess());
+
+        assertEquals(2,result.getAvatar().getKenjaPoints());
+
+        assertEquals(50, avatar.getHealth().getActual().intValue());
+    }
+
 }

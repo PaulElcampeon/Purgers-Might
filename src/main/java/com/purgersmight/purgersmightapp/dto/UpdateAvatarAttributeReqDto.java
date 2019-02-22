@@ -11,6 +11,8 @@ public class UpdateAvatarAttributeReqDto {
     private String username;
     private AttributeType attributeType;
     private int cost;
+    private boolean isIncrease;
+
 
     public UpdateAvatarAttributeReqDto(){}
 }
