@@ -276,7 +276,7 @@ function displaySpells(data) {
     tempButtonChangeSpells.classList.add('p-3', 'mb-3', 'btnh');
     tempButtonChangeSpells.addEventListener("click", ()=>{
 
-        location.href = "../change-spells"
+        location.href = "../change-spells";
 
     });
 
