@@ -3,9 +3,11 @@ package com.purgersmight.purgersmightapp.models;
 import com.purgersmight.purgersmightapp.enums.SpellType;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import org.springframework.data.mongodb.core.mapping.Document;
 
 @AllArgsConstructor
 @Data
+@Document(collection = "SPELLS")
 public class Spell {
 
     private String name;

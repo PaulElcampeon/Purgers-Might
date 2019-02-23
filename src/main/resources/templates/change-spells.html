@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <meta name="viewport" content="width=device-width"/>
+    <title>Change Spells</title>
+    <link href="https://fonts.googleapis.com/css?family=Skranji" rel="stylesheet">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css"
+          integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+    <link rel="stylesheet" th:href="@{/css/crusaders-wrath.css}"
+          href="../../css/crusaders-wrath.css"/>
+</head>
+<body>
+<div class="m-auto w-100 px-5">
+    <header class="fixed-top">
+        <nav class="navbar navbar-expand-lg navbar-dark">
+            <a class="navbar-brand" href="http://localhost:8080/home" style="font-family:'Skrangji', cursive">~PURGERS-MIGHT~</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+                    aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <div class="navbar-nav mr-auto"></div>
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link" href="http://localhost:8080/home">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="http://localhost:8080/logout">Log Out</a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+    </header>
+
+
+    <div id="spellPageWrapper" class="d-flex m-auto row mt-5 pt-5">
+
+        <div class="m-auto text-center w-100 my-5 py-5" style="font-size:3vw;">Current Spells</div>
+
+        <div id="learnedSpells" class="d-flex row m-auto w-100">
+
+        </div>
+
+        <div class="m-auto text-center m-5 p-5">
+            <h2 id="oldSpellSelected">Old Spell Selected:</h2>
+            <br>
+            <h2 id="newSpellSelected">New Spell Selected:</h2>
+            <br>
+            <button id="changeSpellBtn" class="btnh">Change Spell</button>
+        </div>
+
+        <div class="m-auto text-center w-100" style="font-size:3vw;">New Spells</div>
+
+        <div id="unlearnedSpells" class="d-flex row m-auto w-100 my-5 py-5">
+
+        </div>
+
+    </div>
+
+</div>
+<script type="text/javascript" th:src="@{/js/change-spells.js}"></script>
+
+</body>
+</html>

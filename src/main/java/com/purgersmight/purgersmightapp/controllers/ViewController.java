@@ -73,6 +73,12 @@ public class ViewController {
         return "pvp-room.html";
     }
 
+    @RequestMapping(value = "/change-spells", method = RequestMethod.GET)
+    public String changeSpellPage() {
+
+        return "change-spells.html";
+    }
+
     @RequestMapping(value = "/accessDenied", method = RequestMethod.GET)
     public String errorPage() {
 
