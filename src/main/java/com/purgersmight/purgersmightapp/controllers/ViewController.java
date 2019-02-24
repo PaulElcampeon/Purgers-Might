@@ -79,6 +79,12 @@ public class ViewController {
         return "change-spells.html";
     }
 
+    @RequestMapping(value = "/upgrade-attributes", method = RequestMethod.GET)
+    public String upgradeAttributesPage() {
+
+        return "upgrade-attributes.html";
+    }
+
     @RequestMapping(value = "/accessDenied", method = RequestMethod.GET)
     public String errorPage() {
 

@@ -387,10 +387,10 @@ document.getElementById("pvpBtn").addEventListener("click", ()=>{
     location.href = "../waiting-room"
 });
 
-//document.getElementById("spellsBtn").addEventListener("click", ()=>{
-//
-//    location.href = "http://localhost:8080/attributes"
-//});
+document.getElementById("attributesBtn").addEventListener("click", ()=>{
+
+    location.href = "../upgrade-attributes"
+});
 
 
 document.getElementById("bagBtn").addEventListener("click", ()=>{

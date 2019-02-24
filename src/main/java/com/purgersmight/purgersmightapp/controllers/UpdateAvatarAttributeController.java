@@ -17,7 +17,7 @@ public class UpdateAvatarAttributeController {
 
     @RequestMapping(value = "/update-avatar-attribute", method = RequestMethod.PUT)
     public UpdateAvatarAttributeResDto updateAvatarAttribute(@RequestBody UpdateAvatarAttributeReqDto updateAvatarAttributeReqDto) {
-
+        
         return updateAvatarAttribute.updateAttributes(updateAvatarAttributeReqDto);
     }
 

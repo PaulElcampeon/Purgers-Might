@@ -119,14 +119,29 @@ function saveAvatarDataInSessionStorage(data) {
 
 increaseHealthBtn.addEventListener("click",()=>{
 
-    let updateAvatarAttributeReqDto = {username: playerUserName, attributeType: HEALTH, cost: 1};
+    let updateAvatarAttributeReqDto = {username: playerUserName, attributeType: "HEALTH", cost: 1, isIncrease:true};
 
     upgradeAttribute(updateAvatarAttributeReqDto);
-})
+});
+
+decreaseHealthBtn.addEventListener("click",()=>{
+
+    let updateAvatarAttributeReqDto = {username: playerUserName, attributeType: "HEALTH", cost: 0, isIncrease: false};
+
+    upgradeAttribute(updateAvatarAttributeReqDto);
+});
+
 
 increaseMannaBtn.addEventListener("click",()=>{
 
-    let updateAvatarAttributeReqDto = {username: playerUserName, attributeType: MANNA, cost: 1};
+    let updateAvatarAttributeReqDto = {username: playerUserName, attributeType: "MANNA", cost: 1, isIncrease:true};
 
     upgradeAttribute(updateAvatarAttributeReqDto);
-})
+});
+
+decreaseMannaBtn.addEventListener("click",()=>{
+
+    let updateAvatarAttributeReqDto = {username: playerUserName, attributeType: "MANNA", cost: 0, isIncrease:false};
+
+    upgradeAttribute(updateAvatarAttributeReqDto);
+});

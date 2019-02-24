@@ -34,7 +34,7 @@
         </nav>
     </header>
 
-    <div id="upgradeAttributesWrapper" class="d-flex flex-row m-auto">
+    <div id="upgradeAttributesWrapper" class="d-flex flex-column m-auto">
 
         <div id="userInfo" class="m-auto text-center">
             <div id="imgDiv" class="m-auto w-40">
@@ -56,25 +56,27 @@
                 <div id="mannaDiv" class="progress-bar"><p id="mannaTag" class="p-0 m-0" name="mannaText"></div>
             </div>
             <div id="experienceDivOuter" class="progress m-1 p-0 col-sm">
-                <div id="experienceDiv" class="progress-bar"><p id="experienceTag" class="p-0 m-0" name="experienceText"></div>
+                <div id="experienceDiv" class="progress-bar"><p id="experienceTag" class="p-0 m-0"
+                                                                name="experienceText"></div>
             </div>
         </div>
 
-        <div>
-            <div id="healthAttributeDiv">
-                <p>HEALTH</p>
+        <div class="d-flex flex-row m-auto mb-5 pb-5 w-80">
+            <div id="healthAttributeDiv" class="m-auto text-center mx-5 px-5 col-sm-6">
+                <p class="py-5">HEALTH</p>
                 <button id="increaseHealthBtn" class="btn btn-lg btn-block btnh w-50 m-auto mb-5">+</button>
                 <button id="decreaseHealthBtn" class="btn btn-lg btn-block btnh w-50 m-auto mb-5">-</button>
             </div>
-            <div id="mannaAttributeDiv">
-                <p>MANNA</p>
+            <div id="mannaAttributeDiv" class="m-auto text-center mx-5 px-5 col-sm-6">
+                <p class="py-5">MANNA</p>
                 <button id="increaseMannaBtn" class="btn btn-lg btn-block btnh w-50 m-auto mb-5">+</button>
                 <button id="decreaseMannaBtn" class="btn btn-lg btn-block btnh w-50 m-auto mb-5">-</button>
             </div>
         </div>
+
     </div>
 </div>
-<script type="text/javascript" th:src="@{/js/home.js}"></script>
+<script type="text/javascript" th:src="@{/js/upgrade-attributes.js}"></script>
 
 </body>
 </html>
