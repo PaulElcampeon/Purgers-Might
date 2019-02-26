@@ -62,6 +62,8 @@ public class BattleService {
 
             pvpEventService.removePvpEventById(pvpEvent.getEventId());
 
+            pvpEventService.resetPlayersPvpEventStatus(pvpEvent.getPlayer1(), pvpEvent.getPlayer2());
+
             updateAvatarsInDB(pvpEvent.getPlayer1(), pvpEvent.getPlayer2());
 
             return new AttackPlayerResDto(true, pvpEvent.getWhosTurn(), pvpEvent);

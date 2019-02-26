@@ -259,4 +259,30 @@ public class PvpEventServiceTest {
         assertNotNull(result.getPvpEvent());
     }
 
+    @Test
+    public void resetPlayersPvpStatus_playersShouldNotHaveEventIdOrBeInEvent_Test18() {
+        Avatar avatar1 = Avatar.getStarterAvatar("Angie1");
+
+        avatar1.setEventId("eventId");
+
+        avatar1.setInEvent(true);
+
+        Avatar avatar2 = Avatar.getStarterAvatar("Angie2");
+
+        avatar2.setEventId("eventId");
+
+        avatar2.setInEvent(true);
+
+        pvpEventService.resetPlayersPvpEventStatus(avatar1, avatar2);
+
+        assertFalse(avatar1.isInEvent());
+
+        assertFalse(avatar2.isInEvent());
+
+        assertEquals("", avatar1.getEventId());
+
+        assertEquals("", avatar2.getEventId());
+
+    }
+
 }
