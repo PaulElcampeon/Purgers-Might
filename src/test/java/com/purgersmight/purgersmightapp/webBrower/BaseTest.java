@@ -11,7 +11,8 @@ public class BaseTest {
     @Before
     public void setUp() {
         System.out.println("Setting up driver");
-        System.setProperty("webdriver.chrome.driver", "src/main/resources/chromedriver.exe");
+//        System.setProperty("webdriver.chrome.driver", "src/main/resources/chromedriver.exe");
+        System.setProperty("webdriver.chrome.driver", "src/main/resources/chromedriverMac");
         driver = new ChromeDriver();
     }
 
