@@ -1,6 +1,6 @@
 var fighter1Div, fighter2Div, playerUsername, whosTurn, playerData, eventIdX, getBattleEventInterval,
     counterForBattleEventChecks, otherFightersName, battleMessageDiv, battleMessageTag, fighterRow,
-    healthPercentage, mannaPercentage, backToHome, startTime, endTime, actionDiv, checkTimeActingInterval;
+    healthPercentage, mannaPercentage, backToHome, endTime, actionDiv, checkTimeActingInterval;
 
 var stompClient = null;
 var socket = null;
@@ -37,7 +37,7 @@ function ready() {
 
 class AttackPlayerReqDto {
 
-    constructor(eventId,attackType,spellPosition){
+    constructor(eventId, attackType, spellPosition) {
         this.eventId = eventId;
         this.attackType = attackType;
         this.spellPosition = spellPosition;
@@ -64,7 +64,7 @@ function getBattleEvent() {
 
             if (data.success) {
 
-                if(data.pvpEvent == null) {
+                if (data.pvpEvent == null) {
 
                     location.href = "../home";
                 }
@@ -107,7 +107,7 @@ function populateRoom(data) {
 
         console.log("I AM THE INITIATOR");
 
-        if(data.player1.username == playerUsername) {
+        if (data.player1.username == playerUsername) {
 
             sessionStorage.setItem("playerData", JSON.stringify(data.player1));
 
@@ -128,11 +128,15 @@ function populateRoom(data) {
             otherFightersName = data.player1.username;
         }
 
+        setTimes(data.timestamp);
+
+        checkTimeActingInterval = setInterval(checkTimeActing, 2000)//start interval
+
     } else {
 
         console.log("I AM THE RECEIEVER");
 
-        if(data.player1.username == playerUsername) {
+        if (data.player1.username == playerUsername) {
 
             sessionStorage.setItem("playerData", JSON.stringify(data.player1));
 
@@ -164,7 +168,7 @@ function populateRoom(data) {
 }
 
 
-function populateMyData(data) {
+function populateMyData(data, timestamp) {
 
     let tempImgUrl = document.createElement("img");
 
@@ -192,7 +196,7 @@ function populateMyData(data) {
 
     attackUsingWeaponButton.addEventListener("click", () => {
 
-        let attackPlayerReqDto = new AttackPlayerReqDto(eventIdX,"MELEE",0);
+        let attackPlayerReqDto = new AttackPlayerReqDto(eventIdX, "MELEE", 0);
 
         attack(attackPlayerReqDto);
     });
@@ -226,15 +230,11 @@ function populateMyData(data) {
 
         actionDiv.style.display = "block";
 
-        setTimes(data)
-
-        checkTimeActingInterval = setInterval(checkTimeActing, 2000)//start interval
-
     } else {
 
-         console.log("WE ARE HIDING THE ACTIVE DIV");
+        console.log("WE ARE HIDING THE ACTIVE DIV");
 
-         actionDiv.style.display = "none";
+        actionDiv.style.display = "none";
     }
 }
 
@@ -279,13 +279,13 @@ function populateSpell(data, indexOfAbility, myData) {
 
     tempDetails.innerHTML = "Name: " + data.name + "<br>Type: " + data.spellType + "<br>Cost: " + data.mannaCost + "<br>Amount " + data.damagePoints;
 
-    if ((data.spellType == "DAMAGE" && myData.manna.running >= data.mannaCost) ||  (data.spellType == "HEAL" && myData.manna.running >= data.mannaCost )) {
+    if ((data.spellType == "DAMAGE" && myData.manna.running >= data.mannaCost) || (data.spellType == "HEAL" && myData.manna.running >= data.mannaCost)) {
 
         tempButton.innerHTML = "USE ABILITY";
 
         tempButton.addEventListener("click", () => {
 
-            let attackPlayerReqDto = new AttackPlayerReqDto(eventIdX,"SPELL",indexOfAbility);
+            let attackPlayerReqDto = new AttackPlayerReqDto(eventIdX, "SPELL", indexOfAbility);
 
             attack(attackPlayerReqDto);
         });
@@ -314,7 +314,7 @@ function populateHealthEtc(data) {
     let innerProgressDivHealth = document.createElement("div");
     innerProgressDivHealth.classList.add("progress-bar");
     populateHealthDiv(data);
-    innerProgressDivHealth.style.width = healthPercentage+"%";
+    innerProgressDivHealth.style.width = healthPercentage + "%";
     outerProgressDivHealth.setAttribute("id", "healthDivOuter");
     innerProgressDivHealth.setAttribute("id", "healthDiv");
     let healthTag = document.createElement("p");
@@ -328,7 +328,7 @@ function populateHealthEtc(data) {
     let innerProgressDivManna = document.createElement("div");
     innerProgressDivManna.classList.add("progress-bar");
     populateMannaDiv(data);
-    innerProgressDivManna.style.width = mannaPercentage+"%";
+    innerProgressDivManna.style.width = mannaPercentage + "%";
     outerProgressDivManna.setAttribute("id", "manaDivOuter");
     innerProgressDivManna.setAttribute("id", "manaDiv");
     let mannaTag = document.createElement("p");
@@ -359,7 +359,7 @@ function populateHealthDiv(data) {
 
     let runningHealth = data.health.running;
 
-    healthPercentage = (runningHealth/baseHealth) * 100;
+    healthPercentage = (runningHealth / baseHealth) * 100;
 }
 
 function populateMannaDiv(data) {
@@ -368,21 +368,19 @@ function populateMannaDiv(data) {
 
     let runningManna = data.manna.running;
 
-    mannaPercentage = (runningManna/baseManna) * 100;
+    mannaPercentage = (runningManna / baseManna) * 100;
 }
 
-function setTimes(data){
+function setTimes(timestamp) {
 
-    let startTime = data.timestamp
-
-    let endTime = data.timestamp + 15000 //adding 15 seconds onto the startTime
+    endTime = timestamp + 15000 //adding 15 seconds onto the timstamp
 }
 
-function checkTimeActing(){
+function checkTimeActing() {
 
     let currentDate = new Date();
 
-    if(currentDate.getTime() >= endTime){
+    if (currentDate.getTime() >= endTime) {
 
         clearInterval(checkTimeActingInterval);//stop the interval
 
@@ -395,11 +393,10 @@ function checkTimeActing(){
 
 //////////////////EVENT LISTENERS//////////////////
 
-backToHome.addEventListener("click", ()=>{
+backToHome.addEventListener("click", () => {
 
     location.href = "../home"
 })
-
 
 
 //////////////////WEBSOCET STUFF//////////////////
@@ -417,7 +414,7 @@ function connect() {
             handleResponseData(JSON.parse(data.body));
 
         });
-    }, function(error) {
+    }, function (error) {
 
         console.log(error);
     });
@@ -462,9 +459,9 @@ function handleResponseData(data) {
     }
 }
 
-function automaticMeleeAttack(){
+function automaticMeleeAttack() {
 
-    let attackPlayerReqDto = new AttackPlayerReqDto(eventIdX,"MELEE",0);//send automatic attack
+    let attackPlayerReqDto = new AttackPlayerReqDto(eventIdX, "MELEE", 0);//send automatic attack
 
     attack(attackPlayerReqDto);
 }
