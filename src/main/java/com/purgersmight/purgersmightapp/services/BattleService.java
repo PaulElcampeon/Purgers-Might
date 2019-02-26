@@ -71,13 +71,18 @@ public class BattleService {
 
         changeWhosTurn(pvpEvent);
 
-        pvpEvent.setTimestamp(new Date().getTime());//updating the timestamp
+        updateEventTimestamp(pvpEvent);//updating the timestamp
 
         updatePvpEventInDB(pvpEvent);
 
         updateAvatarsInDB(pvpEvent.getPlayer1(), pvpEvent.getPlayer2());
 
         return new AttackPlayerResDto(false, null, pvpEvent);
+    }
+
+    private void updateEventTimestamp(PvpEvent pvpEvent) {
+
+        pvpEvent.setTimestamp(new Date().getTime());
     }
 
     public void playerAttack(Avatar actingAvatar, Avatar defendingAvatar, final AttackPlayerReqDto attackPlayerReqDto) {
