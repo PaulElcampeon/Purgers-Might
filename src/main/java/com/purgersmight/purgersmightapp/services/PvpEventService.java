@@ -192,4 +192,14 @@ public class PvpEventService {
 
         return pvpEvent;
     }
+
+    public void resetPlayersPvpEventStatus(Avatar... avatars) {
+
+        for (Avatar avatar : avatars) {
+
+            avatar.setEventId("");
+
+            avatar.setInEvent(false);
+        }
+    }
 }
