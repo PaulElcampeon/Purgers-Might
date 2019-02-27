@@ -1,6 +1,7 @@
 var fighter1Div, fighter2Div, playerUsername, whosTurn, playerData, eventIdX, getBattleEventInterval,
     counterForBattleEventChecks, otherFightersName, battleMessageDiv, battleMessageTag, fighterRow,
-    healthPercentage, mannaPercentage, backToHome, endTime, actionDiv, checkTimeActingInterval;
+    healthPercentage, mannaPercentage, backToHome, endTime, actionDiv, checkTimeActingInterval, timerDiv,
+    timerOuterDiv, timerTag, timerInterval;
 
 var stompClient = null;
 var socket = null;
@@ -11,7 +12,11 @@ battleMessageDiv = document.getElementById("battleMessageDiv");
 battleMessageTag = document.getElementById("battleMessageTag");
 fighterRow = document.getElementById("fighterRow");
 backToHome = document.getElementById("backToHome");
+timerOuterDiv = document.getElementById("timerOuterDiv");
+timerDiv = document.getElementById("timerDiv");
+timerTag = document.getElementById("timerTag");
 counterForBattleEventChecks = 0;
+timerOuterDiv.style.display = "none";
 
 if (document.readyState !== 'loading') {
 
@@ -130,9 +135,9 @@ function populateRoom(data) {
 
         setTimes(data.timestamp);
 
-        checkTimeActingInterval = setInterval(checkTimeActing, 2000)//start interval
-
     } else {
+
+        timerOuterDiv.style.display = "none";
 
         console.log("I AM THE RECEIEVER");
 
@@ -374,11 +379,25 @@ function populateMannaDiv(data) {
 function setTimes(timestamp) {
 
     endTime = timestamp + 15000 //adding 15 seconds onto the timstamp
+
+    checkTimeActingInterval = setInterval(checkTimeActing, 2000)//start interval
+
+    timerOuterDiv.style.display = "flex";
 }
 
 function checkTimeActing() {
 
     let currentDate = new Date();
+
+    let timerPercentage = (((15000 - (endTime - currentDate.getTime()))/15000) * 100).toFixed(0);
+
+    console.log(endTime - currentDate.getTime() > 15000);
+
+    console.log(timerPercentage);
+
+    timerDiv.style.width = timerPercentage + "%";
+
+    timerTag.innerHTML = timerPercentage + "%";
 
     if (currentDate.getTime() >= endTime) {
 
