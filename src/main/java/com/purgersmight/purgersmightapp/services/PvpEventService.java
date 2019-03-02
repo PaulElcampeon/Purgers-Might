@@ -12,12 +12,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import java.util.stream.Collectors;
 
 @Service
 @Scope(value = "singleton")
@@ -105,7 +107,7 @@ public class PvpEventService {
 
         Avatar tempAvatar = avatarService.getAvatarByUsername(username);
 
-        if(checkIfInQueue(username)){
+        if (checkIfInQueue(username)) {
 
             avatarsInQueueForPvpEvent.remove(tempAvatar);
 
@@ -125,11 +127,11 @@ public class PvpEventService {
         }
     }
 
-    public boolean checkIfInQueue(String username){
+    public boolean checkIfInQueue(String username) {
 
-        for(Avatar avatar: avatarsInQueueForPvpEvent){
+        for (Avatar avatar : avatarsInQueueForPvpEvent) {
 
-            if(avatar.getUsername().equals(username)){
+            if (avatar.getUsername().equals(username)) {
 
                 return true;
             }
@@ -177,7 +179,8 @@ public class PvpEventService {
                 .setEventType(EventType.PVP_EVENT)
                 .setWhosTurn(player1.getUsername())
                 .setEnded(false)
-                .setTimestamp(new Date().getTime() + 10000)//should mean that the event time stamp should be 10 seconds after creation
+                .setStartTime(new Date().getTime() + 10000)
+                .setTimestamp(new Date().getTime() + 20000)//should mean that the event time stamp should be 10 seconds after creation
                 .build();
 
         player1.setEventId(pvpEvent.getEventId());
