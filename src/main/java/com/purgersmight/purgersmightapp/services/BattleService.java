@@ -31,6 +31,9 @@ public class BattleService {
     @Autowired
     private AwardService awardService;
 
+    @Autowired
+    private PlayerBattleReceiptService playerBattleReceiptService;
+
     private Logger logger = Logger.getLogger(BattleService.class.getName());
 
     public AttackPlayerResDto processPlayerAttackDto(final AttackPlayerReqDto attackPlayerReqDto) {
@@ -65,6 +68,8 @@ public class BattleService {
             pvpEventService.removePvpEventById(pvpEvent.getEventId());
 
             pvpEventService.resetPlayersPvpEventStatus(pvpEvent.getPlayer1(), pvpEvent.getPlayer2());
+
+            playerBattleReceiptService.createBattleReceipt(pvpEvent);
 
             updateAvatarsInDB(pvpEvent.getPlayer1(), pvpEvent.getPlayer2());
 
