@@ -176,7 +176,7 @@ function populateTimer() {
 
     counterForTimeToHomePage++;
 
-    let timerPercentage = (counterForTimeToHomePage/timeToHomePage) * 100;
+    let timerPercentage = ((counterForTimeToHomePage/timeToHomePage) * 100).toFixed(0);
 
     timerDiv.style.width = timerPercentage + "%";
 
