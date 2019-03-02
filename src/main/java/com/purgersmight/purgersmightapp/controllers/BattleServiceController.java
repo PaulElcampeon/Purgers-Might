@@ -2,6 +2,8 @@ package com.purgersmight.purgersmightapp.controllers;
 
 import com.purgersmight.purgersmightapp.dto.AttackPlayerReqDto;
 import com.purgersmight.purgersmightapp.dto.AttackPlayerResDto;
+import com.purgersmight.purgersmightapp.dto.ForfeitPlayerReqDto;
+import com.purgersmight.purgersmightapp.dto.ForfeitPlayerResDto;
 import com.purgersmight.purgersmightapp.services.BattleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.DestinationVariable;
@@ -21,5 +23,12 @@ public class BattleServiceController {
     public AttackPlayerResDto attackPlayer(@DestinationVariable String eventId, @RequestBody AttackPlayerReqDto attackPlayerReqDto) {
 
         return battleService.processPlayerAttackDto(attackPlayerReqDto);
+    }
+
+    @MessageMapping(value = "/pvp-event/forfeit/{eventId}")
+    @SendTo(value = "/topic/pvp-event/{eventId}")
+    public ForfeitPlayerResDto forfeitPlayer(@DestinationVariable String eventId, @RequestBody ForfeitPlayerReqDto forfeitPlayerReqDto) {
+
+        return battleService.processForfeitReq(forfeitPlayerReqDto);
     }
 }

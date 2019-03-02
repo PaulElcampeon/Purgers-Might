@@ -2,6 +2,8 @@ package com.purgersmight.purgersmightapp.services;
 
 import com.purgersmight.purgersmightapp.dto.AttackPlayerReqDto;
 import com.purgersmight.purgersmightapp.dto.AttackPlayerResDto;
+import com.purgersmight.purgersmightapp.dto.ForfeitPlayerReqDto;
+import com.purgersmight.purgersmightapp.dto.ForfeitPlayerResDto;
 import com.purgersmight.purgersmightapp.enums.AttackType;
 import com.purgersmight.purgersmightapp.enums.SpellType;
 import com.purgersmight.purgersmightapp.models.Avatar;
@@ -66,7 +68,7 @@ public class BattleService {
 
             updateAvatarsInDB(pvpEvent.getPlayer1(), pvpEvent.getPlayer2());
 
-            return new AttackPlayerResDto(true, pvpEvent.getWhosTurn(), pvpEvent);
+            return new AttackPlayerResDto(true, getWinner(pvpEvent), pvpEvent);
         }
 
         changeWhosTurn(pvpEvent);
@@ -78,6 +80,16 @@ public class BattleService {
         updateAvatarsInDB(pvpEvent.getPlayer1(), pvpEvent.getPlayer2());
 
         return new AttackPlayerResDto(false, null, pvpEvent);
+    }
+
+    private String getWinner(PvpEvent pvpEvent) {
+
+        if (pvpEvent.getPlayer1().getHealth().getRunning() == 0) {
+
+            return pvpEvent.getPlayer1().getUsername();
+        }
+
+        return pvpEvent.getPlayer2().getUsername();
     }
 
     private void updateEventTimestamp(PvpEvent pvpEvent) {
@@ -214,5 +226,45 @@ public class BattleService {
         avatarService.updateAvatar(avatar1);
 
         avatarService.updateAvatar(avatar2);
+    }
+
+    public ForfeitPlayerResDto processForfeitReq(ForfeitPlayerReqDto forfeitPlayerReqDto) {
+
+        ForfeitPlayerResDto forfeitPlayerResDto = new ForfeitPlayerResDto();
+
+        PvpEvent pvpEvent = pvpEventService.getPvpEventByEventId(forfeitPlayerReqDto.getEventId());
+
+        pvpEvent.setEnded(true);
+
+        forfeitPlayerResDto.setEnded(true);
+
+        forfeitPlayerResDto.setPvpEvent(pvpEvent);
+
+        if (forfeitPlayerReqDto.getUsername().equals(pvpEvent.getPlayer1().getUsername())) {
+
+            pvpEvent.getPlayer1().getHealth().setRunning(0);
+
+            forfeitPlayerResDto.setWinner(pvpEvent.getPlayer2().getUsername());
+
+        } else {
+
+            pvpEvent.getPlayer2().getHealth().setRunning(0);
+
+            forfeitPlayerResDto.setWinner(pvpEvent.getPlayer1().getUsername());
+        }
+
+        logger.log(Level.INFO,
+                String.format("%s has forfeit the battle thus Pvp Event with id %s has now ended",
+                        forfeitPlayerReqDto.getUsername(), pvpEvent.getEventId()));
+
+        awardService.awardWinningPlayer(pvpEvent);
+
+        pvpEventService.removePvpEventById(pvpEvent.getEventId());
+
+        pvpEventService.resetPlayersPvpEventStatus(pvpEvent.getPlayer1(), pvpEvent.getPlayer2());
+
+        updateAvatarsInDB(pvpEvent.getPlayer1(), pvpEvent.getPlayer2());
+        System.out.println(forfeitPlayerResDto);
+        return forfeitPlayerResDto;
     }
 }

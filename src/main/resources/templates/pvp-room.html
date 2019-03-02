@@ -16,7 +16,7 @@
 </head>
 <body>
 
-<div class="site-wrapper">
+<div class="site-wrapper w-100 m-auto">
 
     <header class="fixed-top">
         <nav class="navbar navbar-expand-lg navbar-dark">
@@ -24,28 +24,39 @@
         </nav>
     </header>
 
+    <div class="m-auto my-5 pt-5">
+        <div id="eventStartTimerDiv" class="mt-5 pt-5">
+            <p id="eventStartTimerPTag" class="h1 m-auto text-white text-center text-monospace font-weight-bold"></p>
+        </div>
+    </div>
+
     <div id="fightRoomWrapper" class="text-white">
+
         <div id="fightRoomTitle" class="mb-5">
             <h1 class="text-center">FIGHT ROOM</h1>
         </div>
+
         <div id="battleMessageDiv" class="text-center">
             <h3 id="battleMessageTag" class="text-center"></h3>
             <button id="backToHome">BACK TO HOME</button>
         </div>
-        <div id="fighterRow" class="widgetRow row">
-            <div id="fighter1Div" class="widgetItem col-sm-5">
 
-            </div>
-            <div id="timerOuterDiv" class="progress m-1 p-0 col-sm">
-                <div id="timerDiv" class="progress-bar"><p id="timerTag" class="p-0 m-0" name="timer"></p></div>
-            </div>
-            <div id="vs" class="widgetItem col-sm-2">
-                <h2>VS</h2>
-            </div>
-            <div id="fighter2Div" class="widgetItem col-sm-5">
-
-            </div>
+        <div id="timerOuterDiv" style="height:40px;" class="mt-0 pt-0 col-sm m-auto w-50">
+            <p id="timerTag" style="font-size:2.5vw;" class="pt-0 mt-0 m-auto text-center font-weight-bold text-dark" name="timer"></p>
         </div>
+
+        <div id="fighterRow" class="mt-5 text-white row">
+
+            <div id="fighter1Div" class="widgetItem col-sm-5"></div>
+
+            <div id="vs" class="my-auto align-middle widgetItem col-sm-2">
+                <h2 class="align-middle">VS</h2>
+            </div>
+
+            <div id="fighter2Div" class="widgetItem col-sm-5"></div>
+
+        </div>
+
     </div>
 
 </div>
