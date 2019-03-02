@@ -15,7 +15,7 @@ public class WebSocketBrokerConfig implements WebSocketMessageBrokerConfigurer {
 
     @Override
     public void registerStompEndpoints(StompEndpointRegistry registry) {
-        registry.addEndpoint("/pvp-event").withSockJS();
+        registry.addEndpoint("/pvp-event","/pvp-event/forfeit").withSockJS();
     }
 
     @Override
