@@ -10,6 +10,8 @@ public class BattleReceipt {
     private String winner;
     private String loser;
     private String date;
+    private String time;
+
 
     public BattleReceipt() {
     }
