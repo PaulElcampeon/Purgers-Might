@@ -1,6 +1,5 @@
 package com.purgersmight.purgersmightapp.services;
 
-import com.mongodb.MongoWriteException;
 import com.purgersmight.purgersmightapp.models.BattleReceipt;
 import com.purgersmight.purgersmightapp.models.PlayerBattleReceipts;
 import com.purgersmight.purgersmightapp.models.PvpEvent;
@@ -9,10 +8,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Collections;
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 @Service
 @Scope(value = "singleton")
@@ -21,11 +24,23 @@ public class PlayerBattleReceiptService {
     @Autowired
     private PlayerBattleReceiptRepository playerBattleReceiptRepository;
 
+    private Logger logger = Logger.getLogger(PlayerBattleReceiptService.class.getName());
+
     public List<BattleReceipt> getPlayerBattleReceipts(String username) {
 
-        PlayerBattleReceipts playerBattleReceipts = playerBattleReceiptRepository.findByUsername(username).get();
+        try {
 
-        return playerBattleReceipts.getBattleReceipts();
+            PlayerBattleReceipts playerBattleReceipts = playerBattleReceiptRepository.findByUsername(username).get();
+
+            logger.log(Level.INFO, String.format("%s has requested their battle receipts", username));
+
+            return playerBattleReceipts.getBattleReceipts();
+
+        } catch (NoSuchElementException e) {
+
+            return Collections.EMPTY_LIST;
+
+        }
     }
 
     public void addPlayerBattleReceipt(PlayerBattleReceipts playerBattleReceipts) {
@@ -75,11 +90,19 @@ public class PlayerBattleReceiptService {
 
     private BattleReceipt getReceipt(String winner, String loser) {
 
-        DateTimeFormatter myFormatObj = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
+        DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
 
-        String formattedDate = myFormatObj.format(LocalDateTime.now());
+        String formattedDate = dateFormatter.format(LocalDate.now());
 
-        return new BattleReceipt(winner, loser, formattedDate);
+        DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm:ss");
+
+        String formattedTime = timeFormatter.format(LocalTime.now());
+
+        System.out.println(formattedDate);
+
+        System.out.println(formattedTime);
+
+        return new BattleReceipt(winner, loser, formattedDate, formattedTime);
     }
 
     private void createNewPlayerBattleReceipt(String username, BattleReceipt battleReceipt) {

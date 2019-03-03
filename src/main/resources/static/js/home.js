@@ -1,7 +1,7 @@
 var playerUserName, avatar, userName, userLevel, kenjaPoints, healthDiv, messageHTag,
     mannaDiv, experienceDiv, healthTag, mannaTag, experienceTag, messageDiv, itemDisplay,
-    tempOuterDivBag, tempOuterDivWeapon, tempOuterDivSpells, tempOuterDivArmour, profilePic;
-
+    tempOuterDivBag, tempOuterDivWeapon, tempOuterDivSpells, tempOuterDivArmour, profilePic,
+    tempBattleReceiptOuterDiv;
 
 userName = document.getElementById("userName");
 userLevel = document.getElementById("userLevel");
@@ -17,6 +17,8 @@ messageHTag = document.getElementById("messageHTag");
 itemDisplay = document.getElementById("itemDisplay");
 itemDisplay.style.display = "none";
 profilePic = document.getElementById("profilePic");
+tempBattleReceiptOuterDiv = document.createElement("div");
+tempBattleReceiptOuterDiv.setAttribute("id", "tempBattleReceiptOuterDiv");
 
 
 if (document.readyState !== 'loading') {
@@ -296,6 +298,35 @@ function displaySpells(data) {
     itemDisplay.appendChild(tempOuterDivSpells);
 }
 
+function displayBattleReceipts(data) {
+
+    tempBattleReceiptOuterDiv.innerHTML = "";
+
+    tempBattleReceiptOuterDiv.classList.add('row', 'text-white', 'text-center', 'my-3', 'p-3', 'border', 'border-white');
+
+    let battleReceiptList = data;
+
+    for (let i = 0; i < battleReceiptList.length; i++) {
+
+        let tempDiv = document.createElement("div");
+        let pTag = document.createElement("p");
+
+        tempDiv.classList.add('p-0', 'col-sm-3');
+
+        pTag.innerHTML = "Winner: " + battleReceiptList[i].winner +
+         "<br>Loser: " + battleReceiptList[i].loser +
+         "<br>Date: " + battleReceiptList[i].date +
+          "<br>Time: " + battleReceiptList[i].time;
+
+        tempDiv.appendChild(pTag);
+        tempBattleReceiptOuterDiv.appendChild(tempDiv);
+    }
+
+        itemDisplay.appendChild(tempBattleReceiptOuterDiv);
+
+        tempBattleReceiptOuterDiv.style.display = "flex";
+}
+
 function equipItem(data) {
 
    let url = "../equip-item";
@@ -362,6 +393,26 @@ function restoreAttributeManna(data) {
         })
 }
 
+function getBattleReceipts() {
+
+    let url = "../battle-receipt-service/" + playerUserName;
+
+    fetch(url, {
+        method: 'GET',
+        headers:{
+            'Content-Type': 'application/json'
+        }
+    })
+        .then(res => res.json())
+        .catch(error => console.error('Error:', error))
+        .then((data) => {
+
+            console.log("DATA FROM BATTLE RECEIPT REQUEST");
+
+            displayBattleReceipts(data)
+        })
+}
+
 function teleportToFightingRoom() {
 
    location.href = "../pvp-room";
@@ -392,6 +443,21 @@ document.getElementById("attributesBtn").addEventListener("click", ()=>{
     location.href = "../upgrade-attributes"
 });
 
+document.getElementById("battleReceiptsBtn").addEventListener("click", ()=>{
+
+    if (itemDisplay.style.display == "none") {
+        getBattleReceipts();
+        tempOuterDivSpells.style.display = "none";
+        tempOuterDivWeapon.style.display = "none";
+        tempOuterDivArmour.style.display = "none";
+        tempOuterDivBag.style.display = "none";
+        itemDisplay.style.display = "block";
+
+    } else {
+
+        itemDisplay.style.display = "none";
+    }
+});
 
 document.getElementById("bagBtn").addEventListener("click", ()=>{
 
@@ -399,6 +465,7 @@ document.getElementById("bagBtn").addEventListener("click", ()=>{
         tempOuterDivSpells.style.display = "none";
         tempOuterDivWeapon.style.display = "none";
         tempOuterDivArmour.style.display = "none";
+        tempBattleReceiptOuterDiv.style.display = "none";
         tempOuterDivBag.style.display = "flex";
         itemDisplay.style.display = "block";
 
@@ -414,6 +481,7 @@ document.getElementById("spellBtn").addEventListener("click", ()=>{
         tempOuterDivBag.style.display = "none";
         tempOuterDivWeapon.style.display = "none";
         tempOuterDivArmour.style.display = "none";
+        tempBattleReceiptOuterDiv.style.display = "none";
         tempOuterDivSpells.style.display = "flex";
         itemDisplay.style.display = "block";
 
@@ -429,6 +497,7 @@ document.getElementById("armourBtn").addEventListener("click", ()=>{
         tempOuterDivBag.style.display = "none";
         tempOuterDivWeapon.style.display = "none";
         tempOuterDivSpells.style.display = "none";
+        tempBattleReceiptOuterDiv.style.display = "none";
         tempOuterDivArmour.style.display = "flex";
         itemDisplay.style.display = "block";
 
@@ -444,6 +513,7 @@ document.getElementById("weaponBtn").addEventListener("click", ()=>{
         tempOuterDivBag.style.display = "none";
         tempOuterDivSpells.style.display = "none";
         tempOuterDivArmour.style.display = "none";
+        tempBattleReceiptOuterDiv.style.display = "none";
         tempOuterDivWeapon.style.display = "flex";
         itemDisplay.style.display = "block";
 

@@ -37,5 +37,7 @@ public class PlayerBattleReceiptServiceTest {
         assertEquals("Winner should be Franky", "Franky", pvpEvent.getPlayer1().getUsername());
 
         assertNotNull(battleReceipt.getDate());
+
+        assertNotNull(battleReceipt.getTime());
     }
 }
