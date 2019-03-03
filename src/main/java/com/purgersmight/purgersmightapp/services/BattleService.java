@@ -268,6 +268,8 @@ public class BattleService {
 
         pvpEventService.resetPlayersPvpEventStatus(pvpEvent.getPlayer1(), pvpEvent.getPlayer2());
 
+        playerBattleReceiptService.createBattleReceipt(pvpEvent);
+
         updateAvatarsInDB(pvpEvent.getPlayer1(), pvpEvent.getPlayer2());
 
         return forfeitPlayerResDto;
