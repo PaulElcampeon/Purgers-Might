@@ -87,14 +87,14 @@ public class BattleService {
         return new AttackPlayerResDto(false, null, pvpEvent);
     }
 
-    private String getWinner(PvpEvent pvpEvent) {
+    public String getWinner(PvpEvent pvpEvent) {
 
         if (pvpEvent.getPlayer1().getHealth().getRunning() == 0) {
 
-            return pvpEvent.getPlayer1().getUsername();
+            return pvpEvent.getPlayer2().getUsername();
         }
 
-        return pvpEvent.getPlayer2().getUsername();
+        return pvpEvent.getPlayer1().getUsername();
     }
 
     private void updateEventTimestamp(PvpEvent pvpEvent) {
@@ -269,7 +269,7 @@ public class BattleService {
         pvpEventService.resetPlayersPvpEventStatus(pvpEvent.getPlayer1(), pvpEvent.getPlayer2());
 
         updateAvatarsInDB(pvpEvent.getPlayer1(), pvpEvent.getPlayer2());
-        System.out.println(forfeitPlayerResDto);
+
         return forfeitPlayerResDto;
     }
 }
