@@ -302,7 +302,7 @@ function displayBattleReceipts(data) {
 
     tempBattleReceiptOuterDiv.innerHTML = "";
 
-    tempBattleReceiptOuterDiv.classList.add('row', 'text-white', 'text-center', 'my-3', 'p-3', 'border', 'border-white');
+    tempBattleReceiptOuterDiv.classList.add('row', 'text-white', 'text-center', 'my-3', 'p-1', 'border', 'border-white');
 
     let battleReceiptList = data;
 
@@ -311,7 +311,7 @@ function displayBattleReceipts(data) {
         let tempDiv = document.createElement("div");
         let pTag = document.createElement("p");
 
-        tempDiv.classList.add('p-0', 'col-sm-3');
+        tempDiv.classList.add('p-0', 'col-sm-3', 'my-1', 'border-white', 'border');
 
         pTag.innerHTML = "Winner: " + battleReceiptList[i].winner +
          "<br>Loser: " + battleReceiptList[i].loser +

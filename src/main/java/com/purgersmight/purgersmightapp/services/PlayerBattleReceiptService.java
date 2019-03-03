@@ -58,6 +58,8 @@ public class PlayerBattleReceiptService {
 
             playerBattleReceipts.getBattleReceipts().add(battleReceipt);
 
+            playerBattleReceiptRepository.save(playerBattleReceipts);
+
         } catch (NoSuchElementException e) {
 
             createNewPlayerBattleReceipt(username, battleReceipt);
@@ -97,10 +99,6 @@ public class PlayerBattleReceiptService {
         DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm:ss");
 
         String formattedTime = timeFormatter.format(LocalTime.now());
-
-        System.out.println(formattedDate);
-
-        System.out.println(formattedTime);
 
         return new BattleReceipt(winner, loser, formattedDate, formattedTime);
     }
