@@ -512,6 +512,8 @@ function handleResponseData(data) {
 
         fighterRow.style.display = "none";
 
+        timerOuterDiv.style.display = "none";
+
         if (data.winner == playerUsername) {
 
             battleMessageTag.innerHTML = "CONGRATULATIONS YOU HAVE WON THE BATTLE";

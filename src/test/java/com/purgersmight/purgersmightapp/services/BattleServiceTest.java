@@ -575,4 +575,19 @@ public class BattleServiceTest {
         assertTrue(result.isEnded());
     }
 
+    @Test
+    public void getWinner_shouldReturnFranky_Test28() {
+
+        PvpEvent pvpEvent = new PvpEvent.PvpEventBuilder()
+                .setPlayer1(Avatar.getStarterAvatar("Franky"))
+                .setPlayer2(Avatar.getStarterAvatar("Benny"))
+                .build();
+
+        pvpEvent.getPlayer2().getHealth().setRunning(0);
+
+        String winner = battleService.getWinner(pvpEvent);
+
+        assertEquals("Franky", winner);
+    }
+
 }
