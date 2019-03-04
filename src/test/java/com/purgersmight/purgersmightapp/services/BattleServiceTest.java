@@ -34,6 +34,9 @@ public class BattleServiceTest {
     @MockBean
     private PlayerBattleReceiptService playerBattleReceiptService;
 
+    @MockBean
+    private BattleStatisticsService battleStatisticsService;
+
     @Test
     public void playerAttackMelee_playersHealthShouldReduce_Test1() {
 

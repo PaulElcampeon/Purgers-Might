@@ -34,6 +34,9 @@ public class BattleService {
     @Autowired
     private PlayerBattleReceiptService playerBattleReceiptService;
 
+    @Autowired
+    private BattleStatisticsService battleStatisticsService;
+
     private Logger logger = Logger.getLogger(BattleService.class.getName());
 
     public AttackPlayerResDto processPlayerAttackDto(final AttackPlayerReqDto attackPlayerReqDto) {
@@ -63,15 +66,7 @@ public class BattleService {
 
             logger.log(Level.INFO, String.format("PvP Event with id %s has now ended", pvpEvent.getEventId()));
 
-            awardService.awardWinningPlayer(pvpEvent);
-
-            pvpEventService.removePvpEventById(pvpEvent.getEventId());
-
-            pvpEventService.resetPlayersPvpEventStatus(pvpEvent.getPlayer1(), pvpEvent.getPlayer2());
-
-            playerBattleReceiptService.createBattleReceipt(pvpEvent);
-
-            updateAvatarsInDB(pvpEvent.getPlayer1(), pvpEvent.getPlayer2());
+            adminAfterEventEnd(pvpEvent);
 
             return new AttackPlayerResDto(true, getWinner(pvpEvent), pvpEvent);
         }
@@ -262,6 +257,13 @@ public class BattleService {
                 String.format("%s has forfeit the battle thus Pvp Event with id %s has now ended",
                         forfeitPlayerReqDto.getUsername(), pvpEvent.getEventId()));
 
+        adminAfterEventEnd(pvpEvent);
+
+        return forfeitPlayerResDto;
+    }
+
+    private void adminAfterEventEnd(PvpEvent pvpEvent) {
+
         awardService.awardWinningPlayer(pvpEvent);
 
         pvpEventService.removePvpEventById(pvpEvent.getEventId());
@@ -270,8 +272,8 @@ public class BattleService {
 
         playerBattleReceiptService.createBattleReceipt(pvpEvent);
 
-        updateAvatarsInDB(pvpEvent.getPlayer1(), pvpEvent.getPlayer2());
+        battleStatisticsService.updateBattleStatistics(pvpEvent);
 
-        return forfeitPlayerResDto;
+        updateAvatarsInDB(pvpEvent.getPlayer1(), pvpEvent.getPlayer2());
     }
 }

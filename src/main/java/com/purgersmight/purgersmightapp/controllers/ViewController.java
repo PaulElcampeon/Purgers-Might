@@ -85,6 +85,12 @@ public class ViewController {
         return "upgrade-attributes.html";
     }
 
+    @RequestMapping(value = "/leaderboard", method = RequestMethod.GET)
+    public String leaderboardPage() {
+
+        return "leaderboard.html";
+    }
+
     @RequestMapping(value = "/accessDenied", method = RequestMethod.GET)
     public String errorPage() {
 

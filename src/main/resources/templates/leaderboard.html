@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <meta name="viewport" content="width=device-width"/>
+    <title>Leader board</title>
+    <link href="https://fonts.googleapis.com/css?family=Skranji" rel="stylesheet">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css"
+          integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+    <link rel="stylesheet" th:href="@{/css/crusaders-wrath.css}"
+          href="../../css/crusaders-wrath.css"/>
+</head>
+<body>
+
+<div class="bodyDiv">
+
+    <div>
+        <h1>LEADER BOARD</h1>
+    </div>
+
+    <div class="logoutDiv">
+        <button id="logoutBtn">LOG OUT</button>
+    </div>
+
+    <div class="backToUserProfileDiv">
+        <button id="backToUserProfileBtn">BACK TO PROFILE</button>
+    </div>
+
+    <div>
+        <button id="next20">NEXT 20</button>
+    </div>
+
+    <div>
+        <button id="previous20">PREVIOUS 20</button>
+    </div>
+
+    <div id="leaderBoardDiv"></div>
+
+</div>
+<script type="text/javascript" th:src="@{/js/leaderboard.js}"></script>
+</body>
+</html>

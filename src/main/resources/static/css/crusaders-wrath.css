@@ -221,24 +221,20 @@ body {
 /*PVP ROOM*/
 
 #pvpWrapper {
-
     border-radius: 10%;
     background-color: rgba(0,0,0,0.5);
     width: 85%;
     margin: auto;
-
 }
 
 
 #pvpTitle {
-
     text-align: center;
     color: white;
     margin: auto;
     margin-top: 10%;
     margin-bottom: 5%;
     padding-top: 5%;
-
 }
 
 
@@ -249,17 +245,35 @@ body {
 /*BATTLEEVENT FIGHTING ROOM*/
 
 #fightRoomWrapper {
-
     border-radius: 5%;
     background-color: rgba(0,0,0,0.3);
     width: 90%;
     margin: auto;
     margin-top: 10%;
-
-
 }
 
 
+
+/*LEADER BOARD PAGE ONLY*/
+
+
+
+#leaderBoardDiv {
+    display: flex;
+    flex-direction: column;
+}
+
+
+#leaderBoardDiv > div {
+    border: 2px solid #fff;
+}
+
+
+#leaderBoardDiv > div > img {
+    border-radius: 50%;
+    width: 80px;
+    height: 80px;
+}
 
 
 
