@@ -1,7 +1,9 @@
-var leaderBoardDiv, skip, avatar, playerUserName;
+var leaderBoardDiv, skip, avatar, playerUserName, backToUserProfileBtn;
 
 skip = 0;
+
 leaderBoardDiv = document.getElementById("leaderBoardDiv");
+backToUserProfileBtn = document.getElementById("backToUserProfileBtn");
 
 if (document.readyState !== 'loading') {
 
@@ -42,16 +44,15 @@ function displayPlayerList(data) {
         let div = document.createElement("div");
         let p = document.createElement("p");
         let img = document.createElement("img");
-        let breakTag1 = document.createElement("br");
-        let breakTag2 = document.createElement("br");
+
+        div.classList.add("mb-5");
+        img.classList.add("mb-4");
 
         p.innerHTML = "Name: " + data[i].username + "<br>Level: " + data[i].level + "<br>Victories: " + data[i].victories + "<br>Defeats: " + data[i].defeats;
         img.src = data[i].imageUrl;
 
         div.appendChild(p);
-        div.appendChild(breakTag1);
         div.appendChild(img);
-        div.appendChild(breakTag2);
         leaderBoardDiv.appendChild(div);
     }
 }
@@ -101,6 +102,13 @@ function getLeaderBoard() {
 ///////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////BUTTON EVENT LISTENERS//////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////
+
+
+backToUserProfileBtn.addEventListener("click",()=>{
+
+    location.href = "../home"
+})
+
 
 document.getElementById("next20").addEventListener("click", () => {
 

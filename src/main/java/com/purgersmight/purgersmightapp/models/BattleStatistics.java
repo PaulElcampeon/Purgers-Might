@@ -23,4 +23,9 @@ public class BattleStatistics {
     public BattleStatistics(String username) {
         this.username = username;
     }
+
+    public BattleStatistics(String username, String imageUrl) {
+        this.username = username;
+        this.imageUrl = imageUrl;
+    }
 }
