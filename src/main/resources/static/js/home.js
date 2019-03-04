@@ -1,7 +1,7 @@
 var playerUserName, avatar, userName, userLevel, kenjaPoints, healthDiv, messageHTag,
     mannaDiv, experienceDiv, healthTag, mannaTag, experienceTag, messageDiv, itemDisplay,
     tempOuterDivBag, tempOuterDivWeapon, tempOuterDivSpells, tempOuterDivArmour, profilePic,
-    tempBattleReceiptOuterDiv;
+    tempBattleReceiptOuterDiv, tempBattleStatisticsOuterDiv;
 
 userName = document.getElementById("userName");
 userLevel = document.getElementById("userLevel");
@@ -19,6 +19,8 @@ itemDisplay.style.display = "none";
 profilePic = document.getElementById("profilePic");
 tempBattleReceiptOuterDiv = document.createElement("div");
 tempBattleReceiptOuterDiv.setAttribute("id", "tempBattleReceiptOuterDiv");
+tempBattleStatisticsOuterDiv = document.createElement("div");
+tempBattleStatisticsOuterDiv.setAttribute("id", "tempBattleStatisticsOuterDiv");
 
 
 if (document.readyState !== 'loading') {
@@ -327,6 +329,25 @@ function displayBattleReceipts(data) {
         tempBattleReceiptOuterDiv.style.display = "flex";
 }
 
+function displayBattleStatistics(data) {
+
+    tempBattleStatisticsOuterDiv.innerHTML = "";
+
+    tempBattleStatisticsOuterDiv.classList.add('row', 'text-white', 'text-center', 'py-2', 'border', 'border-white', 'm-auto', 'w-50');
+
+    let tempPTag = document.createElement("p");
+
+    tempPTag.classList.add('h3', 'm-auto');
+
+    tempPTag.innerHTML = "Victories: " + data.victories + "<br>Defeats: " + data.defeats;
+
+    tempBattleStatisticsOuterDiv.appendChild(tempPTag);
+
+    itemDisplay.appendChild(tempBattleStatisticsOuterDiv);
+
+    tempBattleStatisticsOuterDiv.style.display = "flex";
+}
+
 function equipItem(data) {
 
    let url = "../equip-item";
@@ -348,7 +369,6 @@ function equipItem(data) {
 
            populateUserInfo(data.avatar);
        })
-
 }
 
 function restoreAttributeHealth(data) {
@@ -413,6 +433,26 @@ function getBattleReceipts() {
         })
 }
 
+function getBattleStatistics() {
+
+    let url = "../battle-statistics-service/battle-statistics/" + playerUserName;
+
+    fetch(url, {
+        method: 'GET',
+        headers:{
+            'Content-Type': 'application/json'
+        }
+    })
+        .then(res => res.json())
+        .catch(error => console.error('Error:', error))
+        .then((data) => {
+
+            console.log("DATA FROM BATTLE STATISTICS REQUEST");
+
+            displayBattleStatistics(data);
+        })
+}
+
 function teleportToFightingRoom() {
 
    location.href = "../pvp-room";
@@ -422,6 +462,11 @@ function restoreAttributeReqDto(){
 
     return {username: playerUserName};
 }
+
+document.getElementById("leaderBoardBtn").addEventListener("click", ()=>{
+
+    location.href = "../leaderboard";
+});
 
 document.getElementById("healPlayerBtn").addEventListener("click", ()=>{
 
@@ -443,10 +488,27 @@ document.getElementById("attributesBtn").addEventListener("click", ()=>{
     location.href = "../upgrade-attributes"
 });
 
+document.getElementById("battleStatsBtn").addEventListener("click", ()=>{
+
+    if (itemDisplay.style.display == "none") {
+        getBattleStatistics();
+        tempOuterDivSpells.style.display = "none";
+        tempOuterDivWeapon.style.display = "none";
+        tempOuterDivArmour.style.display = "none";
+        tempOuterDivBag.style.display = "none";
+        itemDisplay.style.display = "block";
+
+    } else {
+
+        itemDisplay.style.display = "none";
+    }
+});
+
 document.getElementById("battleReceiptsBtn").addEventListener("click", ()=>{
 
     if (itemDisplay.style.display == "none") {
         getBattleReceipts();
+        tempBattleStatisticsOuterDiv.style.display = "none";
         tempOuterDivSpells.style.display = "none";
         tempOuterDivWeapon.style.display = "none";
         tempOuterDivArmour.style.display = "none";
@@ -465,6 +527,7 @@ document.getElementById("bagBtn").addEventListener("click", ()=>{
         tempOuterDivSpells.style.display = "none";
         tempOuterDivWeapon.style.display = "none";
         tempOuterDivArmour.style.display = "none";
+        tempBattleStatisticsOuterDiv.style.display = "none";
         tempBattleReceiptOuterDiv.style.display = "none";
         tempOuterDivBag.style.display = "flex";
         itemDisplay.style.display = "block";
@@ -481,6 +544,7 @@ document.getElementById("spellBtn").addEventListener("click", ()=>{
         tempOuterDivBag.style.display = "none";
         tempOuterDivWeapon.style.display = "none";
         tempOuterDivArmour.style.display = "none";
+        tempBattleStatisticsOuterDiv.style.display = "none";
         tempBattleReceiptOuterDiv.style.display = "none";
         tempOuterDivSpells.style.display = "flex";
         itemDisplay.style.display = "block";
@@ -496,6 +560,7 @@ document.getElementById("armourBtn").addEventListener("click", ()=>{
     if (itemDisplay.style.display == "none") {
         tempOuterDivBag.style.display = "none";
         tempOuterDivWeapon.style.display = "none";
+        tempBattleStatisticsOuterDiv.style.display = "none";
         tempOuterDivSpells.style.display = "none";
         tempBattleReceiptOuterDiv.style.display = "none";
         tempOuterDivArmour.style.display = "flex";
@@ -512,6 +577,7 @@ document.getElementById("weaponBtn").addEventListener("click", ()=>{
     if (itemDisplay.style.display == "none") {
         tempOuterDivBag.style.display = "none";
         tempOuterDivSpells.style.display = "none";
+        tempBattleStatisticsOuterDiv.style.display = "none";
         tempOuterDivArmour.style.display = "none";
         tempBattleReceiptOuterDiv.style.display = "none";
         tempOuterDivWeapon.style.display = "flex";

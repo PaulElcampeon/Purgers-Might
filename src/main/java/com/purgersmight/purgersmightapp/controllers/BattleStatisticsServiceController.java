@@ -21,4 +21,10 @@ public class BattleStatisticsServiceController {
 
         return battleStatisticsService.getLeaderBoard(skip);
     }
+
+    @RequestMapping(value = "/battle-statistics-service/battle-statistics/{username}", method = RequestMethod.GET)
+    public BattleStatistics getBattleStatistics(@PathVariable String username) {
+
+        return battleStatisticsService.getBattleStatistics(username);
+    }
 }
