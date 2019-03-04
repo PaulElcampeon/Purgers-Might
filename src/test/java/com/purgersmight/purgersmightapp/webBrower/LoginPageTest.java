@@ -7,6 +7,8 @@ import com.purgersmight.purgersmightapp.models.User;
 import com.purgersmight.purgersmightapp.pageObjects.HomePage;
 import com.purgersmight.purgersmightapp.pageObjects.LoginPage;
 import com.purgersmight.purgersmightapp.services.AvatarService;
+import com.purgersmight.purgersmightapp.services.BattleStatisticsService;
+import com.purgersmight.purgersmightapp.services.PlayerBattleReceiptService;
 import com.purgersmight.purgersmightapp.services.UserService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -33,6 +35,12 @@ public class LoginPageTest extends BaseTest {
     @Autowired
     private AvatarService avatarService;
 
+    @Autowired
+    private PlayerBattleReceiptService playerBattleReceiptService;
+
+    @Autowired
+    private BattleStatisticsService battleStatisticsService;
+
     @Test
     public void login_success_Test1() {
         WebDriverWait wait = new WebDriverWait(driver, 10);
@@ -41,6 +49,12 @@ public class LoginPageTest extends BaseTest {
         loginPage.open();
 
         userService.removeAllUsers();
+
+        avatarService.removeAllAvatars();
+
+        playerBattleReceiptService.removeAll();
+
+        battleStatisticsService.removeAllBattleStatistics();
 
         User user = new User("Angie1", "123456");
 
@@ -71,6 +85,10 @@ public class LoginPageTest extends BaseTest {
         userService.removeAllUsers();
 
         avatarService.removeAllAvatars();
+
+        playerBattleReceiptService.removeAll();
+
+        battleStatisticsService.removeAllBattleStatistics();
 
         assertEquals("Username: Angie1", username);
 

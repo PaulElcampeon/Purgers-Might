@@ -66,6 +66,11 @@ public class PlayerBattleReceiptService {
         }
     }
 
+    public void removeAll() {
+
+        playerBattleReceiptRepository.deleteAll();
+    }
+
     public BattleReceipt createBattleReceipt(PvpEvent pvpEvent) {
 
         BattleReceipt battleReceipt;

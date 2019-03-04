@@ -7,6 +7,8 @@ import com.purgersmight.purgersmightapp.models.User;
 import com.purgersmight.purgersmightapp.pageObjects.HomePage;
 import com.purgersmight.purgersmightapp.pageObjects.LoginPage;
 import com.purgersmight.purgersmightapp.services.AvatarService;
+import com.purgersmight.purgersmightapp.services.BattleStatisticsService;
+import com.purgersmight.purgersmightapp.services.PlayerBattleReceiptService;
 import com.purgersmight.purgersmightapp.services.UserService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -29,6 +31,12 @@ public class HomePageTest extends BaseTest {
 
     @Autowired
     private AvatarService avatarService;
+
+    @Autowired
+    private PlayerBattleReceiptService playerBattleReceiptService;
+
+    @Autowired
+    private BattleStatisticsService battleStatisticsService;
 
     @LocalServerPort
     private int portNo;
@@ -80,6 +88,10 @@ public class HomePageTest extends BaseTest {
         userService.removeAllUsers();
 
         avatarService.removeAllAvatars();
+
+        playerBattleReceiptService.removeAll();
+
+        battleStatisticsService.removeAllBattleStatistics();
 
         assertEquals("100/100", healthText);
 

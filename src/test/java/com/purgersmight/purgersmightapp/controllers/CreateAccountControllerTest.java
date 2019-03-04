@@ -1,6 +1,8 @@
 package com.purgersmight.purgersmightapp.controllers;
 
 import com.purgersmight.purgersmightapp.services.AvatarService;
+import com.purgersmight.purgersmightapp.services.BattleStatisticsService;
+import com.purgersmight.purgersmightapp.services.PlayerBattleReceiptService;
 import com.purgersmight.purgersmightapp.services.UserService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -26,6 +28,12 @@ public class CreateAccountControllerTest {
 
     @MockBean
     private UserService userService;
+
+    @MockBean
+    private PlayerBattleReceiptService playerBattleReceiptService;
+
+    @MockBean
+    private BattleStatisticsService battleStatisticsService;
 
     @Test
     public void createUser_shouldBeRedirectedToLoginPage_Test1() throws Exception {

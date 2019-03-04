@@ -5,6 +5,8 @@ import com.purgersmight.purgersmightapp.config.WebSecurityConfig;
 import com.purgersmight.purgersmightapp.pageObjects.CreateAccountPage;
 import com.purgersmight.purgersmightapp.pageObjects.LoginPage;
 import com.purgersmight.purgersmightapp.services.AvatarService;
+import com.purgersmight.purgersmightapp.services.BattleStatisticsService;
+import com.purgersmight.purgersmightapp.services.PlayerBattleReceiptService;
 import com.purgersmight.purgersmightapp.services.UserService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -31,6 +33,12 @@ public class CreateAccountPageTest extends BaseTest {
     @Autowired
     private AvatarService avatarService;
 
+    @Autowired
+    private PlayerBattleReceiptService playerBattleReceiptService;
+
+    @Autowired
+    private BattleStatisticsService battleStatisticsService;
+
     @Test
     public void createAccount_success_Test1() {
         WebDriverWait wait = new WebDriverWait(driver, 10);
@@ -39,6 +47,9 @@ public class CreateAccountPageTest extends BaseTest {
         createAccountPage.open();
 
         userService.removeAllUsers();
+        avatarService.removeAllAvatars();
+        playerBattleReceiptService.removeAll();
+        battleStatisticsService.removeAllBattleStatistics();
 
         CreateAccountPage.username(driver).sendKeys("Angie1");
         CreateAccountPage.password(driver).sendKeys("123456");
@@ -53,6 +64,8 @@ public class CreateAccountPageTest extends BaseTest {
 
         userService.removeAllUsers();
         avatarService.removeAllAvatars();
+        playerBattleReceiptService.removeAll();
+        battleStatisticsService.removeAllBattleStatistics();
 
         assertEquals("Account created successfully.", createdMsg);
     }
@@ -65,6 +78,9 @@ public class CreateAccountPageTest extends BaseTest {
         createAccountPage.open();
 
         userService.removeAllUsers();
+        avatarService.removeAllAvatars();
+        playerBattleReceiptService.removeAll();
+        battleStatisticsService.removeAllBattleStatistics();
 
         CreateAccountPage.username(driver).sendKeys("Angie1");
         CreateAccountPage.password(driver).sendKeys("1234");
@@ -77,6 +93,8 @@ public class CreateAccountPageTest extends BaseTest {
 
         userService.removeAllUsers();
         avatarService.removeAllAvatars();
+        playerBattleReceiptService.removeAll();
+        battleStatisticsService.removeAllBattleStatistics();
 
         assertEquals("Invalid username or password.", errorMsg);
     }

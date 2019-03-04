@@ -2,8 +2,12 @@ package com.purgersmight.purgersmightapp.controllers;
 
 import com.purgersmight.purgersmightapp.dto.CreateNewUserReqDto;
 import com.purgersmight.purgersmightapp.models.Avatar;
+import com.purgersmight.purgersmightapp.models.BattleStatistics;
+import com.purgersmight.purgersmightapp.models.PlayerBattleReceipts;
 import com.purgersmight.purgersmightapp.models.User;
 import com.purgersmight.purgersmightapp.services.AvatarService;
+import com.purgersmight.purgersmightapp.services.BattleStatisticsService;
+import com.purgersmight.purgersmightapp.services.PlayerBattleReceiptService;
 import com.purgersmight.purgersmightapp.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -27,6 +31,12 @@ public class CreateAccountController {
     @Autowired
     private AvatarService avatarService;
 
+    @Autowired
+    private PlayerBattleReceiptService playerBattleReceiptService;
+
+    @Autowired
+    private BattleStatisticsService battleStatisticsService;
+
     private Logger logger = Logger.getLogger(UserServiceController.class.getName());
 
     @RequestMapping(value = "/create-account", method = RequestMethod.POST)
@@ -43,9 +53,17 @@ public class CreateAccountController {
 
         Avatar newAvatar = Avatar.getStarterAvatar(newUser.getUsername());
 
+        PlayerBattleReceipts newPlayerBattleReceipts = new PlayerBattleReceipts(createNewUserReqDto.getUsername());
+
+        BattleStatistics newBattleStatistics = new BattleStatistics(createNewUserReqDto.getUsername());
+
         userService.addUser(newUser);
 
         avatarService.addAvatar(newAvatar);
+
+        playerBattleReceiptService.addPlayerBattleReceipt(newPlayerBattleReceipts);
+
+        battleStatisticsService.addBattleStatistics(newBattleStatistics);
 
         return new RedirectView("/login?created");
     }
