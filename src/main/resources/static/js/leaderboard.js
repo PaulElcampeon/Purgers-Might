@@ -1,0 +1,123 @@
+var leaderBoardDiv, skip, avatar, playerUserName;
+
+skip = 0;
+leaderBoardDiv = document.getElementById("leaderBoardDiv");
+
+if (document.readyState !== 'loading') {
+
+    ready();
+
+} else {
+
+    document.addEventListener('DOMContentLoaded', ready);
+}
+
+function ready () {
+
+    avatar = JSON.parse(sessionStorage.getItem("avatar"));
+
+    playerUserName = avatar.username;
+
+    setInitialSkip();
+
+    getLeaderBoard();
+}
+
+function setInitialSkip() {
+
+    let tempSkip = JSON.parse(sessionStorage.getItem("skip"));
+
+    if (tempSkip != null) {
+
+        skip = tempSkip;
+    }
+}
+
+function displayPlayerList(data) {
+
+    leaderBoardDiv.innerHTML = "";
+
+    for (let i = 0; i < data.length; i++) {
+
+        let div = document.createElement("div");
+        let p = document.createElement("p");
+        let img = document.createElement("img");
+        let breakTag1 = document.createElement("br");
+        let breakTag2 = document.createElement("br");
+
+        p.innerHTML = "Name: " + data[i].username + "<br>Level: " + data[i].level + "<br>Victories: " + data[i].victories + "<br>Defeats: " + data[i].defeats;
+        img.src = data[i].imageUrl;
+
+        div.appendChild(p);
+        div.appendChild(breakTag1);
+        div.appendChild(img);
+        div.appendChild(breakTag2);
+        leaderBoardDiv.appendChild(div);
+    }
+}
+
+function increaseSkip() {
+
+     skip+=20;
+
+     sessionStorage.setItem(JSON.Stringify(skip));
+}
+
+function decreaseSkip() {
+
+    skip-=20;
+
+    sessionStorage.setItem(JSON.Stringify(skip));
+}
+
+///////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////REQUESTS////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////
+
+
+function getLeaderBoard() {
+
+    console.log("GETTING player LIST");
+
+    let url = '../battle-statistics-service/leaderboard/' + skip;
+
+    fetch(url, {
+        method:'GET'
+    })
+        .then(res => res.json())
+        .catch(error => console.error('Error:', error))
+        .then((data) => {
+
+            console.log("DATA FROM player LIST REQUEST");
+
+            console.log(data);
+
+            displayPlayerList(data);
+
+        })
+}
+
+
+///////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////BUTTON EVENT LISTENERS//////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////
+
+document.getElementById("next20").addEventListener("click", () => {
+
+    increaseSkip();
+
+    getLeaderBoard();
+});
+
+
+document.getElementById("previous20").addEventListener("click", () => {
+
+    if (skip == 20) {
+        //do nothing
+    } else {
+
+        decreaseSkip();
+
+        getLeaderBoard();
+    }
+});

@@ -6,6 +6,7 @@ import com.purgersmight.purgersmightapp.dto.AttackPlayerReqDto;
 import com.purgersmight.purgersmightapp.dto.AttackPlayerResDto;
 import com.purgersmight.purgersmightapp.enums.AttackType;
 import com.purgersmight.purgersmightapp.models.Avatar;
+import com.purgersmight.purgersmightapp.models.BattleStatistics;
 import com.purgersmight.purgersmightapp.models.PvpEvent;
 import com.purgersmight.purgersmightapp.models.Spell;
 import org.junit.After;
@@ -31,12 +32,17 @@ public class BattleServiceIT {
     @Autowired
     private AvatarService avatarService;
 
+    @Autowired
+    private BattleStatisticsService battleStatisticsService;
+
     @After
     public void tearDown() {
 
         pvpEventService.removeAllPvpEvents();
 
         avatarService.removeAllAvatars();
+
+        battleStatisticsService.removeAllBattleStatistics();
     }
 
     @Test
@@ -609,5 +615,49 @@ public class BattleServiceIT {
 
         //Event should no longer exist in DB
         assertFalse(pvpEventService.existsById("MockEvent"));
+    }
+
+    @Test
+    public void processPlayerAttackDto_playerBattleStatsShouldHaveChanged_Test28() {
+
+        Avatar attacker = Avatar.getStarterAvatar("Dave");
+
+        Avatar defender = Avatar.getStarterAvatar("Stanley");
+
+        avatarService.addAvatar(defender);
+
+        defender.getHealth().setRunning(10);
+
+        Spell attackSpell = Spell.getDefaultAttackSpell(10, 40);
+
+        attacker.getSpellBook().getSpellList().add(attackSpell);
+
+        PvpEvent pvpEvent = new PvpEvent();
+
+        pvpEvent.setPlayer1(attacker);
+
+        pvpEvent.setPlayer2(defender);
+
+        pvpEvent.setWhosTurn("Dave");
+
+        pvpEvent.setEventId("MockEvent");
+
+        pvpEventService.addPvpEvent(pvpEvent);
+
+        AttackPlayerReqDto attackPlayerReqDto = new AttackPlayerReqDto("MockEvent", AttackType.SPELL, 0);
+
+        battleService.processPlayerAttackDto(attackPlayerReqDto);
+
+        BattleStatistics battleStatisticsResult1 = battleStatisticsService.getBattleStatistics("Dave");
+
+        BattleStatistics battleStatisticsResult2 = battleStatisticsService.getBattleStatistics("Stanley");
+
+        assertEquals(1, battleStatisticsResult1.getVictories());
+
+        assertEquals(0, battleStatisticsResult1.getDefeats());
+
+        assertEquals(1, battleStatisticsResult2.getDefeats());
+
+        assertEquals(0, battleStatisticsResult2.getVictories());
     }
 }
