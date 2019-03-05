@@ -5,6 +5,9 @@ import lombok.Data;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Data
 @Document(collection = "AVATARS")
 public class Avatar {
@@ -16,6 +19,8 @@ public class Avatar {
     private AvatarAttribute<Integer> health = new AvatarAttribute<>(100);
     private AvatarAttribute<Integer> manna = new AvatarAttribute<>(60);
     private AvatarAttribute<Integer> experience;
+    private List<AbstractBuffAndDebuff> debuffList = new ArrayList<>();
+    private List<AbstractBuffAndDebuff> buffList = new ArrayList<>();
     private SpellBook spellBook;
     private int kenjaPoints;
     private boolean active;
