@@ -11,7 +11,6 @@ import org.springframework.data.mongodb.core.mapping.Document;
 public class Spell {
 
     private String name;
-    private String type;
     private SpellType spellType;
     private String imageUrl;
     private int mannaCost;
