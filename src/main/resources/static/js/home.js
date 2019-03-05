@@ -488,6 +488,12 @@ document.getElementById("attributesBtn").addEventListener("click", ()=>{
     location.href = "../upgrade-attributes"
 });
 
+document.getElementById("chatRoomBtn").addEventListener("click", ()=>{
+
+    location.href = "../chat-room"
+});
+
+
 document.getElementById("battleStatsBtn").addEventListener("click", ()=>{
 
     if (itemDisplay.style.display == "none") {

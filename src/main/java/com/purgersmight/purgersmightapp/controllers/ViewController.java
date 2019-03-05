@@ -91,6 +91,12 @@ public class ViewController {
         return "leaderboard.html";
     }
 
+    @RequestMapping(value = "/chat-room", method = RequestMethod.GET)
+    public String chatRoomPage() {
+
+        return "chat-room.html";
+    }
+
     @RequestMapping(value = "/accessDenied", method = RequestMethod.GET)
     public String errorPage() {
 

@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <meta name="viewport" content="width=device-width"/>
+    <title>Chat Room</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css"
+          integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+    <link rel="stylesheet" th:href="@{/css/crusaders-wrath.css}"
+          href="../../css/crusaders-wrath.css">
+    <link href="https://fonts.googleapis.com/css?family=Skranji" rel="stylesheet">
+    <script src="/webjars/jquery/jquery.min.js"></script>
+    <script src="/webjars/sockjs-client/sockjs.min.js"></script>
+    <script src="/webjars/stomp-websocket/stomp.min.js"></script>
+</head>
+<body>
+<div class="d-flex flex-column m-auto w-100">
+
+    <div id="title" class="text-center text-white py-5 m-auto" style="font-family:'Skrangji', cursive; font-size:9vw">
+        P-M<span class="text-muted"> Chat Rooms</span></div>
+
+    <div class="d-flex flex-column m-auto w-50">
+
+        <div id="chatbox" class="w-100">
+
+        </div>
+
+        <div class="text-center mt-2" id="inputSection">
+            <input type="text" class="bg-white text-dark w-100 m-auto" id="chatMessageDiv" placeholder="message" name="messageinput">
+            <br>
+            <br>
+            <br>
+            <input type="button" class="btn btn-lg btn-block btnh w-50 m-auto" value="SEND" id="sendMessageBtn">
+        </div>
+
+    </div>
+
+</div>
+
+<script type="text/javascript" th:src="@{/js/chat-room.js}"></script>
+</body>
+</html>

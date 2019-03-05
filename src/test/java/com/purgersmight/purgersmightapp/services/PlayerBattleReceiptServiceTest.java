@@ -5,8 +5,10 @@ import com.purgersmight.purgersmightapp.config.WebSecurityConfig;
 import com.purgersmight.purgersmightapp.models.Avatar;
 import com.purgersmight.purgersmightapp.models.BattleReceipt;
 import com.purgersmight.purgersmightapp.models.PvpEvent;
+import com.purgersmight.purgersmightapp.utils.DateAndTimeUtil;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.SpyBean;
 import org.springframework.test.context.junit4.SpringRunner;
@@ -20,6 +22,9 @@ public class PlayerBattleReceiptServiceTest {
 
     @SpyBean
     private PlayerBattleReceiptService playerBattleReceiptService;
+
+    @Autowired
+    private DateAndTimeUtil dateAndTimeUtil;
 
     @Test
     public void createBattleReceipt_Test1(){
