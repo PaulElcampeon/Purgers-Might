@@ -4,6 +4,7 @@ import com.purgersmight.purgersmightapp.models.BattleReceipt;
 import com.purgersmight.purgersmightapp.models.PlayerBattleReceipts;
 import com.purgersmight.purgersmightapp.models.PvpEvent;
 import com.purgersmight.purgersmightapp.repositories.PlayerBattleReceiptRepository;
+import com.purgersmight.purgersmightapp.utils.DateAndTimeUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
@@ -23,6 +24,9 @@ public class PlayerBattleReceiptService {
 
     @Autowired
     private PlayerBattleReceiptRepository playerBattleReceiptRepository;
+
+    @Autowired
+    private DateAndTimeUtil dateAndTimeUtil;
 
     private Logger logger = Logger.getLogger(PlayerBattleReceiptService.class.getName());
 
@@ -97,15 +101,7 @@ public class PlayerBattleReceiptService {
 
     private BattleReceipt getReceipt(String winner, String loser) {
 
-        DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
-
-        String formattedDate = dateFormatter.format(LocalDate.now());
-
-        DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm:ss");
-
-        String formattedTime = timeFormatter.format(LocalTime.now());
-
-        return new BattleReceipt(winner, loser, formattedDate, formattedTime);
+        return new BattleReceipt(winner, loser, dateAndTimeUtil.getDate(), dateAndTimeUtil.getTime());
     }
 
     private void createNewPlayerBattleReceipt(String username, BattleReceipt battleReceipt) {
