@@ -358,19 +358,19 @@ public class BuffAndDebuffUtilsTest {
 
         Spell spell2 = new Spell(SpellType.BUFF_DAMAGE,10,15,2);
 
-        AbstractBuffAndDebuff b1 = new Buff(spell1);
+        AbstractBuffAndDebuff buff1 = new Buff(spell1);
 
-        AbstractBuffAndDebuff b2 = new Buff(spell2);
+        AbstractBuffAndDebuff buff2 = new Buff(spell2);
 
-        buffs.add(b1);
+        buffs.add(buff1);
 
-        buffs.add(b2);
+        buffs.add(buff2);
 
         buffAndDebuffUtils.getRidOfExpiredBuffsOrDebuffs(buffs);
 
-        assertTrue(buffs.contains(b2));
+        assertTrue(buffs.contains(buff2));
 
-        assertFalse(buffs.contains(b1));
+        assertFalse(buffs.contains(buff1));
 
         assertEquals(1, buffs.size());
     }
