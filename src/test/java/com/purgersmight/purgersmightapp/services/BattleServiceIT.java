@@ -5,10 +5,8 @@ import com.purgersmight.purgersmightapp.config.WebSecurityConfig;
 import com.purgersmight.purgersmightapp.dto.AttackPlayerReqDto;
 import com.purgersmight.purgersmightapp.dto.AttackPlayerResDto;
 import com.purgersmight.purgersmightapp.enums.AttackType;
-import com.purgersmight.purgersmightapp.models.Avatar;
-import com.purgersmight.purgersmightapp.models.BattleStatistics;
-import com.purgersmight.purgersmightapp.models.PvpEvent;
-import com.purgersmight.purgersmightapp.models.Spell;
+import com.purgersmight.purgersmightapp.enums.SpellType;
+import com.purgersmight.purgersmightapp.models.*;
 import com.purgersmight.purgersmightapp.utils.BuffAndDebuffUtils;
 import org.junit.After;
 import org.junit.Test;
@@ -663,5 +661,206 @@ public class BattleServiceIT {
         assertEquals(1, battleStatisticsResult2.getDefeats());
 
         assertEquals(0, battleStatisticsResult2.getVictories());
+    }
+
+    @Test
+    public void processPlayerAttackDto_attackingWithMeleeWithDebuffs_Test29() {
+
+        Avatar attacker = Avatar.getStarterAvatar("Dave");
+
+        Spell spell1 = new Spell(SpellType.DEBUFF_DAMAGE,10,5,2);
+        AbstractBuffAndDebuff abstractBuffAndDebuff1 = new Debuff(spell1);
+
+        Spell spell2 = new Spell(SpellType.DEBUFF_STEAL_MANNA,10,10,1);
+        AbstractBuffAndDebuff abstractBuffAndDebuff2 = new Debuff(spell2);
+
+        attacker.getDebuffList().add(abstractBuffAndDebuff1);
+        attacker.getDebuffList().add(abstractBuffAndDebuff2);
+
+        Avatar defender = Avatar.getStarterAvatar("Stanley");
+
+        PvpEvent pvpEvent = new PvpEvent();
+
+        pvpEvent.setPlayer1(attacker);
+
+        pvpEvent.setPlayer2(defender);
+
+        pvpEvent.setWhosTurn("Dave");
+
+        pvpEvent.setEventId("MockEvent");
+
+        AttackPlayerReqDto attackPlayerReqDto = new AttackPlayerReqDto("MockEvent", AttackType.MELEE, 0);
+
+        pvpEventService.addPvpEvent(pvpEvent);
+
+        AttackPlayerResDto result = battleService.processPlayerAttackDto(attackPlayerReqDto);
+
+        assertEquals(95, result.getPvpEvent().getPlayer1().getHealth().getRunning().intValue());
+
+        assertEquals(50, result.getPvpEvent().getPlayer1().getManna().getRunning().intValue());
+
+        assertEquals(1, result.getPvpEvent().getPlayer1().getDebuffList().get(0).getNoOfTurns());
+
+        //one of the debuff should have expired only leaving 1 more debuff
+        assertEquals(1, result.getPvpEvent().getPlayer1().getDebuffList().size());
+
+        assertTrue(result.getPvpEvent().getPlayer2().getHealth().getRunning() < 100);
+
+        assertFalse(result.isEnded());
+
+        assertEquals("Stanley", result.getPvpEvent().getWhosTurn());
+
+        //PvPEvent should still exist in DB
+        assertTrue(pvpEventService.existsById("MockEvent"));
+
+        //Avatar in the Avatar DB should be the same as the Avatar in PvPEvent DB
+        assertEquals(avatarService.getAvatarByUsername("Stanley"), pvpEventService.getPvpEventByEventId("MockEvent").getPlayer2());
+    }
+
+    @Test
+    public void processPlayerAttackDto_attackingWithMeleeWithBuffs_Test30() {
+
+        Avatar attacker = Avatar.getStarterAvatar("Dave");
+        attacker.getHealth().setRunning(60);
+        attacker.getManna().setRunning(30);
+
+        Spell spell1 = new Spell(SpellType.BUFF_MANNA,10,10,2);
+        AbstractBuffAndDebuff abstractBuffAndDebuff1 = new Buff(spell1);
+
+        Spell spell2 = new Spell(SpellType.BUFF_HEAL,10,10,1);
+        AbstractBuffAndDebuff abstractBuffAndDebuff2 = new Buff(spell2);
+
+        attacker.getBuffList().add(abstractBuffAndDebuff1);
+        attacker.getBuffList().add(abstractBuffAndDebuff2);
+
+        Avatar defender = Avatar.getStarterAvatar("Stanley");
+
+        PvpEvent pvpEvent = new PvpEvent();
+
+        pvpEvent.setPlayer1(attacker);
+
+        pvpEvent.setPlayer2(defender);
+
+        pvpEvent.setWhosTurn("Dave");
+
+        pvpEvent.setEventId("MockEvent");
+
+        AttackPlayerReqDto attackPlayerReqDto = new AttackPlayerReqDto("MockEvent", AttackType.MELEE, 0);
+
+        pvpEventService.addPvpEvent(pvpEvent);
+
+        AttackPlayerResDto result = battleService.processPlayerAttackDto(attackPlayerReqDto);
+
+        assertEquals(70, result.getPvpEvent().getPlayer1().getHealth().getRunning().intValue());
+
+        assertEquals(40, result.getPvpEvent().getPlayer1().getManna().getRunning().intValue());
+
+        assertEquals(1, result.getPvpEvent().getPlayer1().getBuffList().get(0).getNoOfTurns());
+
+        //one of the buffs should have expired only leaving 1 more buff
+        assertEquals(1, result.getPvpEvent().getPlayer1().getBuffList().size());
+
+        assertTrue(result.getPvpEvent().getPlayer2().getHealth().getRunning() < 100);
+
+        assertFalse(result.isEnded());
+
+        assertEquals("Stanley", result.getPvpEvent().getWhosTurn());
+
+        //PvPEvent should still exist in DB
+        assertTrue(pvpEventService.existsById("MockEvent"));
+
+        //Avatar in the Avatar DB should be the same as the Avatar in PvPEvent DB
+        assertEquals(avatarService.getAvatarByUsername("Stanley"), pvpEventService.getPvpEventByEventId("MockEvent").getPlayer2());
+    }
+
+    @Test
+    public void processPlayerAttackDto_attackingWithMeleeWithDebuffs_Test31() {
+
+        Avatar attacker = Avatar.getStarterAvatar("Dave");
+
+        Spell spell1 = new Spell(SpellType.DEBUFF_IMMOBILIZE,0,0,1);
+        AbstractBuffAndDebuff abstractBuffAndDebuff1 = new Debuff(spell1);
+
+        attacker.getDebuffList().add(abstractBuffAndDebuff1);
+
+        Avatar defender = Avatar.getStarterAvatar("Stanley");
+
+        PvpEvent pvpEvent = new PvpEvent();
+
+        pvpEvent.setPlayer1(attacker);
+
+        pvpEvent.setPlayer2(defender);
+
+        pvpEvent.setWhosTurn("Dave");
+
+        pvpEvent.setEventId("MockEvent");
+
+        AttackPlayerReqDto attackPlayerReqDto = new AttackPlayerReqDto("MockEvent", AttackType.MELEE, 0);
+
+        pvpEventService.addPvpEvent(pvpEvent);
+
+        AttackPlayerResDto result = battleService.processPlayerAttackDto(attackPlayerReqDto);
+
+        assertEquals(100, result.getPvpEvent().getPlayer2().getHealth().getRunning().intValue());
+
+        //one of the debuffs should have expired leaving 0 debuffs
+        assertEquals(0, result.getPvpEvent().getPlayer1().getDebuffList().size());
+
+        assertFalse(result.isEnded());
+
+        assertEquals("Stanley", result.getPvpEvent().getWhosTurn());
+
+        //PvPEvent should still exist in DB
+        assertTrue(pvpEventService.existsById("MockEvent"));
+
+        //Avatar in the Avatar DB should be the same as the Avatar in PvPEvent DB
+        assertEquals(avatarService.getAvatarByUsername("Stanley"), pvpEventService.getPvpEventByEventId("MockEvent").getPlayer2());
+    }
+
+    @Test
+    public void processPlayerAttackDto_attackingWithMeleeWithBuffs_Test32() {
+
+        Avatar attacker = Avatar.getStarterAvatar("Dave");
+
+        Spell spell1 = new Spell(SpellType.BUFF_DAMAGE,10,10,2);
+        AbstractBuffAndDebuff abstractBuffAndDebuff1 = new Buff(spell1);
+
+        attacker.getBuffList().add(abstractBuffAndDebuff1);
+
+        Avatar defender = Avatar.getStarterAvatar("Stanley");
+
+        PvpEvent pvpEvent = new PvpEvent();
+
+        pvpEvent.setPlayer1(attacker);
+
+        pvpEvent.setPlayer2(defender);
+
+        pvpEvent.setWhosTurn("Dave");
+
+        pvpEvent.setEventId("MockEvent");
+
+        AttackPlayerReqDto attackPlayerReqDto = new AttackPlayerReqDto("MockEvent", AttackType.MELEE, 0);
+
+        pvpEventService.addPvpEvent(pvpEvent);
+
+        AttackPlayerResDto result = battleService.processPlayerAttackDto(attackPlayerReqDto);
+
+        //8-4 --> with buff 18-14
+        assertTrue(result.getPvpEvent().getPlayer2().getHealth().getRunning().intValue() < 88 && result.getPvpEvent().getPlayer2().getHealth().getRunning().intValue() > 80);
+
+        assertEquals(1, result.getPvpEvent().getPlayer1().getBuffList().get(0).getNoOfTurns());
+
+        //one of the buffs should have expired only leaving 1 more buff
+        assertEquals(1, result.getPvpEvent().getPlayer1().getBuffList().size());
+
+        assertFalse(result.isEnded());
+
+        assertEquals("Stanley", result.getPvpEvent().getWhosTurn());
+
+        //PvPEvent should still exist in DB
+        assertTrue(pvpEventService.existsById("MockEvent"));
+
+        //Avatar in the Avatar DB should be the same as the Avatar in PvPEvent DB
+        assertEquals(avatarService.getAvatarByUsername("Stanley"), pvpEventService.getPvpEventByEventId("MockEvent").getPlayer2());
     }
 }

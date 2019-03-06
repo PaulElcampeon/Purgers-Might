@@ -80,8 +80,6 @@ public class BuffAndDebuffUtils {
 
                 defendingAvatar.getManna().setRunning(defendingAvatar.getManna().getRunning() + debuff.getAmount());
 
-                battleService.setAvatarManna(actingAvatar, debuff.getAmount());
-
             } else if (actingAvatar.getManna().getRunning() > 0 && actingAvatar.getManna().getRunning() < debuff.getAmount()) {
 
                 defendingAvatar.getManna().setRunning(defendingAvatar.getManna().getRunning() + actingAvatar.getManna().getRunning());

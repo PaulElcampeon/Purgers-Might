@@ -124,8 +124,6 @@ public class BuffAndDebuffUtilsTest {
 
         assertEquals(35, defendingAvatar.getManna().getRunning().intValue());
 
-        verify(battleService, times(1)).setAvatarManna(any(Avatar.class), anyInt());
-
         verify(battleService, times(2)).autoCorrectPlayerManna(any(Avatar.class));
     }
 
