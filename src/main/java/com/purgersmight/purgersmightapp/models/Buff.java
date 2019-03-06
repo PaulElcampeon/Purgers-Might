@@ -11,4 +11,9 @@ public class Buff extends AbstractBuffAndDebuff {
     public Buff(Spell spell) {
         super(spell);
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        return super.equals(obj);
+    }
 }

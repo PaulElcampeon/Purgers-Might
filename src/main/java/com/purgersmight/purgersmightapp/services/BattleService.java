@@ -6,15 +6,17 @@ import com.purgersmight.purgersmightapp.dto.ForfeitPlayerReqDto;
 import com.purgersmight.purgersmightapp.dto.ForfeitPlayerResDto;
 import com.purgersmight.purgersmightapp.enums.AttackType;
 import com.purgersmight.purgersmightapp.enums.SpellType;
-import com.purgersmight.purgersmightapp.models.*;
+import com.purgersmight.purgersmightapp.models.AbstractBuffAndDebuff;
+import com.purgersmight.purgersmightapp.models.Avatar;
+import com.purgersmight.purgersmightapp.models.PvpEvent;
+import com.purgersmight.purgersmightapp.models.Spell;
 import com.purgersmight.purgersmightapp.utils.BattleUtils;
+import com.purgersmight.purgersmightapp.utils.BuffAndDebuffUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -36,6 +38,9 @@ public class BattleService {
 
     @Autowired
     private BattleStatisticsService battleStatisticsService;
+
+    @Autowired
+    private BuffAndDebuffUtils buffAndDebuffUtils;
 
     private Logger logger = Logger.getLogger(BattleService.class.getName());
 
@@ -60,18 +65,9 @@ public class BattleService {
             defendingAvatar = pvpEvent.getPlayer1();
         }
 
-        //processDebuff(SpellType.DEBUFF_DAMAGE)
-        //processDebuff(SpellType.DEBUFF_STEAL_HEALTH)
-        //processDebuff(SpellType.DEBUFF_STEAL_MANNA)
+        buffAndDebuffUtils.processDebuffs(actingAvatar, defendingAvatar);
 
-        //DEBUFF IMMOBOLIZE BEING DEALT WITH ON PLAYER ATTACKS
-
-
-        //processBuff(SpellType.BUFF_HEAL)
-        //processBuff(SpellType.BUFF_MANNA)
-
-        //BUFF DAMAGE AND DEFENSE ARE BEING DEALT WITH ON MELEE ATTACKS
-
+        buffAndDebuffUtils.processBuffs(actingAvatar);
 
         playerAttack(actingAvatar, defendingAvatar, attackPlayerReqDto);
 
@@ -84,9 +80,9 @@ public class BattleService {
             return new AttackPlayerResDto(true, getWinner(pvpEvent), pvpEvent);
         }
 
-        getRidOfExpiredBuffsOrDebuffs(actingAvatar.getBuffList());
+        buffAndDebuffUtils.getRidOfExpiredBuffsOrDebuffs(actingAvatar.getBuffList());
 
-        getRidOfExpiredBuffsOrDebuffs(actingAvatar.getDebuffList());
+        buffAndDebuffUtils.getRidOfExpiredBuffsOrDebuffs(actingAvatar.getDebuffList());
 
         changeWhosTurn(pvpEvent);
 
@@ -116,19 +112,28 @@ public class BattleService {
 
     public void playerAttack(Avatar actingAvatar, Avatar defendingAvatar, final AttackPlayerReqDto attackPlayerReqDto) {
 
-        if (attackPlayerReqDto.getAttackType().equals(AttackType.MELEE)) {
+        if (!buffAndDebuffUtils.alreadyHas(SpellType.DEBUFF_IMMOBILIZE, actingAvatar.getDebuffList())) {
 
-            playerAttackMelee(actingAvatar, defendingAvatar);
+            if (attackPlayerReqDto.getAttackType().equals(AttackType.MELEE)) {
+
+                playerAttackMelee(actingAvatar, defendingAvatar);
+
+            } else {
+
+                playerAttackSpell(actingAvatar, defendingAvatar, attackPlayerReqDto);
+            }
 
         } else {
 
-            playerAttackSpell(actingAvatar, defendingAvatar, attackPlayerReqDto);
+            AbstractBuffAndDebuff debuff = buffAndDebuffUtils.getBuffOrDeBuffOfType(SpellType.DEBUFF_IMMOBILIZE, actingAvatar.getDebuffList()).get();
+
+            buffAndDebuffUtils.processUsedBuff(debuff);
         }
     }
 
     public void playerAttackMelee(Avatar actingAvatar, Avatar defendingAvatar) {
 
-        int defenseBonus = getDefenseBonusFromBuff(defendingAvatar.getBuffList());
+        int defenseBonus = buffAndDebuffUtils.getDefenseBonusFromBuff(defendingAvatar.getBuffList());
 
         if (defenseBonus != -1) {// -1 means immunity from melee attack
 
@@ -138,7 +143,7 @@ public class BattleService {
 
             double damageReduction = BattleUtils.DamageManager.getDamageReduction(fullArmourPoint + defenseBonus);
 
-            int finalDamage = BattleUtils.DamageManager.getFinalDamage(weaponDamage, damageReduction) + getDamageFromWeaponBuffs(actingAvatar);
+            int finalDamage = BattleUtils.DamageManager.getFinalDamage(weaponDamage, damageReduction) + buffAndDebuffUtils.getDamageFromWeaponBuffs(actingAvatar);
 
             setAvatarHealthAfterAttack(defendingAvatar, finalDamage);
 
@@ -146,25 +151,6 @@ public class BattleService {
 
             logger.log(Level.INFO, String.format("%s just attacked (melee) %s", actingAvatar.getUsername(), defendingAvatar.getUsername()));
         }
-    }
-
-    private int getDefenseBonusFromBuff(List<AbstractBuffAndDebuff> buffList) {
-
-        int bonus = 0;
-
-        for (AbstractBuffAndDebuff buff : buffList) {
-
-            if (buff.getSpellType().equals(SpellType.BUFF_DEFENSE)) {
-
-                bonus = buff.getAmount();
-
-                buff.setNoOfTurns(buff.getNoOfTurns() - 1);
-
-                return bonus;
-            }
-        }
-
-        return bonus;
     }
 
     public void playerAttackSpell(Avatar actingAvatar, Avatar defendingAvatar, final AttackPlayerReqDto attackPlayerReqDto) {
@@ -213,9 +199,9 @@ public class BattleService {
 
             if (spell.getSpellType().equals(SpellType.DEBUFF_DAMAGE)) {
 
-                if (!alreadyHas(SpellType.DEBUFF_DAMAGE, defendingAvatar.getDebuffList())) {
+                if (!buffAndDebuffUtils.alreadyHas(SpellType.DEBUFF_DAMAGE, defendingAvatar.getDebuffList())) {
 
-                    addDebuff(defendingAvatar, spell);
+                    buffAndDebuffUtils.addDebuff(defendingAvatar, spell);
 
                     setAvatarManna(actingAvatar, spell.getMannaCost());
                 }
@@ -223,9 +209,9 @@ public class BattleService {
 
             if (spell.getSpellType().equals(SpellType.DEBUFF_IMMOBILIZE)) {
 
-                if (!alreadyHas(SpellType.DEBUFF_IMMOBILIZE, defendingAvatar.getDebuffList())) {
+                if (!buffAndDebuffUtils.alreadyHas(SpellType.DEBUFF_IMMOBILIZE, defendingAvatar.getDebuffList())) {
 
-                    addDebuff(defendingAvatar, spell);
+                    buffAndDebuffUtils.addDebuff(defendingAvatar, spell);
 
                     setAvatarManna(actingAvatar, spell.getMannaCost());
                 }
@@ -233,9 +219,9 @@ public class BattleService {
 
             if (spell.getSpellType().equals(SpellType.DEBUFF_STEAL_HEALTH)) {
 
-                if (!alreadyHas(SpellType.DEBUFF_STEAL_HEALTH, defendingAvatar.getDebuffList())) {
+                if (!buffAndDebuffUtils.alreadyHas(SpellType.DEBUFF_STEAL_HEALTH, defendingAvatar.getDebuffList())) {
 
-                    addDebuff(defendingAvatar, spell);
+                    buffAndDebuffUtils.addDebuff(defendingAvatar, spell);
 
                     setAvatarManna(actingAvatar, spell.getMannaCost());
                 }
@@ -243,9 +229,9 @@ public class BattleService {
 
             if (spell.getSpellType().equals(SpellType.DEBUFF_STEAL_MANNA)) {
 
-                if (!alreadyHas(SpellType.DEBUFF_STEAL_MANNA, defendingAvatar.getDebuffList())) {
+                if (!buffAndDebuffUtils.alreadyHas(SpellType.DEBUFF_STEAL_MANNA, defendingAvatar.getDebuffList())) {
 
-                    addDebuff(defendingAvatar, spell);
+                    buffAndDebuffUtils.addDebuff(defendingAvatar, spell);
 
                     setAvatarManna(actingAvatar, spell.getMannaCost());
                 }
@@ -253,9 +239,9 @@ public class BattleService {
 
             if (spell.getSpellType().equals(SpellType.BUFF_DAMAGE)) {
 
-                if (!alreadyHas(SpellType.BUFF_DAMAGE, actingAvatar.getBuffList())) {
+                if (!buffAndDebuffUtils.alreadyHas(SpellType.BUFF_DAMAGE, actingAvatar.getBuffList())) {
 
-                    addBuff(actingAvatar, spell);
+                    buffAndDebuffUtils.addBuff(actingAvatar, spell);
 
                     setAvatarManna(actingAvatar, spell.getMannaCost());
                 }
@@ -263,65 +249,12 @@ public class BattleService {
 
             if (spell.getSpellType().equals(SpellType.BUFF_DEFENSE)) {
 
-                if (!alreadyHas(SpellType.BUFF_DEFENSE, actingAvatar.getBuffList())) {
+                if (!buffAndDebuffUtils.alreadyHas(SpellType.BUFF_DEFENSE, actingAvatar.getBuffList())) {
 
-                    addBuff(actingAvatar, spell);
+                    buffAndDebuffUtils.addBuff(actingAvatar, spell);
 
                     setAvatarManna(actingAvatar, spell.getMannaCost());
                 }
-            }
-        }
-    }
-
-    private boolean alreadyHas(SpellType spellType, List<AbstractBuffAndDebuff> abstractBuffOrDebuffs) {
-
-        for (AbstractBuffAndDebuff buff : abstractBuffOrDebuffs) {
-
-            if (buff.getSpellType().equals(spellType)) {
-
-                return true;
-            }
-        }
-
-        return false;
-    }
-
-    private int getDamageFromWeaponBuffs(Avatar actingAvatar) {
-
-        int buffDamage = 0;
-
-        for (AbstractBuffAndDebuff buff : actingAvatar.getBuffList()) {
-
-            if (buff.getSpellType().equals(SpellType.BUFF_DAMAGE)) {
-
-                buffDamage += buff.getAmount();
-
-                buff.setNoOfTurns(buff.getNoOfTurns() - 1);
-
-                return buffDamage;
-            }
-        }
-
-        return buffDamage;
-    }
-
-    private void getRidOfExpiredBuffsOrDebuffs(List<AbstractBuffAndDebuff> buffOrDebuffList) {
-
-        ArrayList<AbstractBuffAndDebuff> tempList = new ArrayList<>();
-
-        if (buffOrDebuffList.size() > 0) {
-
-            for (AbstractBuffAndDebuff buff : buffOrDebuffList) {
-
-                if (buff.getNoOfTurns() == 0) {
-
-                    tempList.add(buff);
-                }
-            }
-
-            for (AbstractBuffAndDebuff buff : tempList) {
-
-                buffOrDebuffList.remove(buff);
             }
         }
     }
@@ -331,20 +264,6 @@ public class BattleService {
         actingAvatar.getManna().setRunning(actingAvatar.getManna().getRunning() + amount);
 
         defendingAvatar.getManna().setRunning(defendingAvatar.getManna().getRunning() - amount);
-    }
-
-    private void addDebuff(Avatar defendingAvatar, final Spell spell) {
-
-        defendingAvatar.getDebuffList().add(new Debuff(spell));
-
-        logger.log(Level.INFO, String.format("%s has a new debuff", defendingAvatar.getUsername()));
-    }
-
-    private void addBuff(Avatar actingAvatar, final Spell spell) {
-
-        actingAvatar.getBuffList().add(new Buff(spell));
-
-        logger.log(Level.INFO, String.format("%s has a new buff", actingAvatar.getUsername()));
     }
 
     public void playerHeal(Avatar actingAvatar, final Spell healSpell) {

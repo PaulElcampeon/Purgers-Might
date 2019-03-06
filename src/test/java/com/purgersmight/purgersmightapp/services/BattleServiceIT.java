@@ -9,6 +9,7 @@ import com.purgersmight.purgersmightapp.models.Avatar;
 import com.purgersmight.purgersmightapp.models.BattleStatistics;
 import com.purgersmight.purgersmightapp.models.PvpEvent;
 import com.purgersmight.purgersmightapp.models.Spell;
+import com.purgersmight.purgersmightapp.utils.BuffAndDebuffUtils;
 import org.junit.After;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -34,6 +35,9 @@ public class BattleServiceIT {
 
     @Autowired
     private BattleStatisticsService battleStatisticsService;
+
+    @Autowired
+    private BuffAndDebuffUtils buffAndDebuffUtils;
 
     @After
     public void tearDown() {

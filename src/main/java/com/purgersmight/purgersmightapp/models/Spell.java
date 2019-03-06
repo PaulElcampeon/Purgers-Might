@@ -28,6 +28,13 @@ public class Spell {
         this.damagePoints = damagePoints;
     }
 
+    public Spell(SpellType spellType, int mannaCost, int damagePoints, int noOfTurns) {
+        this.spellType = spellType;
+        this.mannaCost = mannaCost;
+        this.damagePoints = damagePoints;
+        this.noOfTurns = noOfTurns;
+    }
+
     public static Spell getDefaultAttackSpell() {
         return new Spell(SpellType.DAMAGE, 10, 15);
     }

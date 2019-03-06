@@ -6,6 +6,7 @@ import com.purgersmight.purgersmightapp.enums.AttackType;
 import com.purgersmight.purgersmightapp.models.Avatar;
 import com.purgersmight.purgersmightapp.models.PvpEvent;
 import com.purgersmight.purgersmightapp.models.Spell;
+import com.purgersmight.purgersmightapp.utils.BuffAndDebuffUtils;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -36,6 +37,9 @@ public class BattleServiceTest {
 
     @MockBean
     private BattleStatisticsService battleStatisticsService;
+
+    @MockBean
+    private BuffAndDebuffUtils buffAndDebuffUtils;
 
     @Test
     public void playerAttackMelee_playersHealthShouldReduce_Test1() {

@@ -10,5 +10,7 @@ public enum SpellType {
     DEBUFF_STEAL_MANNA,
     DEBUFF_IMMOBILIZE,
     BUFF_DAMAGE,
-    BUFF_DEFENSE;
+    BUFF_DEFENSE,
+    BUFF_HEAL,
+    BUFF_MANNA;
 }
