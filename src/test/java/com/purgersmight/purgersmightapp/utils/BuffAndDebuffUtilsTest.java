@@ -354,9 +354,9 @@ public class BuffAndDebuffUtilsTest {
 
         List<AbstractBuffAndDebuff> buffs = new ArrayList<>();
 
-        Spell spell1 = new Spell(SpellType.BUFF_MANNA,10,15,0);
+        Spell spell1 = new Spell(SpellType.BUFF_MANNA, 10, 15, 0);
 
-        Spell spell2 = new Spell(SpellType.BUFF_DAMAGE,10,15,2);
+        Spell spell2 = new Spell(SpellType.BUFF_DAMAGE, 10, 15, 2);
 
         AbstractBuffAndDebuff buff1 = new Buff(spell1);
 
