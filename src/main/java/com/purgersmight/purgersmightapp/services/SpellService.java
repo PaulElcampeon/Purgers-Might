@@ -30,4 +30,9 @@ public class SpellService {
         return spellRepository.findAll();
     }
 
+    public void removeAll() {
+
+        spellRepository.deleteAll();
+    }
+
 }
