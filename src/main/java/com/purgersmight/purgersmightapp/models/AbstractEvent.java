@@ -16,4 +16,5 @@ public abstract class AbstractEvent {
     private Avatar player2;
     private long timestamp;
     private long startTime;
+    private int moveNo;
 }

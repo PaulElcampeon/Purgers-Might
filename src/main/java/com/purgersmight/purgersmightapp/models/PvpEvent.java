@@ -20,6 +20,7 @@ public class PvpEvent extends AbstractEvent {
         setPlayer2(builder.player2);
         setTimestamp(builder.timestamp);
         setStartTime(builder.startTime);
+        setMoveNo(builder.moveNo);
     }
 
     public static class PvpEventBuilder {
@@ -31,6 +32,7 @@ public class PvpEvent extends AbstractEvent {
         private Avatar player2;
         private long timestamp;
         private long startTime;
+        private int moveNo;
 
         public PvpEventBuilder setEventId(String eventId) {
             this.eventId = eventId;
@@ -69,6 +71,11 @@ public class PvpEvent extends AbstractEvent {
 
         public PvpEventBuilder setStartTime(long startTime) {
             this.startTime = startTime;
+            return this;
+        }
+
+        public PvpEventBuilder setMoveNo(int moveNo) {
+            this.moveNo = moveNo;
             return this;
         }
 

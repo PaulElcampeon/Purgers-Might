@@ -1,5 +1,6 @@
 package com.purgersmight.purgersmightapp.services;
 
+import com.purgersmight.purgersmightapp.controllers.TimerPvpEvent;
 import com.purgersmight.purgersmightapp.dto.AttackPlayerReqDto;
 import com.purgersmight.purgersmightapp.dto.AttackPlayerResDto;
 import com.purgersmight.purgersmightapp.dto.ForfeitPlayerReqDto;
@@ -14,6 +15,7 @@ import com.purgersmight.purgersmightapp.utils.BattleUtils;
 import com.purgersmight.purgersmightapp.utils.BuffAndDebuffUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
@@ -41,6 +43,8 @@ public class BattleService {
 
     @Autowired
     private BuffAndDebuffUtils buffAndDebuffUtils;
+
+    private SimpMessagingTemplate simpMessagingTemplate;
 
     private Logger logger = Logger.getLogger(BattleService.class.getName());
 
@@ -91,6 +95,9 @@ public class BattleService {
         updatePvpEventInDB(pvpEvent);
 
         updateAvatarsInDB(pvpEvent.getPlayer1(), pvpEvent.getPlayer2());
+
+//        Thread t = new Thread(new TimerPvpEvent(attackPlayerReqDto.getEventId(), pvpEvent.getMoveNo(), this, this.pvpEventService, simpMessagingTemplate));
+////        t.start();
 
         return new AttackPlayerResDto(false, null, pvpEvent);
     }
@@ -256,6 +263,26 @@ public class BattleService {
                     setAvatarManna(actingAvatar, spell.getMannaCost());
                 }
             }
+
+            if (spell.getSpellType().equals(SpellType.BUFF_HEAL)) {
+
+                if (!buffAndDebuffUtils.alreadyHas(SpellType.BUFF_HEAL, actingAvatar.getBuffList())) {
+
+                    buffAndDebuffUtils.addBuff(actingAvatar, spell);
+
+                    setAvatarManna(actingAvatar, spell.getMannaCost());
+                }
+            }
+
+            if (spell.getSpellType().equals(SpellType.BUFF_MANNA)) {
+
+                if (!buffAndDebuffUtils.alreadyHas(SpellType.BUFF_MANNA, actingAvatar.getBuffList())) {
+
+                    buffAndDebuffUtils.addBuff(actingAvatar, spell);
+
+                    setAvatarManna(actingAvatar, spell.getMannaCost());
+                }
+            }
         }
     }
 
@@ -341,6 +368,8 @@ public class BattleService {
 
             pvpEvent.setWhosTurn(pvpEvent.getPlayer1().getUsername());
         }
+
+        pvpEvent.setMoveNo(pvpEvent.getMoveNo() + 1);
     }
 
     private void updatePvpEventInDB(final PvpEvent pvpEvent) {
@@ -402,5 +431,9 @@ public class BattleService {
         battleStatisticsService.updateBattleStatistics(pvpEvent);
 
         updateAvatarsInDB(pvpEvent.getPlayer1(), pvpEvent.getPlayer2());
+    }
+
+    public void setTemplate(SimpMessagingTemplate simpMessagingTemplate) {
+        this.simpMessagingTemplate = simpMessagingTemplate;
     }
 }

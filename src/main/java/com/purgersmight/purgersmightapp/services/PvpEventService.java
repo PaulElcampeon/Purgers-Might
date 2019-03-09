@@ -165,6 +165,7 @@ public class PvpEventService {
             avatarService.updateAvatar(incomingAvatar);
 
             avatarService.updateAvatar(avatarInQueue);
+
         }
 
         lock.unlock();
@@ -181,6 +182,7 @@ public class PvpEventService {
                 .setEnded(false)
                 .setStartTime(new Date().getTime() + 10000)
                 .setTimestamp(new Date().getTime() + 20000)//should mean that the event time stamp should be 10 seconds after creation
+                .setMoveNo(1)
                 .build();
 
         player1.setEventId(pvpEvent.getEventId());

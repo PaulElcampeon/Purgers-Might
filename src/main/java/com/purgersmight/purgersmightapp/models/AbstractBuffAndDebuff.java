@@ -9,6 +9,7 @@ public abstract class AbstractBuffAndDebuff {
     private int noOfTurns;
     private SpellType spellType;
     private int amount;
+    private String imageUrl;
 
     public AbstractBuffAndDebuff() {
 
@@ -18,5 +19,6 @@ public abstract class AbstractBuffAndDebuff {
         this.noOfTurns = spell.getNoOfTurns();
         this.spellType = spell.getSpellType();
         this.amount = spell.getDamagePoints();
+        this.imageUrl = spell.getImageUrl();
     }
 }
