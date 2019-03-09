@@ -256,6 +256,26 @@ public class BattleService {
                     setAvatarManna(actingAvatar, spell.getMannaCost());
                 }
             }
+
+            if (spell.getSpellType().equals(SpellType.BUFF_HEAL)) {
+
+                if (!buffAndDebuffUtils.alreadyHas(SpellType.BUFF_HEAL, actingAvatar.getBuffList())) {
+
+                    buffAndDebuffUtils.addBuff(actingAvatar, spell);
+
+                    setAvatarManna(actingAvatar, spell.getMannaCost());
+                }
+            }
+
+            if (spell.getSpellType().equals(SpellType.BUFF_MANNA)) {
+
+                if (!buffAndDebuffUtils.alreadyHas(SpellType.BUFF_MANNA, actingAvatar.getBuffList())) {
+
+                    buffAndDebuffUtils.addBuff(actingAvatar, spell);
+
+                    setAvatarManna(actingAvatar, spell.getMannaCost());
+                }
+            }
         }
     }
 
