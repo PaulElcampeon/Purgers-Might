@@ -143,7 +143,8 @@ function displayBag(data) {
     for (let i = 0; i < itemsInBag.length; i++) {
 
         let tempDiv = document.createElement("div");
-        let tempButton = document.createElement("button");
+        let tempButtonEquip = document.createElement("button");
+        let tempButtonDrop = document.createElement("button");
         let pTag = document.createElement("p");
         let tempImg = document.createElement("img");
 
@@ -151,12 +152,22 @@ function displayBag(data) {
         tempImg.style.width = "50px";
         tempImg.style.height = "50px";
         tempImg.src = itemsInBag[i].imageUrl;
-        tempButton.innerHTML = "EQUIP";
-        tempButton.addEventListener("click", ()=>{
+
+        tempButtonEquip.innerHTML = "EQUIP";
+        tempButtonEquip.addEventListener("click", ()=>{
 
             let dataX = {username: playerUserName, indexOfItem: i};
 
             equipItem(dataX);
+
+        });
+
+        tempButtonDrop.innerHTML = "DROP";
+        tempButtonDrop.addEventListener("click", ()=>{
+
+             let dataX = {username: playerUserName, indexOfItem: i};
+
+             dropItem(dataX);
 
         });
 
@@ -171,7 +182,8 @@ function displayBag(data) {
         }
             tempDiv.appendChild(tempImg);
             tempDiv.appendChild(pTag);
-            tempDiv.appendChild(tempButton);
+            tempDiv.appendChild(tempButtonEquip);
+            tempDiv.appendChild(tempButtonDrop);
             tempOuterDivBag.appendChild(tempDiv);
     }
 
@@ -368,6 +380,29 @@ function equipItem(data) {
            itemDisplay.style.display = "none";
 
            populateUserInfo(data.avatar);
+       })
+}
+
+function dropItem(data) {
+
+   let url = "../drop-item";
+
+   fetch(url, {
+       method: 'PUT',
+       body: JSON.stringify(data),
+       headers:{
+           'Content-Type': 'application/json'
+       }
+   })
+       .then(res => res.json())
+       .catch(error => console.error('Error:', error))
+       .then((data) => {
+
+           console.log("DATA FROM EQUIPPING ITEM REQUEST");
+
+           itemDisplay.style.display = "none";
+           avatar.bag = data;
+           populateUserInfo(avatar);
        })
 }
 
