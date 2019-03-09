@@ -220,6 +220,14 @@ function populateMyData(data, timestamp) {
 
     tempHealthEtcDiv.appendChild(populateHealthEtc(data));
 
+    let buffInfoDiv = document.createElement("div");
+
+    buffInfoDiv.appendChild(populateBuffInfoDiv(data.buffList, "Buffs"));
+
+    let deBuffInfoDiv = document.createElement("div");
+
+    deBuffInfoDiv.appendChild(populateBuffInfoDiv(data.debuffList, "Debuffs"));
+
     actionDiv = document.createElement("div");
 
     actionDiv.setAttribute("id", "actionDiv");
@@ -239,7 +247,7 @@ function populateMyData(data, timestamp) {
 
     tempSpellDiv.innerHTML = "";
 
-    tempSpellDiv.classList.add("row");
+    tempSpellDiv.classList.add('flex-column', 'column');
 
     for (let x = 0; x < data.spellBook.spellList.length; x++) {
 
@@ -253,6 +261,10 @@ function populateMyData(data, timestamp) {
     fighter1Div.appendChild(tempImgUrl);
 
     fighter1Div.appendChild(tempPlayerInfoDiv);
+
+    fighter1Div.appendChild(buffInfoDiv);
+
+    fighter1Div.appendChild(deBuffInfoDiv);
 
     fighter1Div.appendChild(tempHealthEtcDiv);
 
@@ -290,6 +302,18 @@ function populateOtherFighter(data) {
 
     fighter2Div.appendChild(tempPlayerInfoDiv);
 
+    let buffInfoDiv = document.createElement("div");
+
+    buffInfoDiv.appendChild(populateBuffInfoDiv(data.buffList, "Buffs"));
+
+    let deBuffInfoDiv = document.createElement("div");
+
+    deBuffInfoDiv.appendChild(populateBuffInfoDiv(data.debuffList, "Debuffs"));
+
+    fighter2Div.appendChild(buffInfoDiv);
+
+    fighter2Div.appendChild(deBuffInfoDiv);
+
     fighter2Div.appendChild(tempHealthEtcDiv);
 }
 
@@ -297,7 +321,7 @@ function populateSpell(data, indexOfAbility, myData) {
 
     let tempSpellDiv = document.createElement("div");
 
-    tempSpellDiv.classList.add("col");
+    tempSpellDiv.classList.add('col','border', 'border-white', 'my-3', 'py-2');
 
     let tempAbilityImg = document.createElement("img");
 
@@ -307,9 +331,24 @@ function populateSpell(data, indexOfAbility, myData) {
 
     tempAbilityImg.src = data.imageUrl;
 
+    tempAbilityImg.style.height = "70px";
+
+    tempAbilityImg.style.width = "80px";
+
     tempDetails.innerHTML = "Name: " + data.name + "<br>Type: " + data.spellType + "<br>Cost: " + data.mannaCost + "<br>Amount " + data.damagePoints;
 
-    if ((data.spellType == "DAMAGE" && myData.manna.running >= data.mannaCost) || (data.spellType == "HEAL" && myData.manna.running >= data.mannaCost)) {
+    if ((data.spellType == "DAMAGE" && myData.manna.running >= data.mannaCost)
+    || (data.spellType == "HEAL" && myData.manna.running >= data.mannaCost)
+    || (data.spellType == "BUFF_HEAL" && myData.manna.running >= data.mannaCost)
+    || (data.spellType == "BUFF_DAMAGE" && myData.manna.running >= data.mannaCost)
+    || (data.spellType == "BUFF_DEFENSE" && myData.manna.running >= data.mannaCost)
+    || (data.spellType == "STEAL_MANNA" && myData.manna.running >= data.mannaCost)
+    || (data.spellType == "STEAL_HEALTH" && myData.manna.running >= data.mannaCost)
+    || (data.spellType == "DEBUFF_DAMAGE" && myData.manna.running >= data.mannaCost)
+    || (data.spellType == "DEBUFF_STEAL_HEALTH" && myData.manna.running >= data.mannaCost)
+    || (data.spellType == "DEBUFF_STEAL_MANNA" && myData.manna.running >= data.mannaCost)
+    || (data.spellType == "DEBUFF_IMMOBILIZE" && myData.manna.running >= data.mannaCost)) {
+
 
         tempButton.innerHTML = "USE ABILITY";
 
@@ -379,6 +418,47 @@ function populatePlayerInfoDiv(data) {
     tempHtag.innerHTML = "Name: " + data.username + "<br>Level: " + data.level;
 
     return tempHtag;
+}
+
+function populateBuffInfoDiv(data, type) {
+
+    let tempDiv = document.createElement("div");
+
+    let tempPTag = document.createElement("p");
+
+    tempPTag.innerHTML = type + ": ";
+
+    let tempDivForBuffImgs = populateBuffImages(data);
+
+    tempDiv.appendChild(tempPTag);
+
+    tempDiv.appendChild(tempDivForBuffImgs);
+
+    return tempDiv;
+}
+
+function populateBuffImages(data) {
+
+    let tempDiv = document.createElement("div");
+
+    data.forEach(element => {
+
+        let tempImg = document.createElement("img");
+
+        tempImg.classList.add('mx-1');
+
+        tempImg.src = element.imageUrl;
+
+        tempImg.style.width = "50px";
+
+        tempImg.style.height = "50px";
+
+        tempDiv.appendChild(tempImg);
+
+        console.log(element)
+    })
+
+    return tempDiv;
 }
 
 function populateHealthDiv(data) {
