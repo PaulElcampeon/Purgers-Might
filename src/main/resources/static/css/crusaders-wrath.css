@@ -59,31 +59,7 @@ body {
 
 
 
-.navbar {
-    background-color: rgba(0,0,0,0.3);
-    position: relative;
-    z-index: 4;
-}
 
-.navbar-brand {
-    /*font-weight: bold;*/
-    font-size: 2.5rem;
-    padding: 0%;
-    margin: 0%;
-}
-
-.nav-link {
-    font-size: 1.5rem;
-}
-
-.nav-link:hover {
-    color: #ffffff;
-    font-weight: bold;
-}
-
-.nav-item:hover {
-    color: #ffffff;
-}
 
 .col-sm-4 {
     background-color: rgba(0,0,0,0);

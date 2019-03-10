@@ -13,25 +13,34 @@
 </head>
 <body>
 
-<div class="d-flex m-auto flex-column w-60">
+<div class="m-auto flex-column w-100">
+
+    <div class="row text-white mt-2">
+        <div class="col-sm-4">
+            <h2 style="font-family:'Skrangji', cursive">~PURGERS-MIGHT~</h2>
+        </div>
+        <div class="col-sm-4">
+            <a class="h4" href="../home">Home</a>
+        </div>
+        <div class="col-sm-4">
+            <a class="h4" href="../logout">Logout</a>
+        </div>
+    </div>
 
     <div class="mt-5 mb-3 pb-3">
         <h1>LEADER BOARD</h1>
     </div>
 
-    <div class="backToUserProfileDiv">
-        <button id="backToUserProfileBtn" class="btn btn-lg btn-block btnh mb-5 p-2">BACK TO PROFILE</button>
+    <div class="w-50 m-auto">
+        <div>
+            <button id="next20" class="btn btn-lg btn-block btnh mb-5 p-2">NEXT 20</button>
+        </div>
+        <div>
+            <button id="previous20" class="btn btn-lg btn-block btnh mb-5 p-2">PREVIOUS 20</button>
+        </div>
+        <div id="leaderBoardDiv">
+        </div>
     </div>
-
-    <div>
-        <button id="next20" class="btn btn-lg btn-block btnh mb-5 p-2">NEXT 20</button>
-    </div>
-
-    <div>
-        <button id="previous20" class="btn btn-lg btn-block btnh mb-5 p-2">PREVIOUS 20</button>
-    </div>
-
-    <div id="leaderBoardDiv"></div>
 
 </div>
 <script type="text/javascript" th:src="@{/js/leaderboard.js}"></script>
