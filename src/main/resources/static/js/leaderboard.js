@@ -1,9 +1,8 @@
-var leaderBoardDiv, skip, avatar, playerUserName, backToUserProfileBtn;
+var leaderBoardDiv, skip, avatar, playerUserName;
 
 skip = 0;
 
 leaderBoardDiv = document.getElementById("leaderBoardDiv");
-backToUserProfileBtn = document.getElementById("backToUserProfileBtn");
 
 if (document.readyState !== 'loading') {
 
@@ -102,13 +101,6 @@ function getLeaderBoard() {
 ///////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////BUTTON EVENT LISTENERS//////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////
-
-
-backToUserProfileBtn.addEventListener("click",()=>{
-
-    location.href = "../home"
-})
-
 
 document.getElementById("next20").addEventListener("click", () => {
 
