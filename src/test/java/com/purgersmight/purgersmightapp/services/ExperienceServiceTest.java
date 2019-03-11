@@ -14,7 +14,7 @@ import static org.junit.Assert.assertEquals;
 @SpringBootTest(classes = {PurgersMightAppApplication.class, WebSecurityConfig.class}, webEnvironment= SpringBootTest.WebEnvironment.NONE)
 public class ExperienceServiceTest {
 
-    //experience.accumulator is set to 4 in the application-dev.properties file in test path
+    //experience.accumulator is set to 4 in the application.properties file in test path
 
     @Autowired
     private ExperienceService experienceService;
