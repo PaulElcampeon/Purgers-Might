@@ -537,6 +537,7 @@ document.getElementById("battleStatsBtn").addEventListener("click", ()=>{
         tempOuterDivWeapon.style.display = "none";
         tempOuterDivArmour.style.display = "none";
         tempOuterDivBag.style.display = "none";
+        tempBattleReceiptOuterDiv.style.display = "none";
         itemDisplay.style.display = "block";
 
     } else {
