@@ -20,6 +20,8 @@ public class CreateNewUserReqDto {
     @Size(min = 5, max = 10, message = "password has to be between 5 and 10 characters long")
     private String confirmPassword;
 
+    private String imageUrl;
+
     public CreateNewUserReqDto() {
     }
 

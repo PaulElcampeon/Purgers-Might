@@ -15,6 +15,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import java.util.Arrays;
+import java.util.Collections;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 
@@ -64,6 +67,8 @@ public class BattleServiceIT {
 
         Avatar attacker = Avatar.getStarterAvatar("Dave");
 
+        attacker.getSpellBook().getSpellList().clear();
+
         Avatar defender = Avatar.getStarterAvatar("Stanley");
 
         Spell attackSpell = Spell.getDefaultAttackSpell(10, 20);
@@ -106,6 +111,8 @@ public class BattleServiceIT {
     public void playerAttackSpellDirectToHeal_playersHealthShouldIncrease_Test4() {
 
         Avatar attacker = Avatar.getStarterAvatar("Dave");
+
+        attacker.getSpellBook().getSpellList().clear();
 
         attacker.getHealth().setRunning(40);
 
@@ -345,6 +352,8 @@ public class BattleServiceIT {
 
         Avatar attacker = Avatar.getStarterAvatar("Dave");
 
+        attacker.getSpellBook().getSpellList().clear();
+
         attacker.getManna().setRunning(50);
 
         Avatar defender = Avatar.getStarterAvatar("Stanley");
@@ -368,6 +377,8 @@ public class BattleServiceIT {
     public void playerAttack_attackersHealthShouldBeIncreased_Test20() {
 
         Avatar attacker = Avatar.getStarterAvatar("Dave");
+
+        attacker.getSpellBook().getSpellList().clear();
 
         attacker.getHealth().setRunning(50);
 
@@ -416,6 +427,8 @@ public class BattleServiceIT {
     public void playerAttack_defendersHealthShouldBe0WithSpellAttack_Test22() {
 
         Avatar attacker = Avatar.getStarterAvatar("Dave");
+
+        attacker.getSpellBook().getSpellList().clear();
 
         attacker.getManna().setRunning(50);
 
@@ -497,6 +510,8 @@ public class BattleServiceIT {
 
         Avatar attacker = Avatar.getStarterAvatar("Dave");
 
+        attacker.getSpellBook().getSpellList().clear();
+
         Avatar defender = Avatar.getStarterAvatar("Stanley");
 
         Spell attackSpell = Spell.getDefaultAttackSpell(10, 40);
@@ -538,6 +553,8 @@ public class BattleServiceIT {
     public void processPlayerAttackDto_healingWithSpell_Test26() {
 
         Avatar attacker = Avatar.getStarterAvatar("Dave");
+
+        attacker.getSpellBook().getSpellList().clear();
 
         attacker.getHealth().setRunning(40);
 
@@ -583,6 +600,8 @@ public class BattleServiceIT {
 
         Avatar attacker = Avatar.getStarterAvatar("Dave");
 
+        attacker.getSpellBook().getSpellList().clear();
+
         Avatar defender = Avatar.getStarterAvatar("Stanley");
 
         avatarService.addAvatar(defender);
@@ -609,9 +628,9 @@ public class BattleServiceIT {
 
         AttackPlayerResDto result = battleService.processPlayerAttackDto(attackPlayerReqDto);
 
-        assertEquals(50, result.getPvpEvent().getPlayer1().getManna().getRunning().intValue());
+        assertEquals(60, result.getPvpEvent().getPlayer1().getManna().getRunning().intValue());
 
-        assertEquals(0, result.getPvpEvent().getPlayer2().getHealth().getRunning().intValue());
+        assertEquals(100, result.getPvpEvent().getPlayer2().getHealth().getRunning().intValue());
 
         assertTrue(result.isEnded());
 

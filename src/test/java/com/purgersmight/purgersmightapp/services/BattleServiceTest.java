@@ -58,6 +58,8 @@ public class BattleServiceTest {
 
         Avatar attacker = Avatar.getStarterAvatar("Dave");
 
+        attacker.getSpellBook().getSpellList().clear();
+
         Avatar defender = Avatar.getStarterAvatar("Stanley");
 
         Spell attackSpell = Spell.getDefaultAttackSpell(10, 20);
@@ -100,6 +102,8 @@ public class BattleServiceTest {
     public void playerAttackSpellDirectToHeal_playersHealthShouldIncrease_Test4() {
 
         Avatar attacker = Avatar.getStarterAvatar("Dave");
+
+        attacker.getSpellBook().getSpellList().clear();
 
         attacker.getHealth().setRunning(40);
 
@@ -339,6 +343,8 @@ public class BattleServiceTest {
 
         Avatar attacker = Avatar.getStarterAvatar("Dave");
 
+        attacker.getSpellBook().getSpellList().clear();
+
         attacker.getManna().setRunning(50);
 
         Avatar defender = Avatar.getStarterAvatar("Stanley");
@@ -362,6 +368,8 @@ public class BattleServiceTest {
     public void playerAttack_attackersHealthShouldBeIncreased_Test20() {
 
         Avatar attacker = Avatar.getStarterAvatar("Dave");
+
+        attacker.getSpellBook().getSpellList().clear();
 
         attacker.getHealth().setRunning(50);
 
@@ -410,6 +418,8 @@ public class BattleServiceTest {
     public void playerAttack_defendersHealthShouldBe0WithSpellAttack_Test22() {
 
         Avatar attacker = Avatar.getStarterAvatar("Dave");
+
+        attacker.getSpellBook().getSpellList().clear();
 
         attacker.getManna().setRunning(50);
 
@@ -483,6 +493,8 @@ public class BattleServiceTest {
 
         Avatar attacker = Avatar.getStarterAvatar("Dave");
 
+        attacker.getSpellBook().getSpellList().clear();
+
         Avatar defender = Avatar.getStarterAvatar("Stanley");
 
         Spell attackSpell = Spell.getDefaultAttackSpell(10, 40);
@@ -516,6 +528,8 @@ public class BattleServiceTest {
     public void processPlayerAttackDto_healingWithSpell_Test26() {
 
         Avatar attacker = Avatar.getStarterAvatar("Dave");
+
+        attacker.getSpellBook().getSpellList().clear();
 
         attacker.getHealth().setRunning(40);
 
@@ -553,6 +567,8 @@ public class BattleServiceTest {
 
         Avatar attacker = Avatar.getStarterAvatar("Dave");
 
+        attacker.getSpellBook().getSpellList().clear();
+
         Avatar defender = Avatar.getStarterAvatar("Stanley");
 
         defender.getHealth().setRunning(10);
@@ -575,9 +591,9 @@ public class BattleServiceTest {
 
         AttackPlayerResDto result = battleService.processPlayerAttackDto(attackPlayerReqDto);
 
-        assertEquals(50, attacker.getManna().getRunning().intValue());
+        assertEquals(60, attacker.getManna().getRunning().intValue());
 
-        assertEquals(0, defender.getHealth().getRunning().intValue());
+        assertEquals(100, defender.getHealth().getRunning().intValue());
 
         assertTrue(result.isEnded());
     }
@@ -596,5 +612,4 @@ public class BattleServiceTest {
 
         assertEquals("Franky", winner);
     }
-
 }

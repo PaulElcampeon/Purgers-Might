@@ -1,7 +1,8 @@
 var fighter1Div, fighter2Div, playerUsername, whosTurn, playerData, eventIdX, getBattleEventInterval,
     counterForBattleEventChecks, otherFightersName, battleMessageDiv, battleMessageTag, fighterRow,
     healthPercentage, mannaPercentage, backToHome, endTime, actionDiv, checkTimeActingInterval, timerDiv,
-    timerOuterDiv, timerTag, timerInterval, eventStartTimerDiv, fightRoomWrapper, eventTimerInSecs, eventStartTimerPTag;
+    timerOuterDiv, timerTag, timerInterval, eventStartTimerDiv, fightRoomWrapper, eventTimerInSecs,
+    eventStartTimerPTag;
 
 var stompClient = null;
 var socket = null;
@@ -247,7 +248,7 @@ function populateMyData(data, timestamp) {
 
     tempSpellDiv.innerHTML = "";
 
-    tempSpellDiv.classList.add('flex-column', 'column');
+    tempSpellDiv.classList.add('flex-column', 'column',);
 
     for (let x = 0; x < data.spellBook.spellList.length; x++) {
 

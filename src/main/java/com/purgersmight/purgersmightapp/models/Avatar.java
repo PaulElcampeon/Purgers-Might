@@ -66,7 +66,7 @@ public class Avatar {
         private AvatarAttribute<Integer> health = new AvatarAttribute<>(100);
         private AvatarAttribute<Integer> manna = new AvatarAttribute<>(60);
         private AvatarAttribute<Integer> experience = new AvatarAttribute<>(0,100);
-        private SpellBook spellBook = new SpellBook();
+        private SpellBook spellBook = SpellBook.getStarterSpellBook();
         private Weapon weapon = Weapon.getStarterWeapon();
         private BodyArmour bodyArmour = BodyArmour.getStarterBodyArmour();
         private boolean inEvent = false;

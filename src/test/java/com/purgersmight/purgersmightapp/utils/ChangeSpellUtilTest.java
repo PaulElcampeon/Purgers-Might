@@ -40,6 +40,9 @@ public class ChangeSpellUtilTest {
         newSpell.setName("Grendells Flame");
 
         Avatar avatar = Avatar.getStarterAvatar("Angie");
+
+        avatar.getSpellBook().getSpellList().clear();
+
         avatar.getSpellBook().getSpellList().add(oldSpell);
 
         when(avatarService.getAvatarByUsername("Angie")).thenReturn(avatar);
@@ -70,6 +73,7 @@ public class ChangeSpellUtilTest {
         newSpell.setName("Grendells Flame");
 
         Avatar avatar = Avatar.getStarterAvatar("Angie");
+        avatar.getSpellBook().getSpellList().clear();
         avatar.getSpellBook().getSpellList().add(oldSpell1);
         avatar.getSpellBook().getSpellList().add(oldSpell2);
 

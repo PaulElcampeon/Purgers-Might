@@ -409,13 +409,21 @@ public class BattleService {
         return forfeitPlayerResDto;
     }
 
-    private void adminAfterEventEnd(final PvpEvent pvpEvent) {
+    private void adminAfterEventEnd(PvpEvent pvpEvent) {
 
         awardService.awardWinningPlayer(pvpEvent);
 
         pvpEventService.removePvpEventById(pvpEvent.getEventId());
 
         pvpEventService.resetPlayersPvpEventStatus(pvpEvent.getPlayer1(), pvpEvent.getPlayer2());
+
+        pvpEvent.getPlayer1().getHealth().setRunning(pvpEvent.getPlayer1().getHealth().getActual());
+
+        pvpEvent.getPlayer2().getHealth().setRunning(pvpEvent.getPlayer2().getHealth().getActual());
+
+        pvpEvent.getPlayer1().getManna().setRunning(pvpEvent.getPlayer1().getManna().getActual());
+
+        pvpEvent.getPlayer2().getManna().setRunning(pvpEvent.getPlayer2().getManna().getActual());
 
         playerBattleReceiptService.createBattleReceipt(pvpEvent);
 

@@ -53,6 +53,11 @@ public class CreateAccountController {
 
         Avatar newAvatar = Avatar.getStarterAvatar(newUser.getUsername());
 
+        if (createNewUserReqDto.getImageUrl() != null) {
+
+            newAvatar.setImageUrl(createNewUserReqDto.getImageUrl());
+        }
+
         PlayerBattleReceipts newPlayerBattleReceipts = new PlayerBattleReceipts(createNewUserReqDto.getUsername());
 
         BattleStatistics newBattleStatistics = new BattleStatistics(createNewUserReqDto.getUsername());

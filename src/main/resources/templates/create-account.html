@@ -34,6 +34,10 @@
         <input type="password" id="inputConfirmPassword" class="form-control mb-3" name="confirmPassword"
                th:field="*{confirmPassword}" placeholder="Confirm Password" required>
 
+        <label for="inputImageUrl" class="sr-only">Image Url</label>
+        <input type="text" id="inputImageUrl" class="form-control mb-3" th:field="*{imageUrl}" name="imageUrl"
+               placeholder="Image url" autofocus>
+
         <div th:if="${param.error}" class="mb-3">
             <div class="alert alert-danger" name="errorMsg">
                 Invalid username or password.

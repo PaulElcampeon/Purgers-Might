@@ -289,7 +289,7 @@ function displaySpells(data) {
     tempButtonChangeSpells.innerHTML = "Change Spells";
     tempButtonUpgradeSpells.innerHTML = "Upgrade Spells";
 
-    tempButtonChangeSpells.classList.add('p-3', 'mb-3', 'btnh');
+    tempButtonChangeSpells.classList.add('p-3', 'mb-3', 'btnh', 'mx-1');
     tempButtonChangeSpells.addEventListener("click", ()=>{
 
         location.href = "../change-spells";
