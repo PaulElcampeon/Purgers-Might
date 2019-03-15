@@ -16,13 +16,14 @@ import java.util.Optional;
 @Scope("singleton")
 public class BuffAndDebuffUtils {
 
+    @Autowired
     private BattleService battleService;
 
-    @Autowired
-    public BuffAndDebuffUtils(BattleService battleService) {
-
-        this.battleService = battleService;
-    }
+//    @Autowired
+//    public BuffAndDebuffUtils(BattleService battleService) {
+//
+//        this.battleService = battleService;
+//    }
 
     public void processBuffs(Avatar actingAvatar) {
 
